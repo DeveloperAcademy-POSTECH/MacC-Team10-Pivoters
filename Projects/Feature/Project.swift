@@ -14,4 +14,7 @@ let project = Project.makeModule(name: moduleName,
                                  platform: .iOS,
                                  product: .staticFramework,
                                  bundleId: "Feature",
-                                 dependencies: [])
+                                 dependencies: [
+                                    .Project.Common,
+                                    .Project.Core
+                                 ])

@@ -23,4 +23,8 @@ let project = Project.makeModule(name: moduleName,
                                  bundleId: "app",
                                  infoPlist: .extendingDefault(with: infoPlist),
                                  resources: ["Resources/**"],
-                                 dependencies: [])
+                                 dependencies: [
+                                    .Project.Common,
+                                    .Project.Core,
+                                    .Project.Feature
+                                 ])
