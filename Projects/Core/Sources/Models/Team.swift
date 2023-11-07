@@ -25,4 +25,3 @@ public final class Team {
             self.lineup = lineup
         }
 }
-
