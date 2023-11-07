@@ -21,7 +21,7 @@ public final class Team {
         lineup: [Lineup]) {
             self.id = id
             self.teamName = teamName
-            self.subTeamName = subTeamName
+            self.subTitle = subTitle
             self.lineup = lineup
         }
 }
