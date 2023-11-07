@@ -8,12 +8,21 @@
 
 import SwiftUI
 
-struct PlayerView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import Common
+import Core
 
-#Preview {
-    PlayerView()
+struct PlayerView: View {
+    var player: Player
+
+    var body: some View {
+        VStack {
+            Image(asset: CommonAsset.uniform)
+            Text(player.name)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 10)
+                .background(.white)
+                .cornerRadius(4)
+                .offset(y: -12)
+        }
+    }
 }

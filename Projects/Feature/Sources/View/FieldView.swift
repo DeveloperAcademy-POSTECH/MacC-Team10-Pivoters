@@ -8,12 +8,19 @@
 
 import SwiftUI
 
-struct FieldView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import Common
 
-#Preview {
-    FieldView()
+struct FieldView: View {
+    @State var observable: FieldObservable
+
+    var body: some View {
+        ZStack {
+            Image(asset: CommonAsset.field)
+            VStack {
+                ForEach(observable.players) { player in
+                    PlayerView(player: player)
+                }
+            }
+        }
+    }
 }
