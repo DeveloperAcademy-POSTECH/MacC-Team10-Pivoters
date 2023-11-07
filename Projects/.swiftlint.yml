@@ -1,0 +1,62 @@
+# .swiftlint
+
+# 비활성화할 규칙들입니다.
+disabled_rules:
+  - multiple_closures_with_trailing_closure # 여러 개의 클로저 인수가 있는 경우 trailing closure 문법을 사용하지 않습니다.
+
+# 선택적으로 활성화할 규칙들입니다.
+opt_in_rules:
+  - closure_body_length # 클로저의 바디 길이를 체크합니다.
+  - empty_count # 비어 있는 collection의 count 대신 isEmpty를 사용해야합니다.
+  - explicit_init #필요하지 않은 경우 명시적 .init를 생략합니다.
+  - force_cast # 강제 캐스팅은 피합니다.
+  - force_unwrapping # 강제 언래핑은 피합니다.
+  - fatal_error_message # fatalError 메시지는 빈 문자열이면 안됩니다.
+  - implicit_return # 명시적 return 사용을 피합니다.
+  - implicitly_unwrapped_optional # 암시적으로 언래핑한 옵셔널은 가능한 사용하지 않아야 합니다.
+  - multiline_arguments # 여러 줄의 argument 사용을 체크합니다.
+  - multiline_function_chains # 함수 체인을 여러 줄로 사용합니다.
+  - multiline_parameters # 여러 줄의 매개변수 사용을 체크합니다.
+  - multiline_literal_brackets # 다중 줄 배열은 각 괄호를 별도의 줄에 배치해야 합니다.
+  - operator_usage_whitespace # 연산자는 사용 시 하나의 공백으로 둘러싸여 있어야 합니다.
+  - pattern_matching_keywords # 열거형 케이스나 튜플을 분해할 때, 각 개별 속성 할당에 인접하여 let 키워드를 인라인으로 배치합니다.
+  - sorted_imports # 알파벳 순으로 import문을 정렬해야 합니다.
+  - trailing_whitespace # 라인 뒤의 공백을 피합니다.
+  - trailing_closure #가독성을 위해 가능한 후행 클로져를 사용합니다.
+  - type_contents_order # 타입을 쉽게 추론할 수 있는 경우 타입을 포함하지 않습니다.
+  - vertical_whitespace_closing_braces # 닫는 중괄호 전에 공백을 피합니다.
+  - vertical_whitespace_opening_braces # 여는 중괄호 후에 공백을 피합니다.
+  - weak_delegate # 약한 참조에서 업그레이드 할 때 self에 바인드합니다.
+
+# 코드 분석 규칙입니다.
+analyzer_rules:
+  - explicit_self # 언어에 의해 필요하거나 혼동을 피하기 위해 필요하지 않은 한 self를 사용하지 않습니다.
+  - unused_import # 사용되지 않는 import를 피합니다.
+
+# 기본적으로 활성화된 규칙들 중, 옵션을 포함한 규칙들입니다.
+# 식별자 바로 다음에 콜론을 배치하고, 그 뒤에 공백을 둡니다.
+colon:
+  severity: warning
+  flexible_right_spacing: false
+  apply_to_dictionaries: true
+
+# 함수의 본문 길이를 체크합니다.
+function_body_length:
+  warning: 100 # 경고 임계값입니다.
+
+# 라인 길이 제한을 지정합니다.
+line_length:
+  warning: 300   # 오류 임계값입니다.
+
+# else, catch는 이전 괄호와 동일한 줄에 있어야합니다.
+statement_position:
+  severity: warning
+  statement_mode: uncuddled_else
+
+# 배열과 맵에서 후행 쉼표는 적용해야 합니다.
+trailing_comma:
+  severity: warning
+  mandatory_comma: true
+
+# 사용자 지정 규칙입니다.
+# custom_rules:
