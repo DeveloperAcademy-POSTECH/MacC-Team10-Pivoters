@@ -9,6 +9,7 @@
 import SwiftUI
 
 import Common
+import Core
 
 struct FieldView: View {
     @State var observable: FieldObservable
@@ -16,9 +17,24 @@ struct FieldView: View {
     var body: some View {
         ZStack {
             Image(asset: CommonAsset.field)
+                .coordinateSpace(name: "field")
             VStack {
-                ForEach(observable.players) { player in
-                    PlayerView(player: player)
+                ForEach($observable.players) { player in
+                    PlayerView(player: player.wrappedValue)
+                        .offset(player.offset.draggedOffset.wrappedValue)
+                        .gesture(
+                            DragGesture(coordinateSpace: .named("field"))
+                                .onChanged { gesture in
+                                    let draggedOffset = player.offset.accumulatedOffset.wrappedValue + gesture.translation
+                                    player.offset.draggedOffset.wrappedValue = draggedOffset
+
+                                    print("\(player.offset.draggedOffset)")
+                                }
+                                .onEnded { gesture in
+                                    let accumulatedOffset = player.offset.accumulatedOffset.wrappedValue + gesture.translation
+                                    player.offset.accumulatedOffset.wrappedValue = accumulatedOffset
+                                }
+                        )
                 }
             }
         }

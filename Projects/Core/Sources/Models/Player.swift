@@ -12,6 +12,7 @@ public final class Player: Identifiable {
     public let name: String
     public let number: Int
     public let isGoalkeeper: Bool
+    public var offset: OffsetValue = OffsetValue()
 
     public init(name: String, number: Int, isGoalkeeper: Bool) {
         self.name = name
@@ -19,3 +20,4 @@ public final class Player: Identifiable {
         self.isGoalkeeper = isGoalkeeper
     }
 }
+

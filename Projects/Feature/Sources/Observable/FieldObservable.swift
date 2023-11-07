@@ -22,7 +22,6 @@ class FieldObservable {
         Player(name: "호날두", number: 8, isGoalkeeper: true),
         Player(name: "호날두", number: 9, isGoalkeeper: true),
         Player(name: "호날두", number: 10, isGoalkeeper: true),
-        Player(name: "호날두", number: 11, isGoalkeeper: true),
-
+        Player(name: "호날두", number: 11, isGoalkeeper: true)
     ]
 }
