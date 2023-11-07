@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import SwiftUI
 
 public final class OffsetValue {
     public var draggedOffset: CGSize
     public var accumulatedOffset: CGSize
-    
-    init(draggedOffset: CGSize = CGSize.zero, accumulatedOffset: CGSize = CGSize.zero) {
+
+    public init(draggedOffset: CGSize = CGSize.zero, accumulatedOffset: CGSize = CGSize.zero) {
         self.draggedOffset = draggedOffset
         self.accumulatedOffset = accumulatedOffset
     }

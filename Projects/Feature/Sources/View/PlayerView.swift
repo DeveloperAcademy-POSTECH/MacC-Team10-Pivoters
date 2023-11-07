@@ -17,9 +17,13 @@ struct PlayerView: View {
     var body: some View {
         VStack {
             Image(asset: CommonAsset.uniform)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 43, height: 43)
             Text(player.name)
-                .padding(.vertical, 5)
-                .padding(.horizontal, 10)
+                .font(.system(size: 10))
+                .padding(.vertical, 2)
+                .padding(.horizontal, 5)
                 .background(.white)
                 .cornerRadius(4)
                 .offset(y: -12)

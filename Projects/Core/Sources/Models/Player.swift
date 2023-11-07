@@ -12,12 +12,12 @@ public final class Player: Identifiable {
     public let name: String
     public let number: Int
     public let isGoalkeeper: Bool
-    public var offset: OffsetValue = OffsetValue()
+    public var offset: OffsetValue
 
-    public init(name: String, number: Int, isGoalkeeper: Bool) {
+    public init(name: String, number: Int, isGoalkeeper: Bool, offset: OffsetValue) {
         self.name = name
         self.number = number
         self.isGoalkeeper = isGoalkeeper
+        self.offset = offset
     }
 }
-
