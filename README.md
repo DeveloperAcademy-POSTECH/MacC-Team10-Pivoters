@@ -1,4 +1,4 @@
-# Macc-Team10-Pivoters
+# MacC-Team10-Pivoters
 
 ### 커밋 메세지
 Example) feat: 삭제 기능 구현(#30)
