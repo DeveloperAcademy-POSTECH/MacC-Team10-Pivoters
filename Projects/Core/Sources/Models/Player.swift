@@ -8,12 +8,12 @@
 
 import Foundation
 
-public final class Player {
+public final class Player: Identifiable {
     public let name: String
     public let number: Int
     public let isGoalkeeper: Bool
 
-    init(name: String, number: Int, isGoalkeeper: Bool) {
+    public init(name: String, number: Int, isGoalkeeper: Bool) {
         self.name = name
         self.number = number
         self.isGoalkeeper = isGoalkeeper
