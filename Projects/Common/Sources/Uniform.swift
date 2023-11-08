@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import SwiftUI
+
+public enum Uniform: Codable {
+    case basic
+
+    public var assets: [Image] {
+        switch self {
+        case .basic:
+            return [Image(asset: CommonAsset.uniform), 
+                    Image(asset: CommonAsset.tempsvg), 
+                    Image(asset: CommonAsset.tempsvg)]
+        }
+    }
+}
