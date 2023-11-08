@@ -27,7 +27,7 @@ public struct MainView: View {
                 TeamInfo(team: someTeam)
                     .blur(radius: isSharing ? 10 : 0)
                 if isSharing {
-                    ShareView()
+                    ShareImage()
                         .padding(.bottom, 400)
                 }
             }
@@ -46,16 +46,30 @@ public struct MainView: View {
 // 공유 버튼
 struct ShareButton: View {
     @Binding var isSharing: Bool
-    // 임시 링크, 이미지로 대체 예정
-    let itemsToShare = ["https://www.youtube.com/watch?v=Kcb761h9-zY"]
+    @State private var snapshotImage: UIImage?
 
+    private func captureAndShareSnapshot() {
+        self.snapshotImage = ShareImage().snapshot()
+        if let image = self.snapshotImage {
+            print("스냅숏 이미지 확인.")
+            self.isSharing = true
+            print("Image size: \(image.size)")
+
+            let item = ImageMetadataProvider(placeholderItem: snapshotImage!)
+            self.showShareSheet(with: [item], isSharing: $isSharing)
+        } else {
+            print("Error ::: ")
+        }
+    }
     var body: some View {
-        Button {
-            isSharing = true
-            showShareSheet(with: itemsToShare, isSharing: $isSharing)
-        } label: {
-            Image(systemName: "square.and.arrow.up")
-                .font(.system(size: 20))
+        VStack {
+            Button {
+                isSharing = true
+                captureAndShareSnapshot()
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+                    .font(.system(size: 20))
+            }
         }
     }
 }
