@@ -19,6 +19,9 @@ struct OverlapUniform: View {
 
     var body: some View {
         ZStack {
+            uniform.assets[2]
+                .resizable()
+                .frame(width: uniformSize, height: uniformSize)
             ForEach(0..<2) { index in
                 let color = Color(.sRGB,
                                   red: uniformColors[index].red,
@@ -30,9 +33,6 @@ struct OverlapUniform: View {
                     .foregroundColor(color)
                     .frame(width: uniformSize, height: uniformSize)
             }
-            uniform.assets[2]
-                .resizable()
-                .frame(width: uniformSize, height: uniformSize)
         }
     }
 }
