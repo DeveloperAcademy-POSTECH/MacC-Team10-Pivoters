@@ -13,7 +13,7 @@ import Core
 
 @Observable
 public final class UniformObservable {
-    
+
     var lineup = Lineup(id: UUID(),
                         uniformType: .basic,
                         headcount: .eleven,
