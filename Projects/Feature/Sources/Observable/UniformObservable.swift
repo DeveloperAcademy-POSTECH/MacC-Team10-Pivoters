@@ -12,12 +12,47 @@ import SwiftUI
 import Core
 
 @Observable
-final class UniformObservable {
+public final class UniformObservable {
+    
     var lineup = Lineup(id: UUID(),
-                        uniform: .basic,
+                        uniformType: .basic,
                         headcount: .eleven,
                         players: MockData.player,
-                        primaryColor: .black)
+                        primaryColor: UniformColor(red: 0.4,
+                                                   green: 0.4,
+                                                   blue: 0.4),
+                        secondaryColor: UniformColor(red: 0.2,
+                                                     green: 0.2,
+                                                     blue: 0.2))
+
+    public init () { }
+
+    func updateUniformColor(colors: [String], colorSequence: ColorSequence) {
+        let colorsTypeDouble = stringToDouble(colors: colors)
+        switch colorSequence {
+        case .primaryColor:
+            self.lineup.primaryColor.red = colorsTypeDouble[0]
+            self.lineup.primaryColor.green = colorsTypeDouble[1]
+            self.lineup.primaryColor.blue = colorsTypeDouble[2]
+        case .secondaryColor:
+            self.lineup.secondaryColor.red = colorsTypeDouble[0]
+            self.lineup.secondaryColor.green = colorsTypeDouble[1]
+            self.lineup.secondaryColor.blue = colorsTypeDouble[2]
+        }
+    }
+
+    func stringToDouble(colors: [String]) -> [Double] {
+        var colorsTypeDouble: [Double] = []
+        for index in 1..<5 {
+            colorsTypeDouble.append(Double(colors[index]) ?? 0.1)
+        }
+        return colorsTypeDouble
+    }
+}
+
+enum ColorSequence {
+    case primaryColor
+    case secondaryColor
 }
 
 struct MockData {
