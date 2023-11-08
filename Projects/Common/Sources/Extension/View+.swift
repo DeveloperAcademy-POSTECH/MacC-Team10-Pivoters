@@ -25,4 +25,22 @@ public extension View {
             }
         }
     }
+
+    /// SwiftUI 뷰의 스냅샷을 캡처하는 메소드
+    func snapshot() -> UIImage? {
+        let controller = UIHostingController(rootView: self)
+
+        let view = controller.view
+        let targetSize = CGSize(width: 200, height: 200)
+        view?.frame = CGRect(origin: .zero, size: targetSize)
+        view?.backgroundColor = .clear
+
+        view?.layoutIfNeeded()
+
+        // 내부적으로 렌더링 수행
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        }
+    }
 }
