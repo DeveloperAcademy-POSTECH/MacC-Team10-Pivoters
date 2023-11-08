@@ -4,16 +4,18 @@
 //
 //  Created by Ha Jong Myeong on 11/7/23.
 //
-
 import Core
 import SwiftUI
 
-struct MainView: View {
+public struct MainView: View {
+
+    public init() {}
+
     private var someTeam = Team(id: UUID(), teamName: "Newcastle United", subTitle: "2023-2024 Season", lineup: [])
     // 추후 model에서 반영 예정
     private var tintColor = Color.black
 
-    var body: some View {
+    public var body: some View {
         NavigationView {
             ZStack {
                 FieldView()
