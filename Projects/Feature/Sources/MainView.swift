@@ -3,14 +3,18 @@
 //  App
 //
 //  Created by Ha Jong Myeong on 11/7/23.
+//  Copyright © 2023 com.pivoters. All rights reserved.
 //
+
 import Core
+import Common
 import SwiftUI
 
 public struct MainView: View {
 
     public init() {}
 
+    @State private var isSharing = false
     private var someTeam = Team(id: UUID(), teamName: "Newcastle United", subTitle: "2023-2024 Season", lineup: [])
     // 추후 model에서 반영 예정
     private var tintColor = Color.black
@@ -19,12 +23,19 @@ public struct MainView: View {
         NavigationView {
             ZStack {
                 FieldView()
+                    .blur(radius: isSharing ? 10 : 0)
                 TeamInfo(team: someTeam)
+                    .blur(radius: isSharing ? 10 : 0)
+                if isSharing {
+                    ShareView()
+                        .padding(.bottom, 400)
+                }
             }
             .ignoresSafeArea()
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    ShareButton()
+                    ShareButton(isSharing: $isSharing)
+                        .blur(radius: isSharing ? 10 : 0)
                 }
             }
         }
@@ -32,10 +43,16 @@ public struct MainView: View {
     }
 }
 
+// 공유 버튼
 struct ShareButton: View {
+    @Binding var isSharing: Bool
+    // 임시 링크, 이미지로 대체 예정
+    let itemsToShare = ["https://www.youtube.com/watch?v=Kcb761h9-zY"]
+
     var body: some View {
         Button {
-            print("tap!!")
+            isSharing = true
+            showShareSheet(with: itemsToShare, isSharing: $isSharing)
         } label: {
             Image(systemName: "square.and.arrow.up")
                 .font(.system(size: 20))
@@ -43,6 +60,7 @@ struct ShareButton: View {
     }
 }
 
+// 포메이션 텍스트
 struct FormationText: View {
 
     var body: some View {
@@ -60,6 +78,7 @@ struct FormationText: View {
     }
 }
 
+// 팀 정보 텍스트 섹션
 struct TeamInfo: View {
     let team: Team
 
@@ -89,11 +108,11 @@ struct TeamInfo: View {
     }
 }
 
+// 필드 뷰, 딴의 작업물로 대체 예정
 struct FieldView: View {
 
     var body: some View {
         VStack {
-            // 에셋으로 대체
             Color.blue.opacity(0.3)
                 .frame(height: 600)
             Spacer()
