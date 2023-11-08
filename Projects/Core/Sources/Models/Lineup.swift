@@ -22,8 +22,7 @@ public final class Lineup {
         headcount: Headcount,
         players: [Player],
         primaryColor: UniformColor,
-        secondaryColor: UniformColor)
-    {
+        secondaryColor: UniformColor) {
         self.id = id
         self.uniformType = uniformType
         self.headcount = headcount

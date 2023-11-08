@@ -15,9 +15,9 @@ public enum Uniform: Codable {
     public var assets: [Image] {
         switch self {
         case .basic:
-            return [Image(asset: CommonAsset.uniform), 
-                    Image(asset: CommonAsset.tempsvg), 
-                    Image(asset: CommonAsset.tempsvg)]
+            return [Image(asset: CommonAsset.uniform),
+                    Image(asset: CommonAsset.tempsvg),
+                    Image(asset: CommonAsset.field)]
         }
     }
 }
