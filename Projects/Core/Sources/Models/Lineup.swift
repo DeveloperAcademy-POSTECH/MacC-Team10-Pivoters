@@ -9,10 +9,11 @@
 import Foundation
 
 public final class Lineup {
+
     public let id: UUID
     public let uniform: Uniform
     public let headcount: Headcount
-    public let players: [Player]
+    public var players: [Player]
 
     public init(
         id: UUID,
