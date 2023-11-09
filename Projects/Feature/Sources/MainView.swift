@@ -49,18 +49,12 @@ struct ShareButton: View {
     @State private var snapshotImage: UIImage?
 
     private func captureAndShareSnapshot() {
-        self.snapshotImage = ShareImage().snapshot()
-        if let image = self.snapshotImage {
-            print("스냅숏 이미지 확인.")
-            self.isSharing = true
-            print("Image size: \(image.size)")
-
-            let item = ImageMetadataProvider(placeholderItem: snapshotImage!)
-            self.showShareSheet(with: [item], isSharing: $isSharing)
-        } else {
-            print("Error ::: ")
-        }
+        snapshotImage = ShareImage().snapshot()
+        isSharing = true
+        let metaData = ImageMetadataProvider(placeholderItem: snapshotImage!)
+        showShareSheet(with: [metaData], isSharing: $isSharing)
     }
+
     var body: some View {
         VStack {
             Button {
