@@ -19,25 +19,30 @@ struct FieldView: View {
             Image(asset: CommonAsset.field)
                 .coordinateSpace(name: "field")
             ForEach($observable.players) { player in
-                PlayerView(player: player.wrappedValue)
-                    .offset(player.offset.draggedOffset.wrappedValue)
-                    .gesture(
-                        DragGesture(coordinateSpace: .named("field"))
-                            .onChanged { gesture in
-                                let draggedOffset =
+                if player.isGoalkeeper.wrappedValue {
+                    PlayerView(player: player.wrappedValue)
+                        .offset(player.offset.draggedOffset.wrappedValue)
+                } else {
+                    PlayerView(player: player.wrappedValue)
+                        .offset(player.offset.draggedOffset.wrappedValue)
+                        .gesture(
+                            DragGesture(coordinateSpace: .named("field"))
+                                .onChanged { gesture in
+                                    let draggedOffset =
                                     player.offset.accumulatedOffset.wrappedValue
-                                        + gesture.translation
-                                player.offset.draggedOffset.wrappedValue = draggedOffset
+                                    + gesture.translation
+                                    player.offset.draggedOffset.wrappedValue = draggedOffset
 
-                                print("\(player.offset.draggedOffset)")
-                            }
-                            .onEnded { gesture in
-                                let accumulatedOffset =
+                                    print("\(player.offset.draggedOffset)")
+                                }
+                                .onEnded { gesture in
+                                    let accumulatedOffset =
                                     player.offset.accumulatedOffset.wrappedValue
-                                        + gesture.translation
-                                player.offset.accumulatedOffset.wrappedValue = accumulatedOffset
-                            }
-                    )
+                                    + gesture.translation
+                                    player.offset.accumulatedOffset.wrappedValue = accumulatedOffset
+                                }
+                        )
+                }
             }
         }
     }

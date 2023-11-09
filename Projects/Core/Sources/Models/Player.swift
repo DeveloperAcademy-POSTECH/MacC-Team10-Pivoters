@@ -11,7 +11,7 @@ import Foundation
 public final class Player: Identifiable {
     public let name: String
     public let number: Int
-    public let isGoalkeeper: Bool
+    public var isGoalkeeper: Bool
     public var offset: OffsetValue
 
     public init(name: String, number: Int, isGoalkeeper: Bool, offset: OffsetValue) {
