@@ -10,24 +10,42 @@ import Foundation
 
 public final class Lineup {
     public let id: UUID
-    public let uniform: Uniform
-    public let headcount: Headcount
-    public let players: [Player]
+    public var uniformType: UniformType
+    public var headcount: Headcount
+    public var players: [Player]
+    public var primaryColor: UniformColor
+    public var secondaryColor: UniformColor
 
     public init(
         id: UUID,
-        uniform: Uniform,
+        uniformType: UniformType,
         headcount: Headcount,
-        players: [Player]) {
-            self.id = id
-            self.uniform = uniform
-            self.headcount = headcount
-            self.players = players
-        }
+        players: [Player],
+        primaryColor: UniformColor,
+        secondaryColor: UniformColor) {
+        self.id = id
+        self.uniformType = uniformType
+        self.headcount = headcount
+        self.players = players
+        self.primaryColor = primaryColor
+        self.secondaryColor = secondaryColor
+    }
 }
 
-public enum Uniform: Codable {
-    case basic
+public struct UniformColor {
+    public var red: Double
+    public var green: Double
+    public var blue: Double
+
+    public init(red: Double, green: Double, blue: Double) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+    }
+}
+
+public enum UniformType: Int, Codable {
+    case basic = 0
 }
 
 public enum Headcount: Int, Codable {
