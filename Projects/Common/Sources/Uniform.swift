@@ -11,6 +11,7 @@ import SwiftUI
 
 public enum Uniform: Codable {
     case basic
+    case stripe
 
     public var assets: [Image] {
         switch self {
@@ -18,6 +19,10 @@ public enum Uniform: Codable {
             return [Image(asset: CommonAsset.uniform),
                     Image(asset: CommonAsset.tempsvg),
                     Image(asset: CommonAsset.field)]
+        case .stripe:
+            return [Image(asset: CommonAsset.field),
+                    Image(asset: CommonAsset.tempsvg),
+                    Image(asset: CommonAsset.uniform)]
         }
     }
 }
