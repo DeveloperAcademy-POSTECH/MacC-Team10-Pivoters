@@ -3,26 +3,39 @@
 //  App
 //
 //  Created by Ha Jong Myeong on 11/7/23.
+//  Copyright © 2023 com.pivoters. All rights reserved.
 //
 
 import Core
+import Common
 import SwiftUI
 
-struct MainView: View {
+public struct MainView: View {
+
+    public init() {}
+
+    @State private var isSharing = false
     private var someTeam = Team(id: UUID(), teamName: "Newcastle United", subTitle: "2023-2024 Season", lineup: [])
     // 추후 model에서 반영 예정
     private var tintColor = Color.black
 
-    var body: some View {
+    public var body: some View {
         NavigationView {
             ZStack {
-                FieldView()
+                FieldBackgroundView()
+                    .blur(radius: isSharing ? 10 : 0)
                 TeamInfo(team: someTeam)
+                    .blur(radius: isSharing ? 10 : 0)
+                if isSharing {
+                    ShareImage()
+                        .padding(.bottom, 400)
+                }
             }
             .ignoresSafeArea()
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    ShareButton()
+                    ShareButton(isSharing: $isSharing)
+                        .blur(radius: isSharing ? 10 : 0)
                 }
             }
         }
@@ -30,17 +43,32 @@ struct MainView: View {
     }
 }
 
+// 공유 버튼
 struct ShareButton: View {
+    @Binding var isSharing: Bool
+    @State private var snapshotImage: UIImage?
+
+    private func captureAndShareSnapshot() {
+        snapshotImage = ShareImage().snapshot()
+        isSharing = true
+        let metaData = ImageMetadataProvider(placeholderItem: snapshotImage!)
+        showShareSheet(with: [metaData], isSharing: $isSharing)
+    }
+
     var body: some View {
-        Button {
-            print("tap!!")
-        } label: {
-            Image(systemName: "square.and.arrow.up")
-                .font(.system(size: 20))
+        VStack {
+            Button {
+                isSharing = true
+                captureAndShareSnapshot()
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+                    .font(.system(size: 20))
+            }
         }
     }
 }
 
+// 포메이션 텍스트
 struct FormationText: View {
 
     var body: some View {
@@ -58,6 +86,7 @@ struct FormationText: View {
     }
 }
 
+// 팀 정보 텍스트 섹션
 struct TeamInfo: View {
     let team: Team
 
@@ -87,11 +116,11 @@ struct TeamInfo: View {
     }
 }
 
-struct FieldView: View {
+// 필드 백그라운드 뷰, 필드뷰 하단에 삽입 예정
+struct FieldBackgroundView: View {
 
     var body: some View {
         VStack {
-            // 에셋으로 대체
             Color.blue.opacity(0.3)
                 .frame(height: 600)
             Spacer()
