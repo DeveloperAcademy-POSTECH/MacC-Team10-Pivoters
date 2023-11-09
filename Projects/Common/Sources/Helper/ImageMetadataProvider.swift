@@ -31,8 +31,8 @@ public class ImageMetadataProvider: UIActivityItemProvider {
         _ activityViewController: UIActivityViewController
     ) -> LPLinkMetadata? {
         let metadata = LPLinkMetadata()
-        metadata.title = "Result Image" // 팀 이름으로 변경예정
-
+        metadata.title = "Titles" // 팀 이름으로 변경 예정
+        metadata.originalURL = URL(fileURLWithPath: "Subtitles") // 포메이션 이름으로 변경 예정
         var thumbnail: NSSecureCoding = NSNull()
         if let imageData = self.image.pngData() {
             thumbnail = NSData(data: imageData)
