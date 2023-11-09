@@ -121,10 +121,17 @@ struct FieldBackgroundView: View {
 
     var body: some View {
         VStack {
-            Color.blue.opacity(0.3)
-                .frame(height: 600)
+            HStack {
+                Spacer()
+            }
             Spacer()
+            FieldView(observable: FieldObservable())
+                .padding(.bottom, 300)
         }
+        .background(
+            Image(asset: CommonAsset.background1)
+            .resizable()
+            .aspectRatio(contentMode: .fill))
     }
 }
 
