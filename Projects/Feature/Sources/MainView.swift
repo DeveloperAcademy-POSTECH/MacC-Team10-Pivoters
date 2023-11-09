@@ -22,7 +22,7 @@ public struct MainView: View {
     public var body: some View {
         NavigationView {
             ZStack {
-                FieldView()
+                FieldBackgroundView()
                     .blur(radius: isSharing ? 10 : 0)
                 TeamInfo(team: someTeam)
                     .blur(radius: isSharing ? 10 : 0)
@@ -116,8 +116,8 @@ struct TeamInfo: View {
     }
 }
 
-// 필드 뷰, 딴의 작업물로 대체 예정
-struct FieldView: View {
+// 필드 백그라운드 뷰, 필드뷰 하단에 삽입 예정
+struct FieldBackgroundView: View {
 
     var body: some View {
         VStack {
