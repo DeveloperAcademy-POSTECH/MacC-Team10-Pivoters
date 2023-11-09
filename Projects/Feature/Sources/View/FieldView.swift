@@ -17,8 +17,12 @@ struct FieldView: View {
     var body: some View {
         ZStack {
             Image(asset: CommonAsset.field)
-                .coordinateSpace(name: "field")
-            ForEach($observable.players) { player in
+                .coordinateSpace(name: "\(observable.formation)")
+                .onTapGesture {
+                    observable.changeFormation(.form343)
+                    observable.formation = "343"
+                }
+            ForEach($observable.lineup.players) { player in
                 PlayerView(player: player.wrappedValue)
                     .offset(player.offset.draggedOffset.wrappedValue)
                     .gesture(
