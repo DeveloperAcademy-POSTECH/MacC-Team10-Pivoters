@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 import Core
+import Common
 
 @Observable
 public final class UniformObservable {
@@ -24,6 +25,8 @@ public final class UniformObservable {
                         secondaryColor: UniformColor(red: 0.2,
                                                      green: 0.2,
                                                      blue: 0.2))
+
+    var uniforms: [Uniform] = [.basic, .stripe]
 
     public init () { }
 
