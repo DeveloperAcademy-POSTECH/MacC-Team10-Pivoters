@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-public enum Uniform: Codable {
+public enum Uniform {
     case basic
     case stripe
 
