@@ -13,9 +13,10 @@ import Core
 
 struct OverlapUniform: View {
 
-    let uniformSize: CGFloat
     let uniform: Uniform
+    let uniformSize: CGFloat
     var uniformColors: [UniformColor]
+    var isSelected: Bool
 
     var body: some View {
         ZStack {
@@ -32,6 +33,11 @@ struct OverlapUniform: View {
                     .renderingMode(.template)
                     .foregroundColor(color)
                     .frame(width: uniformSize, height: uniformSize)
+            }
+            if isSelected {
+                Image(systemName: "checkmark.circle")
+                    .resizable()
+                    .frame(width: uniformSize / 2, height: uniformSize / 2)
             }
         }
     }
