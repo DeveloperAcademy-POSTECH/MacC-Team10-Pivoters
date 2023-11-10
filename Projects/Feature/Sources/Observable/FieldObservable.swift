@@ -11,7 +11,7 @@ import Foundation
 
 @Observable
 class FieldObservable {
-    var formation: String = "433"
+    var formation: FormationType = .form433
     var lineup: Lineup =
     Lineup(id: UUID(),
            uniform: .basic,
@@ -25,38 +25,38 @@ class FieldObservable {
             Player(name: "호날두",
                    number: 2,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: -75, height: 50),
-                                       accumulatedOffset: CGSize(width: -75, height: 50))),
+                   offset: OffsetValue(draggedOffset: CGSize(width: -50, height: 50),
+                                       accumulatedOffset: CGSize(width: -50, height: 50))),
             Player(name: "호날두",
                    number: 3,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: 75, height: 50),
-                                       accumulatedOffset: CGSize(width: 75, height: 50))),
+                   offset: OffsetValue(draggedOffset: CGSize(width: 50, height: 50),
+                                       accumulatedOffset: CGSize(width: 50, height: 50))),
             Player(name: "호날두",
                    number: 4,
-                   isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: 140, height: 30),
-                                       accumulatedOffset: CGSize(width: 140, height: 30))),
-            Player(name: "호날두",
-                   number: 5,
                    isGoalkeeper: true,
                    offset: OffsetValue(draggedOffset: CGSize(width: -140, height: 30),
                                        accumulatedOffset: CGSize(width: -140, height: 30))),
             Player(name: "호날두",
+                   number: 5,
+                   isGoalkeeper: true,
+                   offset: OffsetValue(draggedOffset: CGSize(width: 140, height: 30),
+                                       accumulatedOffset: CGSize(width: 140, height: 30))),
+            Player(name: "호날두",
                    number: 6,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: 0, height: 20),
-                                       accumulatedOffset: CGSize(width: 0, height: 20))),
+                   offset: OffsetValue(draggedOffset: CGSize(width: 0, height: 10),
+                                       accumulatedOffset: CGSize(width: 0, height: 10))),
             Player(name: "호날두",
                    number: 7,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: 70, height: -20),
-                                       accumulatedOffset: CGSize(width: 70, height: -20))),
+                   offset: OffsetValue(draggedOffset: CGSize(width: -70, height: -20),
+                                       accumulatedOffset: CGSize(width: -70, height: -20))),
             Player(name: "호날두",
                    number: 8,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: -70, height: -20),
-                                       accumulatedOffset: CGSize(width: -70, height: -20))),
+                   offset: OffsetValue(draggedOffset: CGSize(width: 70, height: -20),
+                                       accumulatedOffset: CGSize(width: 70, height: -20))),
             Player(name: "호날두",
                    number: 9,
                    isGoalkeeper: true,
@@ -65,13 +65,13 @@ class FieldObservable {
             Player(name: "호날두",
                    number: 10,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: 130, height: -80),
-                                       accumulatedOffset: CGSize(width: 130, height: -80))),
+                   offset: OffsetValue(draggedOffset: CGSize(width: -130, height: -80),
+                                       accumulatedOffset: CGSize(width: -130, height: -80))),
             Player(name: "호날두",
                    number: 11,
                    isGoalkeeper: true,
-                   offset: OffsetValue(draggedOffset: CGSize(width: -130, height: -80),
-                                       accumulatedOffset: CGSize(width: -130, height: -80)))
+                   offset: OffsetValue(draggedOffset: CGSize(width: 130, height: -80),
+                                       accumulatedOffset: CGSize(width: 130, height: -80)))
     ])
 
     func changeFormation(_ formationType: FormationType) {
@@ -81,6 +81,7 @@ class FieldObservable {
             lineup.players[index].offset.accumulatedOffset = formationOffsets[index]
             lineup.players[index].offset.draggedOffset = formationOffsets[index]
         }
+        formation = formationType
         print("@Log changeFormation")
         print("\(lineup.players[1].offset.draggedOffset.width)")
     }

@@ -10,5 +10,4 @@ import Foundation
 
 @Observable
 class PlayerObservedObject {
-    
 }

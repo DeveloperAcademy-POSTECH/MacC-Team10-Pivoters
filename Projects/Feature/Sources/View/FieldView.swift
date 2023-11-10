@@ -19,8 +19,7 @@ struct FieldView: View {
             Image(asset: CommonAsset.field)
                 .coordinateSpace(name: "\(observable.formation)")
                 .onTapGesture {
-                    observable.changeFormation(.form343)
-                    observable.formation = "343"
+                    observable.changeFormation(.form523)
                 }
             ForEach($observable.lineup.players) { player in
                 PlayerView(player: player.wrappedValue)
