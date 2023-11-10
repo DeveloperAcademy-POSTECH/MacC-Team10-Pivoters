@@ -27,6 +27,14 @@ public struct MainView: View {
     public var body: some View {
         NavigationView {
             ZStack {
+                TeamChangeButton()
+                TeamInfo(team: someTeam)
+                    .blur(radius: isSharing ? 10 : 0)
+                // ShareImage 표시 -> 편집 화면에서 활용
+                if isSharing {
+                    ShareImage()
+                        .padding(.bottom, 400)
+                }
                 FieldCarousel(pageCount: 3,
                               visibleEdgeSpace: -120,
                               spacing: -30,
@@ -37,29 +45,16 @@ public struct MainView: View {
                     }
                 }
                               .frame(maxHeight: 600)
-                TeamInfo(team: someTeam)
-                    .blur(radius: isSharing ? 10 : 0)
-                if isSharing {
-                    ShareImage()
-                        .padding(.bottom, 400)
-                }
                 FieldCarouselButton(currentIndex: $currentIndex)
-
             }
             .background(
                 Image(asset: CommonAsset.background1)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .blur(radius: isSharing ? 10 : 0)
                     .ignoresSafeArea()
             )
             .ignoresSafeArea()
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    ShareButton(isSharing: $isSharing)
-                        .blur(radius: isSharing ? 10 : 0)
-                }
-            }
         }
         .tint(tintColor)
     }
@@ -91,11 +86,37 @@ struct FieldCarouselButton: View {
                 .contentShape(Rectangle())
             }
             .padding(.horizontal)
+            .padding(.bottom, 20)
         }
     }
 }
 
-// 공유 버튼
+// 팀 변경 버튼
+struct TeamChangeButton: View {
+    var body: some View {
+        HStack {
+            VStack {
+                Button(action: {
+                    print("tap!!")
+                }, label: {
+                    VStack {
+                        Image(systemName: "flag.2.crossed")
+                            .font(.system(size: 20))
+                        Text("팀 변경")
+                            .font(.system(size: 10))
+                            .foregroundStyle(Color.white)
+                    }
+                })
+                Spacer()
+            }
+            .padding(.top, 72)
+            .padding(.leading, 19)
+            Spacer()
+        }
+    }
+}
+
+// 공유 버튼 -> 편집 화면으로 이동 예정
 struct ShareButton: View {
     @Binding var isSharing: Bool
     @State private var snapshotImage: UIImage?
@@ -131,12 +152,13 @@ struct TeamInfo: View {
                     .font(.system(size: 18, weight: .bold))
                     .multilineTextAlignment(.center)
             }
+            .padding(.bottom, 5)
             Text(team.subTitle)
                 .font(.system(size: 10))
             Spacer()
         }
         .foregroundColor(.white)
-        .padding(.top, 200)
+        .padding(.top, 137)
     }
 }
 
