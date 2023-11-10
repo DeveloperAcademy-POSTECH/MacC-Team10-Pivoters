@@ -10,7 +10,7 @@ import SwiftUI
 
 import Common
 
-struct TempMainView: View {
+public struct TempMainView: View {
 
     @State var isPresented = true
     @State var currentPresentationDetent: PresentationDetent = .fraction(0.2)
@@ -18,7 +18,9 @@ struct TempMainView: View {
     let editHeight = UIScreen.main.bounds.size.height * 0.43
     let defaultHeight = UIScreen.main.bounds.size.height * 0.2
 
-    var body: some View {
+    public init() { }
+
+    public var body: some View {
         NavigationView {
             VStack {
                 Spacer()
