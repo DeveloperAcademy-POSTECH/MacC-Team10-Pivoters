@@ -11,15 +11,16 @@ import SwiftUI
 import Common
 import Core
 
-public struct UniformView: View {
+struct UniformView: View {
 
     @State var observable: UniformObservable
     @State var primaryColor: Color
     @State var secondaryColor: Color
     @State var selectedUniform: Uniform = .basic
+    @State var isPresented: Bool = false
     let rows = [GridItem(.fixed(100))]
 
-    public init(observable: UniformObservable) {
+    init(observable: UniformObservable) {
         self.observable = observable
         self.primaryColor = Color(.sRGB,
                                   red: observable.lineup.primaryColor.red,
@@ -31,7 +32,7 @@ public struct UniformView: View {
                                     blue: observable.lineup.secondaryColor.blue)
     }
 
-    public var body: some View {
+    var body: some View {
         VStack(spacing: 0) {
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows) {
@@ -44,14 +45,22 @@ public struct UniformView: View {
             }
             .padding(.horizontal, 20)
             .frame(height: 100)
-            List {
-                ColorPicker("메인 컬러", selection: $primaryColor, supportsOpacity: false)
-                ColorPicker("서브 컬러", selection: $secondaryColor, supportsOpacity: false)
-            }
-            .scrollContentBackground(.hidden)
-
+            RoundedRectangle(cornerSize: CGSize(width: 12, height: 12))
+                .foregroundStyle(Color.gray)
+                .opacity(0.4)
+                .frame(height: 90)
+                .overlay {
+                    VStack {
+                        ColorPicker("메인 컬러", selection: $primaryColor, supportsOpacity: false)
+                            .padding(.horizontal)
+                        Divider()
+                        ColorPicker("서브 컬러", selection: $secondaryColor, supportsOpacity: false)
+                            .padding(.horizontal)
+                    }
+                }
+                .padding(.horizontal)
+            Spacer()
         }
-        .background(Color(red: 238 / 255, green: 238 / 255, blue: 238 / 255))
         .onChange(of: primaryColor) {
             let colors: [String] =
             primaryColor
