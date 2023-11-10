@@ -9,10 +9,9 @@
 import Foundation
 import SwiftUI
 
-public enum Uniform {
-    case basic
-    case stripe
+import Core
 
+extension Uniform {
     public var assets: [Image] {
         switch self {
         case .basic:
