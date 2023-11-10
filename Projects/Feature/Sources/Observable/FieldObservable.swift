@@ -74,6 +74,7 @@ class FieldObservable {
                                        accumulatedOffset: CGSize(width: 130, height: -80)))
     ])
 
+
     func changeFormation(_ formationType: FormationType) {
         let formationOffsets: [CGSize] = formationType.returnPosition()
 
