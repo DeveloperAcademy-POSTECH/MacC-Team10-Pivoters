@@ -9,12 +9,14 @@
 import Foundation
 
 public final class Lineup {
+
     public let id: UUID
     public var uniformType: UniformType
     public var headcount: Headcount
     public var players: [Player]
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
+
 
     public init(
         id: UUID,
