@@ -15,6 +15,8 @@ public struct MainView: View {
     public init() {}
 
     @State private var isSharing = false
+    @State private var currentIndex: Int = 0
+
     private var someTeam = Team(id: UUID(),
                                 teamName: "울산현대 FC",
                                 subTitle: "2023 아시안 챔피언스리그 결승전 선발 멤버",
@@ -25,37 +27,24 @@ public struct MainView: View {
     public var body: some View {
         NavigationView {
             ZStack {
-                FieldCarousel(pageCount: 5, visibleEdgeSpace: -100, spacing: -30) { _ in
+                FieldCarousel(pageCount: 3,
+                              visibleEdgeSpace: -120,
+                              spacing: -30,
+                              currentIndex: $currentIndex) { _ in
                     VStack {
                         Spacer()
                         Image(asset: CommonAsset.field)
                     }
                 }
-                .frame(maxHeight: 600)
+                              .frame(maxHeight: 600)
                 TeamInfo(team: someTeam)
                     .blur(radius: isSharing ? 10 : 0)
                 if isSharing {
                     ShareImage()
                         .padding(.bottom, 400)
                 }
-                VStack {
-                    HStack {
-                        Button {
-                            print("tap!!")
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 20))
-                        }
-                        Spacer()
-                        Button {
-                            print("tap!!")
-                        } label: {
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 20))
-                        }
-                    }
-                    .padding(.horizontal)
-                }
+                FieldCarouselButton(currentIndex: $currentIndex)
+
             }
             .background(
                 Image(asset: CommonAsset.background1)
@@ -73,6 +62,36 @@ public struct MainView: View {
             }
         }
         .tint(tintColor)
+    }
+}
+
+// 필드 캐러셀 버튼
+struct FieldCarouselButton: View {
+    @Binding var currentIndex: Int
+
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    currentIndex = max(currentIndex - 1, 0)
+                }, label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 20))
+                })
+                .padding()
+                .contentShape(Rectangle())
+                Spacer()
+                Button(action: {
+                    currentIndex = min(currentIndex + 1, 2)
+                }, label: {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 20))
+                })
+                .padding()
+                .contentShape(Rectangle())
+            }
+            .padding(.horizontal)
+        }
     }
 }
 
@@ -118,19 +137,6 @@ struct TeamInfo: View {
         }
         .foregroundColor(.white)
         .padding(.top, 200)
-    }
-}
-
-// 필드 백그라운드 뷰, 필드뷰 하단에 삽입 예정
-struct FieldBackgroundView: View {
-
-    var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-            }
-            Spacer()
-        }
     }
 }
 

@@ -17,18 +17,20 @@ public struct FieldCarousel<Content: View>: View {
     let content: (PageIndex) -> Content
 
     @GestureState var dragOffset: CGFloat = 0
-    @State var currentIndex: Int = 0
+    @Binding var currentIndex: Int
 
     public init(
         pageCount: Int,
         visibleEdgeSpace: CGFloat,
         spacing: CGFloat,
+        currentIndex: Binding<Int>,
         @ViewBuilder content: @escaping (PageIndex) -> Content
     ) {
         self.pageCount = pageCount
         self.visibleEdgeSpace = visibleEdgeSpace
         self.spacing = spacing
         self.content = content
+        self._currentIndex = currentIndex
     }
 
     public var body: some View {
@@ -36,9 +38,9 @@ public struct FieldCarousel<Content: View>: View {
             let baseOffset: CGFloat = spacing + visibleEdgeSpace
             let pageWidth: CGFloat = proxy.size.width - (visibleEdgeSpace + spacing) * 2
             let offsetX: CGFloat = baseOffset
-                + CGFloat(currentIndex) * -pageWidth
-                + CGFloat(currentIndex) * -spacing
-                + dragOffset
+            + CGFloat(currentIndex) * -pageWidth
+            + CGFloat(currentIndex) * -spacing
+            + dragOffset
 
             HStack(spacing: spacing) {
                 ForEach(0..<pageCount, id: \.self) { pageIndex in
@@ -57,8 +59,9 @@ public struct FieldCarousel<Content: View>: View {
                         out = value.translation.width
                     }
                     .onEnded { value in
+                        let sensitivity: CGFloat = 0.5 // carousel 민감도
                         let offsetX = value.translation.width
-                        let progress = -offsetX / pageWidth
+                        let progress = -offsetX / (pageWidth * sensitivity)
                         let increment = Int(progress.rounded())
 
                         currentIndex = max(min(currentIndex + increment, pageCount - 1), 0)
