@@ -36,6 +36,7 @@ struct TempMainView: View {
                     .interactiveDismissDisabled()
             } else {
                 Text("밀어올려서 편집하기")
+                    .presentationDragIndicator(.hidden)
                     .presentationDetents(presentationDetent, selection: $currentPresentationDetent)
                     .presentationBackgroundInteraction(.enabled)
                     .interactiveDismissDisabled()
