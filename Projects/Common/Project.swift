@@ -14,4 +14,5 @@ let project = Project.makeModule(name: moduleName,
                                  platform: .iOS,
                                  product: .staticFramework,
                                  bundleId: "Common",
-                                 resources: ["Resources/**"])
+                                 resources: ["Resources/**"],
+                                 dependencies: [.Project.Core])
