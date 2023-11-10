@@ -16,7 +16,7 @@ import Common
 public final class UniformObservable {
 
     var lineup = Lineup(id: UUID(),
-                        uniformType: .basic,
+                        uniform: .basic,
                         headcount: .eleven,
                         players: MockData.player,
                         primaryColor: UniformColor(red: 0.4,
