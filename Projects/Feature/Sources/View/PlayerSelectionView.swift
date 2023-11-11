@@ -9,27 +9,39 @@
 import SwiftUI
 
 import Common
+import Core
 
 struct PlayerSelectionView: View {
+    @State var observable = PlayerSelectionObservable()
     var body: some View {
         List {
             playerCell(.addPlayer)
-            playerCell(.player)
+            ForEach($observable.playerList) { player in
+                playerCell(.player, player: player.wrappedValue)
+            }
+            .onDelete(perform: { indexSet in
+                observable.playerList.remove(atOffsets: indexSet)
+            })
         }
         .listStyle(.plain)
 
     }
 
-    func playerCell(_ playerCellType: PlayerCellType) -> some View {
+    func playerCell(_ playerCellType: PlayerCellType, player: Player? = nil) -> some View {
         HStack {
             switch playerCellType {
             case .addPlayer:
-                Image(asset: CommonAsset.addButton)
-                Text("선수 추가")
+                HStack {
+                    Image(asset: CommonAsset.addButton)
+                    Text("선수 추가")
+                }
+                .onTapGesture {
+                    observable.addPlayer()
+                }
             case .player:
                 HStack {
                     Image(asset: CommonAsset.cirecleUniform)
-                    Text("새로 추가된 선수")
+                    Text(player?.name ?? "익명")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .onTapGesture {
