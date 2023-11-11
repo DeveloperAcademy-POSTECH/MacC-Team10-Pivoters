@@ -13,10 +13,10 @@ struct ModalSegmentedView: View {
     @State var editType: EditType = .theme
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Rectangle()
                 .foregroundColor(.clear)
-                .frame(height: 30)
+                .frame(height: 25)
             HStack(spacing: 24) {
                 segmentedControl(buttonType: .theme)
                 segmentedControl(buttonType: .uniform)
@@ -25,12 +25,14 @@ struct ModalSegmentedView: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
-            Spacer()
+
             switch editType {
             case .theme:
-                Text("Theme")
+                ThemeView(observable: ThemeObservable())
+                    .padding(.top, 24)
             case .uniform:
                 UniformView(observable: UniformObservable())
+                    .padding(.top, 24)
             case .player:
                 Text("Player")
             case .squad:
@@ -73,3 +75,4 @@ enum EditType {
 #Preview {
     ModalSegmentedView()
 }
+
