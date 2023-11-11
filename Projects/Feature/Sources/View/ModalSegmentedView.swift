@@ -32,7 +32,7 @@ struct ModalSegmentedView: View {
             case .uniform:
                 UniformView(observable: UniformObservable())
             case .player:
-                PlayerSelectionView()
+                PlayerSelectionView(observable: PlayerSelectionObservable())
             case .squad:
                 Text("Squad")
             }

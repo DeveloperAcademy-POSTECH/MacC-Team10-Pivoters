@@ -12,12 +12,12 @@ import Common
 import Core
 
 struct PlayerSelectionView: View {
-    @State var observable = PlayerSelectionObservable()
+    @State var observable: PlayerSelectionObservable
     var body: some View {
         List {
-            playerCell(.addPlayer)
+            addPlayerCell()
             ForEach($observable.playerList) { player in
-                playerCell(.player, player: player.wrappedValue)
+                PlayerCell(player: player)
             }
             .onDelete(perform: { indexSet in
                 observable.playerList.remove(atOffsets: indexSet)
@@ -27,33 +27,15 @@ struct PlayerSelectionView: View {
 
     }
 
-    func playerCell(_ playerCellType: PlayerCellType, player: Player? = nil) -> some View {
+    func addPlayerCell() -> some View {
         HStack {
-            switch playerCellType {
-            case .addPlayer:
-                HStack {
-                    Image(asset: CommonAsset.addButton)
-                    Text("선수 추가")
-                }
-                .onTapGesture {
-                    observable.addPlayer()
-                }
-            case .player:
-                HStack {
-                    Image(asset: CommonAsset.cirecleUniform)
-                    Text(player?.name ?? "익명")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .onTapGesture {
-                    print("선수 선택")
-                }
-                Image(systemName: "square.and.pencil")
-                    .onTapGesture {
-                        print("편집 버튼 클릭")
-                    }
-            }
+            Image(asset: CommonAsset.addButton)
+            Text("선수 추가")
         }
         .listRowSeparator(.hidden)
+        .onTapGesture {
+            observable.addPlayer()
+        }
     }
 }
 
@@ -62,6 +44,29 @@ enum PlayerCellType {
     case player
 }
 
-#Preview {
-    PlayerSelectionView()
+struct PlayerCell: View {
+    @Binding var player: Player
+    @State var editPlayer = false
+    var body: some View {
+        HStack {
+            HStack {
+                Image(asset: CommonAsset.cirecleUniform)
+                if editPlayer {
+                    TextField("\(player.name)", text: $player.name)
+                        .textFieldStyle(.roundedBorder)
+                } else {
+                    Text(player.name)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .onTapGesture {
+                print("선수 선택")
+            }
+            Image(systemName: "square.and.pencil")
+                .onTapGesture {
+                    editPlayer.toggle()
+                }
+        }
+        .listRowSeparator(.hidden)
+    }
 }
