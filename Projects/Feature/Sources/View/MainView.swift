@@ -18,18 +18,15 @@ public struct MainView: View {
     @State private var isShowingSheet = false
     @State private var currentIndex: Int = 0
 
-    private var someTeam = Team(id: UUID(),
-                                teamName: "울산현대 FC",
-                                subTitle: "2023 아시안 챔피언스리그 결승전 선발 멤버",
-                                lineup: [])
+    @StateObject private var teamObservable = TeamObservable()
     // 추후 model에서 반영 예정
     private var tintColor = Color.white
 
     public var body: some View {
         NavigationView {
             ZStack {
-                TeamChangeButton(isShowingSheet: $isShowingSheet)
-                TeamInfo(team: someTeam)
+                TeamChangeButton(isShowingSheet: $isShowingSheet, teamObservable: teamObservable)
+                TeamInfo(teamObservable: teamObservable)
                     .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
                 // ShareImage 표시 -> 편집 화면에서 활용
                 if isSharing {
@@ -101,6 +98,7 @@ struct FieldCarouselButton: View {
 // 팀 변경 버튼
 struct TeamChangeButton: View {
     @Binding var isShowingSheet: Bool
+    var teamObservable: TeamObservable
 
     var body: some View {
         HStack {
@@ -120,7 +118,7 @@ struct TeamChangeButton: View {
                         .padding(.all, 9)
                         .background(Color.white)
                         .clipShape(Circle())
-                    }else {
+                    } else {
                         VStack {
                             Image(systemName: "flag.2.crossed")
                                 .font(.system(size: 20))
@@ -131,7 +129,7 @@ struct TeamChangeButton: View {
                     }
                 })
                 .sheet(isPresented: $isShowingSheet) {
-                    TeamChangeModalView()
+                    TeamChangeModalView(teamObservable: teamObservable)
                 }
                 Spacer()
             }
@@ -170,17 +168,17 @@ struct ShareButton: View {
 
 // 팀 정보 텍스트 섹션
 struct TeamInfo: View {
-    let team: Team
+    @ObservedObject var teamObservable: TeamObservable
 
     var body: some View {
         VStack {
             HStack(alignment: .center) {
-                Text(team.teamName)
+                Text(teamObservable.currentTeam.teamName)
                     .font(.system(size: 18, weight: .bold))
                     .multilineTextAlignment(.center)
             }
             .padding(.bottom, 5)
-            Text(team.subTitle)
+            Text(teamObservable.currentTeam.subTitle)
                 .font(.system(size: 10))
             Spacer()
         }
