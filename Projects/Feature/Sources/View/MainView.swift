@@ -17,6 +17,7 @@ public struct MainView: View {
     @State private var isSharing = false
     @State private var isShowingSheet = false
     @State private var currentIndex: Int = 0
+    @State private var isLoading: Bool = true
 
     @StateObject private var teamObservable = TeamObservable()
     // 추후 model에서 반영 예정
@@ -46,6 +47,9 @@ public struct MainView: View {
                               .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
                 FieldCarouselButton(currentIndex: $currentIndex)
                     .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
+                if isLoading {
+                    LaunchScreenView().transition(.opacity).zIndex(1)
+                }
             }
             .background(
                 Image(asset: CommonAsset.background1)
@@ -55,6 +59,11 @@ public struct MainView: View {
                     .ignoresSafeArea()
             )
             .ignoresSafeArea()
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                    withAnimation { isLoading.toggle() }
+                })
+            }
         }
         .tint(tintColor)
     }
