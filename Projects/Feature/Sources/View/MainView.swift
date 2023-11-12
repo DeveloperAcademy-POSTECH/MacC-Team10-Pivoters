@@ -41,7 +41,7 @@ public struct MainView: View {
                               currentIndex: $currentIndex) { _ in
                     VStack {
                         Spacer()
-                        Image(asset: CommonAsset.field)
+                        FieldView(observable: FieldObservable())
                     }
                 }
                               .frame(maxHeight: 600)
@@ -67,23 +67,27 @@ struct FieldCarouselButton: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: {
-                    currentIndex = max(currentIndex - 1, 0)
-                }, label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 20))
-                })
-                .padding()
-                .contentShape(Rectangle())
+                if currentIndex != 0 {
+                    Button(action: {
+                        currentIndex = max(currentIndex - 1, 0)
+                    }, label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20))
+                    })
+                    .padding()
+                    .contentShape(Rectangle())
+                }
                 Spacer()
-                Button(action: {
-                    currentIndex = min(currentIndex + 1, 2)
-                }, label: {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 20))
-                })
-                .padding()
-                .contentShape(Rectangle())
+                if currentIndex != 2 {
+                    Button(action: {
+                        currentIndex = min(currentIndex + 1, 2)
+                    }, label: {
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 20))
+                    })
+                    .padding()
+                    .contentShape(Rectangle())
+                }
             }
             .padding(.horizontal)
             .padding(.bottom, 20)
