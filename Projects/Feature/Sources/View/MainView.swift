@@ -15,6 +15,7 @@ public struct MainView: View {
     public init() {}
 
     @State private var isSharing = false
+    @State private var isShowingSheet = false
     @State private var currentIndex: Int = 0
 
     private var someTeam = Team(id: UUID(),
@@ -27,9 +28,9 @@ public struct MainView: View {
     public var body: some View {
         NavigationView {
             ZStack {
-                TeamChangeButton()
+                TeamChangeButton(isShowingSheet: $isShowingSheet)
                 TeamInfo(team: someTeam)
-                    .blur(radius: isSharing ? 10 : 0)
+                    .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
                 // ShareImage 표시 -> 편집 화면에서 활용
                 if isSharing {
                     ShareImage()
@@ -45,13 +46,15 @@ public struct MainView: View {
                     }
                 }
                               .frame(maxHeight: 600)
+                              .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
                 FieldCarouselButton(currentIndex: $currentIndex)
+                    .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
             }
             .background(
                 Image(asset: CommonAsset.background1)
                     .resizable()
                     .scaledToFill()
-                    .blur(radius: isSharing ? 10 : 0)
+                    .blur(radius: (isSharing || isShowingSheet) ? 10 : 0)
                     .ignoresSafeArea()
             )
             .ignoresSafeArea()
@@ -97,26 +100,46 @@ struct FieldCarouselButton: View {
 
 // 팀 변경 버튼
 struct TeamChangeButton: View {
+    @Binding var isShowingSheet: Bool
+
     var body: some View {
         HStack {
             VStack {
                 Button(action: {
-                    print("tap!!")
+                    isShowingSheet.toggle()
                 }, label: {
-                    VStack {
-                        Image(systemName: "flag.2.crossed")
-                            .font(.system(size: 20))
-                        Text("팀 변경")
-                            .font(.system(size: 10))
-                            .foregroundStyle(Color.white)
+                    if isShowingSheet {
+                        VStack {
+                            Image(systemName: "flag.2.crossed")
+                                .foregroundColor(Color.black)
+                                .font(.system(size: 20))
+                            Text("팀 변경")
+                                .font(.system(size: 10))
+                                .foregroundStyle(Color.black)
+                        }
+                        .padding(.all, 9)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                    }else {
+                        VStack {
+                            Image(systemName: "flag.2.crossed")
+                                .font(.system(size: 20))
+                            Text("팀 변경")
+                                .font(.system(size: 10))
+                                .foregroundStyle(Color.white)
+                        }
                     }
                 })
+                .sheet(isPresented: $isShowingSheet) {
+                    TeamChangeModalView()
+                }
                 Spacer()
             }
             .padding(.top, 72)
             .padding(.leading, 19)
             Spacer()
         }
+        .animation(.easeInOut, value: isShowingSheet)
     }
 }
 
