@@ -12,16 +12,21 @@ import SwiftUI
 
 public struct MainView: View {
 
-    public init() {}
-
+    @State private var isPresented = true
     @State private var isSharing = false
     @State private var isShowingSheet = false
     @State private var currentIndex: Int = 0
+    @State var currentPresentationDetent: PresentationDetent = .fraction(0.2)
+    let presentationDetent: Set<PresentationDetent> = [.fraction(0.2), .fraction(0.45)]
+    let editHeight = UIScreen.main.bounds.size.height * 0.43
+    let defaultHeight = UIScreen.main.bounds.size.height * 0.2
     @State private var isLoading: Bool = true
 
     @StateObject private var teamObservable = TeamObservable()
     // 추후 model에서 반영 예정
     private var tintColor = Color.white
+
+    public init() {}
 
     public var body: some View {
         NavigationView {
@@ -65,8 +70,63 @@ public struct MainView: View {
                 })
             }
         }
+        .onChange(of: currentPresentationDetent) {
+            withAnimation {
+                print("hi")
+            }
+        }
+        .ignoresSafeArea()
         .tint(tintColor)
+        .sheet(isPresented: $isPresented) {
+            if currentPresentationDetent == .fraction(0.45) {
+                ModalSegmentedView()
+                    .presentationDragIndicator(.visible)
+                    .presentationDetents(presentationDetent, selection: $currentPresentationDetent)
+                    .presentationBackgroundInteraction(.enabled)
+                    .interactiveDismissDisabled()
+
+            } else {
+                Text("밀어올려서 편집하기")
+                    .presentationDragIndicator(.hidden)
+                    .presentationDetents(presentationDetent, selection: $currentPresentationDetent)
+                    .presentationBackgroundInteraction(.enabled)
+                    .interactiveDismissDisabled()
+            }
+        }
     }
+
+    @ViewBuilder
+    var selectSquadView: some View {
+        ZStack {
+            TeamChangeButton()
+            TeamInfo(team: someTeam)
+                .blur(radius: isSharing ? 10 : 0)
+            // ShareImage 표시 -> 편집 화면에서 활용
+            if isSharing {
+                ShareImage()
+                    .padding(.bottom, 400)
+            }
+            FieldCarousel(pageCount: 3,
+                          visibleEdgeSpace: -120,
+                          spacing: -30,
+                          currentIndex: $currentIndex) { _ in
+                VStack {
+                    Spacer()
+                    Image(asset: CommonAsset.field)
+                }
+            }
+                          .frame(maxHeight: 600)
+            FieldCarouselButton(currentIndex: $currentIndex)
+        }
+        .background(
+            Image(asset: CommonAsset.background1)
+                .resizable()
+                .scaledToFill()
+                .blur(radius: isSharing ? 10 : 0)
+                .ignoresSafeArea()
+        )
+    }
+
 }
 
 // 필드 캐러셀 버튼
