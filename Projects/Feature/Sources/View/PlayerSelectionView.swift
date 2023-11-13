@@ -14,7 +14,7 @@ import Core
 struct PlayerSelectionView: View {
     @State var observable: PlayerSelectionObservable
     var body: some View {
-        List {
+        ScrollView {
             addPlayerCell()
             ForEach($observable.playerList) { player in
                 PlayerCell(player: player)
@@ -31,8 +31,10 @@ struct PlayerSelectionView: View {
         HStack {
             Image(asset: CommonAsset.addButton)
             Text("선수 추가")
+                .padding(.horizontal)
+            Spacer()
         }
-        .listRowSeparator(.hidden)
+        .padding(.horizontal)
         .onTapGesture {
             observable.addPlayer()
         }
@@ -54,9 +56,11 @@ struct PlayerCell: View {
                 if editPlayer {
                     TextField("\(player.name)", text: $player.name)
                         .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal)
                 } else {
                     Text(player.name)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
                 }
             }
             .onTapGesture {
@@ -67,6 +71,6 @@ struct PlayerCell: View {
                     editPlayer.toggle()
                 }
         }
-        .listRowSeparator(.hidden)
+        .padding(.horizontal)
     }
 }
