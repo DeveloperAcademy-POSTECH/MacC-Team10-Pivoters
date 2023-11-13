@@ -12,6 +12,7 @@ import Foundation
 @Observable
 class FieldObservable {
     var formation: FormationType = .form433
+    var viewTrigger: Int = 0
     var lineup: Lineup = Lineup(id: UUID(),
                                     uniform: .basic,
                                     headcount: .eleven,

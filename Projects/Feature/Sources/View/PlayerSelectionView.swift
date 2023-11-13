@@ -13,6 +13,8 @@ import Core
 
 struct PlayerSelectionView: View {
     @State var observable: PlayerSelectionObservable
+    @Environment(FieldObservable.self) var fieldObservable
+
     var body: some View {
         ScrollView {
             addPlayerCell()

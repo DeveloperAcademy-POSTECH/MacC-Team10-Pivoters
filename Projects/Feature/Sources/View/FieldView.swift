@@ -12,38 +12,37 @@ import Common
 import Core
 
 struct FieldView: View {
-    @State var observable: FieldObservable
+    @Environment(FieldObservable.self) var fieldObservable
 
     var body: some View {
         ZStack {
             Image(asset: CommonAsset.field)
-                .coordinateSpace(name: "\(observable.formation)")
+                .coordinateSpace(name: "\(fieldObservable.formation)")
                 .onTapGesture {
-                    observable.changeFormation(.form523)
+                    fieldObservable.changeFormation(.form523)
                 }
-            ForEach($observable.lineup.players) { player in
-                  if player.isGoalkeeper.wrappedValue {
-                      PlayerView(player: player.wrappedValue)
-                          .offset(player.offset.draggedOffset.wrappedValue)
+            ForEach(fieldObservable.lineup.players) { player in
+                  if player.isGoalkeeper {
+                      PlayerView(player: player)
+                          .offset(player.offset.draggedOffset)
                   } else {
-                      PlayerView(player: player.wrappedValue)
-                          .offset(player.offset.draggedOffset.wrappedValue)
+                      PlayerView(player: player)
+                          .offset(player.offset.draggedOffset)
                           .gesture(
-                              DragGesture(coordinateSpace: .named("field"))
+                            DragGesture(coordinateSpace: .named("\(fieldObservable.viewTrigger)"))
                                   .onChanged { gesture in
                                       let draggedOffset =
- 
-                                      player.offset.accumulatedOffset.wrappedValue
+                                      player.offset.accumulatedOffset
                                       + gesture.translation
-                                      player.offset.draggedOffset.wrappedValue = draggedOffset
-
+                                      player.offset.draggedOffset = draggedOffset
                                       print("\(player.offset.draggedOffset)")
+                                      fieldObservable.viewTrigger = Int.random(in: 0..<100)
                                   }
                                   .onEnded { gesture in
                                       let accumulatedOffset =
-                                      player.offset.accumulatedOffset.wrappedValue
+                                      player.offset.accumulatedOffset
                                       + gesture.translation
-                                      player.offset.accumulatedOffset.wrappedValue = accumulatedOffset
+                                      player.offset.accumulatedOffset = accumulatedOffset
                                   }
                           )
                 }

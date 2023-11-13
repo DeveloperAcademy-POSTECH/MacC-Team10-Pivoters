@@ -11,6 +11,7 @@ import SwiftUI
 import Common
 
 public struct TempMainView: View {
+    @State private var fieldObservable = FieldObservable()
 
     @State var isPresented = true
     @State var currentPresentationDetent: PresentationDetent = .fraction(0.2)
@@ -24,7 +25,8 @@ public struct TempMainView: View {
         NavigationView {
             VStack {
                 Spacer()
-                Image(asset: CommonAsset.field)
+                FieldView()
+                    .environment(fieldObservable)
                     .animation(.default, value: currentPresentationDetent)
                     .padding(.bottom, currentPresentationDetent == .fraction(0.2) ? defaultHeight : editHeight)
             }
@@ -32,6 +34,7 @@ public struct TempMainView: View {
         .sheet(isPresented: $isPresented) {
             if currentPresentationDetent == .fraction(0.45) {
                 ModalSegmentedView()
+                    .environment(fieldObservable)
                     .presentationDragIndicator(.visible)
                     .presentationDetents(presentationDetent, selection: $currentPresentationDetent)
                     .presentationBackgroundInteraction(.enabled)
