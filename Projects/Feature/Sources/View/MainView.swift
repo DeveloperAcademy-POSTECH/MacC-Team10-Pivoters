@@ -33,16 +33,14 @@ public struct MainView: View {
         NavigationView {
             VStack {
                 Spacer()
-                Group {
-                    if currentPresentationDetent == .fraction(0.2) {
-                        selectSquadView
-                    } else {
-                        FieldView(observable: FieldObservable())
-                            .padding(.bottom, currentPresentationDetent == .fraction(0.2) ? defaultHeight : editHeight)
-                    }
+                if currentPresentationDetent == .fraction(0.2) {
+                    selectSquadView
+                        .animation(.default, value: currentPresentationDetent)
+                } else {
+                    FieldView(observable: FieldObservable())
+                        .padding(.bottom, currentPresentationDetent == .fraction(0.2) ? defaultHeight : editHeight)
+                        .animation(.default, value: currentPresentationDetent)
                 }
-                .animation(.default, value: currentPresentationDetent)
-
             }
         }
         .onChange(of: currentPresentationDetent) {
