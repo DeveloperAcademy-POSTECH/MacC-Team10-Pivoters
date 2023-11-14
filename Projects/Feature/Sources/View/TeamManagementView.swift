@@ -8,12 +8,41 @@
 
 import SwiftUI
 
-struct TeamManagementView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import Common
 
-#Preview {
-    TeamManagementView()
+struct TeamManagementView: View {
+
+    let colors = ["4-3-3", "3-5-2", "4-4-2"]
+    @State var selectedColors = "4-3-3"
+
+    var body: some View {
+        VStack {
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(Color(uiColor: .systemGray6))
+                .frame(height: 54)
+                .overlay {
+                    formationPicker
+                }
+                .padding(.horizontal, 20)
+            Spacer()
+        }
+    }
+
+    var formationPicker: some View {
+        HStack {
+            Text("포메이션")
+                .font(.Pretendard.semiBold14.font)
+                .tint(.colorBlack)
+            Spacer()
+            Picker("포메이션", selection: $selectedColors) {
+                ForEach(colors, id: \.self) {
+                    Text($0)
+                        .font(.Pretendard.black14.font)
+                }
+            }
+            .tint(.gray)
+            .pickerStyle(.menu)
+        }
+        .padding(.leading, 12)
+    }
 }
