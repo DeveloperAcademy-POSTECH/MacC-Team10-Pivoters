@@ -7,3 +7,10 @@
 //
 
 import Foundation
+import SwiftUI
+
+public extension Color {
+    static let colorBlack = Color(red: 51 / 255, green: 51 / 255, blue: 51 / 255)
+    static let colorWhite = Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255)
+    static let colorLightGray = Color(red: 204 / 255, green: 204 / 255, blue: 204 / 255)
+}
