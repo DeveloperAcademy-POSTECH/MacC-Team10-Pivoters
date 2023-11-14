@@ -13,10 +13,9 @@ import SwiftUI
 public struct MainView: View {
 
     @State private var isSharing = false
-    @State private var isShowTeamSheet = false
     @State private var isLoading = true
+    @State private var isShowTeamSheet = false
     @State private var isShowEditSheet = false
-    @State private var isPresented = true
     @State private var currentIndex: Int = 0
     @State private var editSheetOffset = CGFloat(0)
     @State private var editSheetIndicatorOffset = CGFloat(0)
@@ -41,7 +40,8 @@ public struct MainView: View {
                                  observable: observable)
                 TeamInfo(observable: observable,
                          isSharing: $isSharing,
-                         isShowTeamSheet: $isShowTeamSheet)
+                         isShowTeamSheet: $isShowTeamSheet,
+                         isShowEditSheet: $isShowEditSheet)
                 ShareImage(isSharing: $isSharing)
                 FieldCarouselButton(currentIndex: $currentIndex,
                                     isShowEditSheet: $isShowEditSheet,
@@ -311,22 +311,33 @@ struct TeamInfo: View {
     @ObservedObject var observable: TeamObservable
     @Binding var isSharing: Bool
     @Binding var isShowTeamSheet: Bool
+    @Binding var isShowEditSheet: Bool
 
     var body: some View {
         VStack {
             HStack(alignment: .center) {
                 Text(observable.currentTeam.teamName)
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.system(size: isShowEditSheet ? 22 : 18, weight: .bold))
                     .multilineTextAlignment(.center)
+                if isShowEditSheet {
+                    Spacer()
+                }
             }
             .padding(.bottom, 5)
-            Text(observable.currentTeam.subTitle)
-                .font(.system(size: 10))
+            HStack(alignment: .center) {
+                Text(observable.currentTeam.subTitle)
+                    .font(.system(size: 10))
+                if isShowEditSheet {
+                    Spacer()
+                }
+            }
             Spacer()
         }
         .foregroundColor(.white)
-        .padding(.top, 137)
+        .padding(.top, isShowEditSheet ? 95 : 137)
+        .padding(.leading, isShowEditSheet ? 24 : 0)
         .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
+        .animation(.easeInOut(duration: 0.3), value: isShowEditSheet)
     }
 }
 
