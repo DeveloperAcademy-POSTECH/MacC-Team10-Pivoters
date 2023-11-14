@@ -42,6 +42,9 @@ struct ModalSegmentedView: View {
                 Text("Squad")
             }
         }
+        .frame(height: 450)
+        .background(Color.white)
+        .tint(Color.black)
     }
 
     func segmentedControl(buttonType: EditType) -> some View {
@@ -79,4 +82,3 @@ enum EditType {
 #Preview {
     ModalSegmentedView()
 }
-

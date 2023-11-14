@@ -8,21 +8,25 @@
 
 import Foundation
 import SwiftUI
-import LinkPresentation
 
 public struct ShareView: View {
-
+    @State private var isSharing = false
+    
     public init() {}
 
     public var body: some View {
-        ShareImage()
+        ShareImage(isSharing: $isSharing)
     }
 }
 
 struct ShareImage: View {
+    @Binding var isSharing: Bool
 
     var body: some View {
-        Color.red
-            .frame(width: 200, height: 200)
+        if isSharing {
+            Color.red
+                .frame(width: 200, height: 200)
+                .padding(.bottom, 400)
+        }
     }
 }

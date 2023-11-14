@@ -1,5 +1,5 @@
 //
-//  FIeldCarousel.swift
+//  Carousel.swift
 //  Feature
 //
 //  Created by Ha Jong Myeong on 11/10/23.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct FieldCarousel<Content: View>: View {
+public struct Carousel<Content: View>: View {
     public typealias PageIndex = Int
 
     let pageCount: Int
