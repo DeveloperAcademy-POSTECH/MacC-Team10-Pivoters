@@ -133,7 +133,6 @@ struct FieldCarousel: View {
                  .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
                  .animation(.easeInOut(duration: 0.4), value: isShowEditSheet)
     }
-
 }
 
 // "밀어올려서 편집하기" 전환 영역
@@ -141,39 +140,41 @@ struct EditSheetIndicator: View {
     @Binding var isShowEditSheet: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var editSheetIndicatorOffset: CGFloat
-    let maxDragHeight: CGFloat = 230
 
     var body: some View {
-        if !isShowEditSheet {
-            VStack {
-                Spacer()
+        GeometryReader { geometry in
+            let screenHeight = geometry.size.height
+            let maxDragHeight = screenHeight / 3
+            if !isShowEditSheet {
                 VStack {
-                    Image(systemName: "arrowshape.up")
-                        .foregroundStyle(Color.white)
-                        .padding(.bottom, 10)
-                    Text("밀어올려서 편집하기")
-                        .foregroundStyle(Color.white)
+                    Spacer()
+                    VStack {
+                        Image(systemName: "arrowshape.up")
+                            .foregroundStyle(Color.white)
+                            .padding(.bottom, 10)
+                        Text("밀어올려서 편집하기")
+                            .foregroundStyle(Color.white)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 136)
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 136)
-                .background(Color.gray.opacity(0.3))
+                .offset(y: editSheetIndicatorOffset)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if value.translation.height < 0 && editSheetIndicatorOffset > -maxDragHeight {
+                                editSheetIndicatorOffset = max(value.translation.height, -maxDragHeight)
+                            }
+                        }
+                        .onEnded { _ in
+                            if editSheetIndicatorOffset <= -maxDragHeight / 2 {
+                                isShowEditSheet = true
+                            }
+                            editSheetIndicatorOffset = 0
+                        }
+                )
+                .blur(radius: isShowTeamSheet ? 10 : 0)
             }
-            .offset(y: editSheetIndicatorOffset)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        if value.translation.height < 0 && editSheetIndicatorOffset > -maxDragHeight {
-                            editSheetIndicatorOffset = max(value.translation.height, -maxDragHeight)
-                        }
-                    }
-                    .onEnded { _ in
-                        if editSheetIndicatorOffset <= -maxDragHeight / 2 {
-                            isShowEditSheet = true
-                        }
-                        editSheetIndicatorOffset = 0
-                    }
-            )
-            .blur(radius: isShowTeamSheet ? 10 : 0)
         }
     }
 }
