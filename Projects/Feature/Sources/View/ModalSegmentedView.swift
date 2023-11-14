@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+import Core
 import Common
 
 struct ModalSegmentedView: View {
@@ -39,12 +40,23 @@ struct ModalSegmentedView: View {
             case .player:
                 Text("Player")
             case .management:
-                TeamManagementView()
-                    .padding(.top, 24)
-                PlayerSelectionView(observable: PlayerSelectionObservable())
-                    .environment(fieldObservable)
-            case .squad:
-                Text("Squad")
+                TeamManagementView(
+                    observable: TeamManagementObservable(
+                        lineup: Lineup(id: UUID(),
+                                       uniform: .plain,
+                                       formation: .eleven,
+                                       selectedTypeOfFormation: .football4231,
+                                       players: MockData.player,
+                                       primaryColor: UniformColor(red: 0.4,
+                                                                  green: 0.4,
+                                                                  blue: 0.4),
+                                       secondaryColor: UniformColor(red: 0.2,
+                                                                    green: 0.2,
+                                                                    blue: 0.2)
+                                      )
+                    )
+                )
+                .padding(.top, 24)
             }
         }
         .frame(height: 450)
