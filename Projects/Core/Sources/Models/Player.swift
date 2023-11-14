@@ -8,13 +8,16 @@
 
 import Foundation
 
+@Observable
 public final class Player: Identifiable {
-    public let name: String
-    public let number: Int
+    public var id: UUID?
+    public var name: String
+    public var number: Int
     public var isGoalkeeper: Bool
     public var offset: OffsetValue
 
-    public init(name: String, number: Int, isGoalkeeper: Bool, offset: OffsetValue) {
+    public init(id: UUID? = nil, name: String, number: Int, isGoalkeeper: Bool, offset: OffsetValue) {
+        self.id = id
         self.name = name
         self.number = number
         self.isGoalkeeper = isGoalkeeper

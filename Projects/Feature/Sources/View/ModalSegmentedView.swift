@@ -13,7 +13,7 @@ import Common
 struct ModalSegmentedView: View {
 
     @State var editType: EditType = .theme
-
+    @Environment(FieldObservable.self) var fieldObservable
     var body: some View {
         VStack(spacing: 0) {
             Rectangle()
@@ -36,7 +36,8 @@ struct ModalSegmentedView: View {
                 UniformView(observable: UniformObservable())
                     .padding(.top, 24)
             case .player:
-                Text("Player")
+                PlayerSelectionView(observable: PlayerSelectionObservable())
+                    .environment(fieldObservable)
             case .squad:
                 Text("Squad")
             }

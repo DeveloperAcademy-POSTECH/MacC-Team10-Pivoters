@@ -8,6 +8,7 @@
 
 import Foundation
 
+@Observable
 public final class Lineup {
 
     public let id: UUID

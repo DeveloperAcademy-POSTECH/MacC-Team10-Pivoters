@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 
+@Observable
 public final class OffsetValue {
     public var draggedOffset: CGSize
     public var accumulatedOffset: CGSize
