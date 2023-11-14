@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+import Common
+
 struct ModalSegmentedView: View {
 
     @State var editType: EditType = .theme
@@ -46,7 +48,8 @@ struct ModalSegmentedView: View {
             self.editType = buttonType
         } label: {
             Text(buttonType.title)
-                .opacity(editType == buttonType ? 1 : 0.4)
+                .foregroundColor(editType == buttonType ? .colorBlack : .colorLightGray)
+                .font(.Pretendard.semiBold14.font)
         }
     }
 
