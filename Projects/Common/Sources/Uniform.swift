@@ -12,16 +12,32 @@ import SwiftUI
 import Core
 
 extension Uniform {
-    public var assets: [Image] {
+
+    public var primary: Image {
         switch self {
-        case .basic:
-            return [Image(asset: CommonAsset.uniform),
-                    Image(asset: CommonAsset.tempsvg),
-                    Image(asset: CommonAsset.field)]
+        case .plain:
+            Image(asset: CommonAsset.plainPrimary)
         case .stripe:
-            return [Image(asset: CommonAsset.field),
-                    Image(asset: CommonAsset.tempsvg),
-                    Image(asset: CommonAsset.uniform)]
+            Image(asset: CommonAsset.stripePrimary)
         }
     }
+
+    public var secondary: Image? {
+        switch self {
+        case .plain:
+            nil
+        case .stripe:
+            Image(asset: CommonAsset.stripeSecondary)
+        }
+    }
+
+    public var border: Image {
+        switch self {
+        case .plain:
+            Image(asset: CommonAsset.plainBorder)
+        case .stripe:
+            Image(asset: CommonAsset.stripeBorder)
+        }
+    }
+
 }
