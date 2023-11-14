@@ -10,15 +10,15 @@ import Foundation
 import SwiftUI
 
 public extension Font {
-    enum FontSystem { 
+    enum Pretendard {
         case headerLarge
         case headerNormal
         case black14
         case semiBold14
         case regular12
         case subhead
-
-        var pretendard: Font {
+        
+        public var font: Font {
             switch self {
             case .headerLarge:
                 CommonFontFamily.Pretendard.black.swiftUIFont(size: 22)
