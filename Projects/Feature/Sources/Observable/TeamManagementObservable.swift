@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+import Core
+
+@Observable
+final class TeamManagementObservable {
+    var lineup: Lineup
+    var selectedTypeOfFormation: TypeOfFormation
+
+    init(lineup: Lineup) {
+        self.lineup = lineup
+        self.selectedTypeOfFormation = lineup.selectedTypeOfFormation
+    }
+}
