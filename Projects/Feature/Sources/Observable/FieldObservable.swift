@@ -36,11 +36,45 @@ class FieldObservable {
 
     func selectPlayer(_ player: Player) {
         guard let index = selectionPlayerIndex else { return }
-        player.offset = lineup.players[index].offset
-        player.isGoalkeeper = lineup.players[index].isGoalkeeper
-        player.number = lineup.players[index].number
-        player.id = lineup.players[index].id
+        if lineup.players[index].name == " " {
+            if player.id != nil {
+                for positionIndex in 0..<lineup.players.count {
+                    if lineup.players[positionIndex].id == player.id {
+                        let human = Player(id: player.id,
+                                           name: " ",
+                                           number: player.number,
+                                           isGoalkeeper: player.isGoalkeeper,
+                                           offset: player.offset
+                        )
 
-        lineup.players[index] = player
+                        lineup.players[positionIndex] = human
+                    }
+                }
+            }
+            player.offset = lineup.players[index].offset
+            player.isGoalkeeper = lineup.players[index].isGoalkeeper
+            player.number = lineup.players[index].number
+            player.id = lineup.players[index].id
+
+            lineup.players[index] = player
+        } else {
+            if player.id != nil {
+                for positionIndex in 0..<lineup.players.count {
+                    if lineup.players[positionIndex].id == player.id {
+                        let swapOffset = lineup.players[index].offset
+                        lineup.players[index].offset = player.offset
+                        player.offset = swapOffset
+                    }
+                }
+            } else {
+                player.offset = lineup.players[index].offset
+                player.isGoalkeeper = lineup.players[index].isGoalkeeper
+                player.number = lineup.players[index].number
+                player.id = lineup.players[index].id
+
+                lineup.players[index].id = nil
+                lineup.players[index] = player
+            }
+        }
     }
 }

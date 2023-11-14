@@ -18,15 +18,11 @@ struct PlayerSelectionView: View {
     var body: some View {
         ScrollView {
             addPlayerCell()
-            ForEach($observable.playerList) { player in
-                PlayerCell(player: player)
+            ForEach(observable.playerList.indices, id: \.hashValue) { index in
+                PlayerCell(player: $observable.playerList[index])
                     .environment(fieldObservable)
             }
-            .onDelete(perform: { indexSet in
-                observable.playerList.remove(atOffsets: indexSet)
-            })
         }
-        .listStyle(.plain)
 
     }
 
@@ -42,11 +38,6 @@ struct PlayerSelectionView: View {
             observable.addPlayer()
         }
     }
-}
-
-enum PlayerCellType {
-    case addPlayer
-    case player
 }
 
 struct PlayerCell: View {
