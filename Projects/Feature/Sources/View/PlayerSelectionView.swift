@@ -56,21 +56,36 @@ struct PlayerCell: View {
 
     var body: some View {
         HStack {
-            HStack {
-                Image(asset: CommonAsset.cirecleUniform)
-                if editPlayer {
-                    TextField("\(player.name)", text: $player.name)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                } else {
+            Image(asset: CommonAsset.cirecleUniform)
+                .onTapGesture {
+                    print("선수 선택")
+                    fieldObservable.selectPlayer(player)
+                }
+            if editPlayer {
+                TextField("\(player.name)", text: $player.name)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+            } else {
+                HStack {
                     Text(player.name)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
+                    Spacer()
+                    if player.id != nil {
+                        Text("등록 완료")
+                            .font(.system(size: 10))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(lineWidth: 1.0)
+                            )
+                    }
                 }
-            }
-            .onTapGesture {
-                print("선수 선택")
-                fieldObservable.selectPlayer(player)
+                .onTapGesture {
+                    print("선수 선택")
+                    fieldObservable.selectPlayer(player)
+                }
             }
             Image(systemName: "square.and.pencil")
                 .onTapGesture {
