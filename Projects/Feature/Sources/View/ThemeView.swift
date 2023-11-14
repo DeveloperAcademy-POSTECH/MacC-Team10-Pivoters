@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+import Core
 import Common
 
 struct ThemeView: View {
@@ -37,7 +38,7 @@ struct ThemeView: View {
     }
     
     func themeCell(theme: Theme, isSelected: Bool) -> some View {
-        return theme.image
+        return theme.preview
             .resizable()
             .opacity(isSelected ? 0.7 : 1)
             .cornerRadius(8)
@@ -50,9 +51,10 @@ struct ThemeView: View {
                 }
             }
             .onTapGesture {
+                /// Todo
+                /// - 이후에 lineup 모델의 프로퍼티에 theme이 추가되어야 함.
+                /// - selectedTheme이 메인뷰에 있는 lineup 인스턴스의 theme이 되어야 함.
                 observable.selectedTheme = theme
-                ///Todo
-                /// - Theme Asset 고르는 enum에 맞추어 ThemeType도 같이 변해야 함.
             }
     }
 }
