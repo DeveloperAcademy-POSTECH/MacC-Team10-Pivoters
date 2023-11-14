@@ -16,12 +16,12 @@ public enum TypeOfFormation: String {
     case football4141 = "4-1-4-1"
     case football523 = "5-2-3"
 
-    case form121 = "1-2-1"
-    case form22 = "2-2"
+    case futsal121 = "1-2-1"
+    case futsal22 = "2-2"
 
-    case form32 = "3-2"
-    case form212 = "2-1-2"
-    case form131 = "1-3-1"
+    case futsal32 = "3-2"
+    case futsal212 = "2-1-2"
+    case futsal131 = "1-3-1"
 
     public func returnPosition() -> [CGSize] {
         switch self {
@@ -79,31 +79,31 @@ public enum TypeOfFormation: String {
                 CGSize(width: -50, height: -20), CGSize(width: 0, height: -80),
                 CGSize(width: 130, height: -80), CGSize(width: -130, height: -80)
             ]
-        case .form121:
+        case .futsal121:
             return [
                 CGSize(width: 0, height: 100),
                 CGSize(width: 0, height: 40), CGSize(width: -130, height: -15),
                 CGSize(width: 130, height: -15), CGSize(width: 0, height: -80)
             ]
-        case .form22:
+        case .futsal22:
             return [
                 CGSize(width: 0, height: 100),
                 CGSize(width: -130, height: 40), CGSize(width: 130, height: 40),
                 CGSize(width: -130, height: -80), CGSize(width: 130, height: -80)
             ]
-        case .form32:
+        case .futsal32:
             return [
                 CGSize(width: 0, height: 100), CGSize(width: 0, height: 40),
                 CGSize(width: -130, height: 40), CGSize(width: 130, height: 40),
                 CGSize(width: -80, height: -80), CGSize(width: 80, height: -80)
             ]
-        case .form212:
+        case .futsal212:
             return [
                 CGSize(width: 0, height: 100), CGSize(width: -130, height: 40),
                 CGSize(width: 130, height: 40), CGSize(width: 0, height: -15),
                 CGSize(width: -130, height: -80), CGSize(width: 130, height: -80)
             ]
-        case .form131:
+        case .futsal131:
             return [
                 CGSize(width: 0, height: 100), CGSize(width: 0, height: 40),
                 CGSize(width: 0, height: -15), CGSize(width: -130, height: -15),
