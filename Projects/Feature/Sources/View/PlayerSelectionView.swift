@@ -20,6 +20,7 @@ struct PlayerSelectionView: View {
             addPlayerCell()
             ForEach($observable.playerList) { player in
                 PlayerCell(player: player)
+                    .environment(fieldObservable)
             }
             .onDelete(perform: { indexSet in
                 observable.playerList.remove(atOffsets: indexSet)
@@ -51,6 +52,8 @@ enum PlayerCellType {
 struct PlayerCell: View {
     @Binding var player: Player
     @State var editPlayer = false
+    @Environment(FieldObservable.self) var fieldObservable
+
     var body: some View {
         HStack {
             HStack {
@@ -67,6 +70,7 @@ struct PlayerCell: View {
             }
             .onTapGesture {
                 print("선수 선택")
+                fieldObservable.selectPlayer(player)
             }
             Image(systemName: "square.and.pencil")
                 .onTapGesture {

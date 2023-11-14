@@ -17,32 +17,35 @@ struct FieldView: View {
     var body: some View {
         ZStack {
             Image(asset: CommonAsset.field)
-                .onTapGesture {
-                    fieldObservable.changeFormation(.form523)
-                }
-            ForEach(fieldObservable.lineup.players) { player in
-                  if player.isGoalkeeper {
-                      PlayerView(player: player)
-                          .offset(player.offset.draggedOffset)
+            ForEach(0..<fieldObservable.lineup.headcount.rawValue, id: \.hashValue) { index in
+                if fieldObservable.lineup.players[index].isGoalkeeper {
+                      PlayerView(player: fieldObservable.lineup.players[index])
+                          .offset(fieldObservable.lineup.players[index].offset.draggedOffset)
+                          .onTapGesture {
+                              fieldObservable.selectionPlayerIndex = index
+                          }
                   } else {
-                      PlayerView(player: player)
-                          .offset(player.offset.draggedOffset)
+                      PlayerView(player: fieldObservable.lineup.players[index])
+                          .offset(fieldObservable.lineup.players[index].offset.draggedOffset)
                           .gesture(
                             DragGesture()
                                   .onChanged { gesture in
                                       let draggedOffset =
-                                      player.offset.accumulatedOffset
+                                      fieldObservable.lineup.players[index].offset.accumulatedOffset
                                       + gesture.translation
-                                      player.offset.draggedOffset = draggedOffset
-                                      print("\(player.offset.draggedOffset)")
+                                      fieldObservable.lineup.players[index].offset.draggedOffset = draggedOffset
+                                      print("\(fieldObservable.lineup.players[index].offset.draggedOffset)")
                                   }
                                   .onEnded { gesture in
                                       let accumulatedOffset =
-                                      player.offset.accumulatedOffset
+                                      fieldObservable.lineup.players[index].offset.accumulatedOffset
                                       + gesture.translation
-                                      player.offset.accumulatedOffset = accumulatedOffset
+                                      fieldObservable.lineup.players[index].offset.accumulatedOffset = accumulatedOffset
                                   }
                           )
+                          .onTapGesture {
+                              fieldObservable.selectionPlayerIndex = index
+                          }
                 }
             }
         }

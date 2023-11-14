@@ -11,6 +11,7 @@ import Foundation
 
 @Observable
 class FieldObservable {
+    var selectionPlayerIndex: Int?
     var lineup: Lineup = Lineup(id: UUID(),
                                     uniform: .basic,
                                     headcount: .eleven,
@@ -31,5 +32,15 @@ class FieldObservable {
         }
         print("@Log changeFormation")
         print("\(lineup.players[1].offset.draggedOffset.width)")
+    }
+
+    func selectPlayer(_ player: Player) {
+        guard let index = selectionPlayerIndex else { return }
+        player.offset = lineup.players[index].offset
+        player.isGoalkeeper = lineup.players[index].isGoalkeeper
+        player.number = lineup.players[index].number
+        player.id = lineup.players[index].id
+
+        lineup.players[index] = player
     }
 }
