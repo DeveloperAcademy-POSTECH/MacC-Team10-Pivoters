@@ -17,7 +17,8 @@ public final class UniformObservable {
 
     var lineup = Lineup(id: UUID(),
                         uniform: .plain,
-                        headcount: .eleven,
+                        formation: .eleven,
+                        selectedTypeOfFormation: .football4231,
                         players: MockData.player,
                         primaryColor: UniformColor(red: 0.4,
                                                    green: 0.4,
