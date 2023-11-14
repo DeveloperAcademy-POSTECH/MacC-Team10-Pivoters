@@ -11,8 +11,6 @@ import Foundation
 
 @Observable
 class FieldObservable {
-    var formation: FormationType = .form433
-    var viewTrigger: Int = 0
     var lineup: Lineup = Lineup(id: UUID(),
                                     uniform: .basic,
                                     headcount: .eleven,
@@ -31,7 +29,6 @@ class FieldObservable {
             lineup.players[index].offset.accumulatedOffset = formationOffsets[index]
             lineup.players[index].offset.draggedOffset = formationOffsets[index]
         }
-        formation = formationType
         print("@Log changeFormation")
         print("\(lineup.players[1].offset.draggedOffset.width)")
     }

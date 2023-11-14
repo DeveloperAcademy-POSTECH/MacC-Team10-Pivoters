@@ -8,6 +8,7 @@
 
 import Foundation
 
+@Observable
 public final class Player: Identifiable {
     public var name: String
     public let number: Int

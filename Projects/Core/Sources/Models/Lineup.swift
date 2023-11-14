@@ -8,6 +8,7 @@
 
 import Foundation
 
+@Observable
 public final class Lineup {
 
     public let id: UUID
@@ -16,7 +17,6 @@ public final class Lineup {
     public var players: [Player]
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
-
 
     public init(
         id: UUID,

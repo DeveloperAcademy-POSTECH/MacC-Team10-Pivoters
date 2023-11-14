@@ -17,7 +17,6 @@ struct FieldView: View {
     var body: some View {
         ZStack {
             Image(asset: CommonAsset.field)
-                .coordinateSpace(name: "\(fieldObservable.formation)")
                 .onTapGesture {
                     fieldObservable.changeFormation(.form523)
                 }
@@ -29,14 +28,13 @@ struct FieldView: View {
                       PlayerView(player: player)
                           .offset(player.offset.draggedOffset)
                           .gesture(
-                            DragGesture(coordinateSpace: .named("\(fieldObservable.viewTrigger)"))
+                            DragGesture()
                                   .onChanged { gesture in
                                       let draggedOffset =
                                       player.offset.accumulatedOffset
                                       + gesture.translation
                                       player.offset.draggedOffset = draggedOffset
                                       print("\(player.offset.draggedOffset)")
-                                      fieldObservable.viewTrigger = Int.random(in: 0..<100)
                                   }
                                   .onEnded { gesture in
                                       let accumulatedOffset =
