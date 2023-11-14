@@ -15,25 +15,37 @@ struct OverlapUniform: View {
 
     let uniform: Uniform
     let uniformSize: CGFloat
-    var uniformColors: [UniformColor]
+    var primaryColor: UniformColor
+    var secondaryColor: UniformColor
     var isSelected: Bool
 
     var body: some View {
         ZStack {
-            uniform.assets[2]
+            uniform.border
                 .resizable()
                 .frame(width: uniformSize, height: uniformSize)
-            ForEach(0..<2) { index in
-                let color = Color(.sRGB,
-                                  red: uniformColors[index].red,
-                                  green: uniformColors[index].green,
-                                  blue: uniformColors[index].blue)
-                uniform.assets[index]
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundColor(color)
-                    .frame(width: uniformSize, height: uniformSize)
-            }
+            let primaryColor = Color(.sRGB,
+                                     red: self.primaryColor.red,
+                                     green: self.primaryColor.green,
+                                     blue: self.primaryColor.blue)
+            uniform.primary
+                .resizable()
+                .renderingMode(.template)
+                .foregroundColor(primaryColor)
+                .frame(width: uniformSize, height: uniformSize)
+
+//            if let secondary = uniform.secondary {
+//                let secondaryColor = Color(.sRGB,
+//                                           red: self.secondaryColor.red,
+//                                           green: self.secondaryColor.green,
+//                                           blue: self.secondaryColor.blue)
+//                secondary
+//                    .resizable()
+//                    .renderingMode(.template)
+//                    .foregroundColor(secondaryColor)
+//                    .frame(width: uniformSize, height: uniformSize)
+//            }
+
             if isSelected {
                 Image(systemName: "checkmark.circle")
                     .resizable()

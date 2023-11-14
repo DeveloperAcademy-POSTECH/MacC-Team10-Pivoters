@@ -16,7 +16,7 @@ struct UniformView: View {
     @State var observable: UniformObservable
     @State var primaryColor: Color
     @State var secondaryColor: Color
-    @State var selectedUniform: Uniform = .basic
+    @State var selectedUniform: Uniform = .plain
     @State var isPresented: Bool = false
     let rows = [GridItem(.fixed(100))]
 
@@ -43,6 +43,7 @@ struct UniformView: View {
                     }
                 }
             }
+
             .padding(.horizontal, 20)
             .frame(height: 100)
             RoundedRectangle(cornerSize: CGSize(width: 12, height: 12))
@@ -86,8 +87,8 @@ struct UniformView: View {
     func overlapUniform(uniform: Uniform, uniformSize: CGFloat, isSelected: Bool) -> some View {
         return OverlapUniform(uniform: uniform,
                               uniformSize: 80,
-                              uniformColors: [observable.lineup.primaryColor,
-                                              observable.lineup.secondaryColor],
+                              primaryColor: observable.lineup.primaryColor,
+                              secondaryColor: observable.lineup.secondaryColor,
                               isSelected: isSelected)
         .padding(.trailing, 22)
         .opacity(isSelected ? 0.7 : 1)

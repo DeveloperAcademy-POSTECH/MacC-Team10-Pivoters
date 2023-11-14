@@ -8,10 +8,10 @@
 
 import Foundation
 
-import Common
+import Core
 
 @Observable
 final class ThemeObservable {
-    let theme: [Theme] = [.blueGray, .blackGreen, .orangeGray, .skyGray]
-    var selectedTheme: Theme = .blueGray 
+    let theme: [Theme] = [.blueGray, .whiteGreen, .blackBlue, .grayBlack]
+    var selectedTheme: Theme = .blueGray
 }

@@ -17,7 +17,6 @@ public final class Lineup {
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
 
-
     public init(
         id: UUID,
         uniform: Uniform,
@@ -25,13 +24,13 @@ public final class Lineup {
         players: [Player],
         primaryColor: UniformColor,
         secondaryColor: UniformColor) {
-        self.id = id
-        self.uniform = uniform
-        self.headcount = headcount
-        self.players = players
-        self.primaryColor = primaryColor
-        self.secondaryColor = secondaryColor
-    }
+            self.id = id
+            self.uniform = uniform
+            self.headcount = headcount
+            self.players = players
+            self.primaryColor = primaryColor
+            self.secondaryColor = secondaryColor
+        }
 }
 
 public struct UniformColor {
@@ -47,8 +46,15 @@ public struct UniformColor {
 }
 
 public enum Uniform: Codable {
-    case basic
+    case plain
     case stripe
+}
+
+public enum Theme: Codable {
+    case blueGray
+    case whiteGreen
+    case blackBlue
+    case grayBlack
 }
 
 public enum Headcount: Int, Codable {
