@@ -12,8 +12,13 @@ import Common
 
 struct TeamManagementView: View {
 
-    let colors = ["4-3-3", "3-5-2", "4-4-2"]
-    @State var selectedColors = "4-3-3"
+//    let colors = ["4-3-3", "3-5-2", "4-4-2"]
+//    @State var selectedColors = "4-3-3"
+    @State var observable: TeamManagementObservable
+
+    init(observable: TeamManagementObservable) {
+        self.observable = observable
+    }
 
     var body: some View {
         VStack {
@@ -34,9 +39,9 @@ struct TeamManagementView: View {
                 .font(.Pretendard.semiBold14.font)
                 .tint(.colorBlack)
             Spacer()
-            Picker("포메이션", selection: $selectedColors) {
-                ForEach(colors, id: \.self) {
-                    Text($0)
+            Picker("포메이션", selection: $observable.selectedTypeOfFormation) {
+                ForEach(observable.lineup.formation.typeOfFormation, id: \.self) {
+                    Text($0.rawValue)
                         .font(.Pretendard.black14.font)
                 }
             }
