@@ -23,7 +23,7 @@ struct ModalSegmentedView: View {
                 segmentedControl(buttonType: .theme)
                 segmentedControl(buttonType: .uniform)
                 segmentedControl(buttonType: .player)
-                segmentedControl(buttonType: .squad)
+                segmentedControl(buttonType: .management)
                 Spacer()
             }
             .padding(.horizontal, 20)
@@ -37,6 +37,10 @@ struct ModalSegmentedView: View {
                 UniformView(observable: UniformObservable())
                     .padding(.top, 24)
             case .player:
+                Text("Player")
+            case .management:
+                TeamManagementView()
+                    .padding(.top, 24)
                 PlayerSelectionView(observable: PlayerSelectionObservable())
                     .environment(fieldObservable)
             case .squad:
@@ -46,6 +50,7 @@ struct ModalSegmentedView: View {
         .frame(height: 450)
         .background(Color.white)
         .tint(Color.black)
+        .padding(.top, 8)
     }
 
     func segmentedControl(buttonType: EditType) -> some View {
@@ -64,7 +69,7 @@ enum EditType {
     case theme
     case uniform
     case player
-    case squad
+    case management
 
     var title: String {
         switch self {
@@ -74,8 +79,8 @@ enum EditType {
             "유니폼"
         case .player:
             "선수"
-        case .squad:
-            "스쿼드"
+        case .management:
+            "팀 관리"
         }
     }
 }
