@@ -46,7 +46,7 @@ public struct UniformColor {
 }
 
 public enum Uniform: Codable {
-    case basic
+    case plain
     case stripe
 }
 

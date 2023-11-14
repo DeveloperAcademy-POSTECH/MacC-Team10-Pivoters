@@ -16,7 +16,7 @@ import Common
 public final class UniformObservable {
 
     var lineup = Lineup(id: UUID(),
-                        uniform: .basic,
+                        uniform: .plain,
                         headcount: .eleven,
                         players: MockData.player,
                         primaryColor: UniformColor(red: 0.4,
@@ -26,7 +26,7 @@ public final class UniformObservable {
                                                      green: 0.2,
                                                      blue: 0.2))
 
-    var uniforms: [Uniform] = [.basic, .stripe]
+    var uniforms: [Uniform] = [.plain, .stripe]
 
     public init () { }
 
@@ -46,7 +46,8 @@ public final class UniformObservable {
 
     func stringToDouble(colors: [String]) -> [Double] {
         var colorsTypeDouble: [Double] = []
-        for index in 1..<5 {
+        /// index 1,2,3 -> RGB
+        for index in 1..<4 {
             colorsTypeDouble.append(Double(colors[index]) ?? 0.1)
         }
         return colorsTypeDouble
