@@ -1,30 +1,27 @@
 //
-//  Team.swift
+//  RefactoredTeam.swift
 //  Core
 //
-//  Created by 한지석 on 11/7/23.
+//  Created by Eojin Choi on 11/15/23.
 //  Copyright © 2023 com.pivoters. All rights reserved.
 //
 
 import Foundation
 import SwiftData
 
-@Observable
-public final class Team {
+@Model
+public final class RefactoredTeam {
     public let id: UUID
     public let teamName: String
     public let subTitle: String
-    public let lineup: [Lineup]
-    
+
     public init(
         id: UUID,
         teamName: String,
-        subTitle: String,
-        lineup: [Lineup]
-    ) {
+        subTitle: String)
+    {
         self.id = id
         self.teamName = teamName
         self.subTitle = subTitle
-        self.lineup = lineup
     }
 }
