@@ -7,49 +7,73 @@
 //
 
 import SwiftUI
+
+import Core
 import Common
 
 struct TeamChangeModalView: View {
-    @ObservedObject var teamObservable: TeamObservable
+
+    @State var observable: TeamObservable
 
     var body: some View {
         VStack {
-            TeamList(teamObservable: teamObservable)
+            TeamList(observable: $observable)
         }
-        .presentationDetents([.height(334), .medium, .large])
+        .presentationDetents([.fraction(0.5)])
         .presentationBackground(.regularMaterial)
     }
 }
 
 struct TeamList: View {
-    @ObservedObject var teamObservable: TeamObservable
+
+    @Binding var observable: TeamObservable
 
     var body: some View {
-        ForEach(teamObservable.mockTeams, id: \.id) { team in
-            VStack {
-                HStack {
-                    Image(asset: CommonAsset.uniform)
-                        .resizable()
-                        .opacity(teamObservable.currentTeam.id == team.id ? 1 : 0.4)
-                        .frame(width: 36, height: 36)
-                        .padding(.trailing, 60)
-
-                    VStack {
-                        Text(team.teamName)
-                            .font(.system(size: 14))
-                            .fontWeight(.bold)
-                        Text("스쿼드 1개")
-                            .font(.system(size: 10))
+        List {
+            ForEach(observable.teams, id: \.id) { team in
+                TeamCell(team: team, cellType: .select)
+                    .teamCellViewModifier()
+                    .onTapGesture {
                     }
+            }
+            TeamCell(team: nil, cellType: .add)
+                .teamCellViewModifier()
+                .onTapGesture {
                 }
-            }
-            .frame(width: 272, height: 62)
-            .background(teamObservable.currentTeam.id == team.id ? Color.white : Color.white.opacity(0.6))
-            .foregroundStyle(teamObservable.currentTeam.id == team.id ? Color.black : Color.black.opacity(0.4))
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .onTapGesture {
-                teamObservable.updateTeam(with: team)
-            }
         }
+        .padding(.top, 24)
+        .padding(.horizontal, 60)
+        .listStyle(.plain)
+        .listRowSpacing(12)
+        .background(.regularMaterial)
+        .scrollContentBackground(.hidden)
+    }
+}
+
+enum TeamCellType {
+    case add
+    case select
+}
+
+struct TeamCell: View {
+
+    let team: Team?
+    let cellType: TeamCellType
+
+    var body: some View {
+        HStack(alignment: .center) {
+            Image(asset: CommonAsset.uniform)
+                .resizable()
+                .frame(width: 36, height: 36)
+                .padding(.leading, 34)
+            Spacer()
+            Text(cellType == .select ? team!.teamName : "+ 새로운 팀 추가")
+                .foregroundStyle(cellType == .select ? Color.colorBlack : Color.colorLightGray)
+                .font(.Pretendard.black14.font)
+                .fontWeight(.bold)
+            Spacer()
+        }
+        .frame(height: 60)
+        .background(.white)
     }
 }
