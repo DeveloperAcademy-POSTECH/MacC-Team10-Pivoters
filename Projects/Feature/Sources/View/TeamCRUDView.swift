@@ -10,15 +10,16 @@ import Core
 import SwiftData
 import SwiftUI
 
-struct TeamCRUDView: View {
-    @Query private var teams: [Team]
+public struct TeamCRUDView: View {
+    @Query private var teams: [RefactoredTeam]
     
     @Environment(\.modelContext) var context
-    @Bindable var observable: RefactoredTeamObservable
+    @State var observable: RefactoredTeamObservable
     
     @MainActor
     public init(modelcontext: ModelContext) {
-        self.observable = RefactoredTeamObservable(modelContext: modelcontext)
+        let observable = RefactoredTeamObservable(modelContext: modelcontext)
+        _observable = State(initialValue: observable)
     }
     
     public var body: some View {
@@ -33,9 +34,11 @@ struct TeamCRUDView: View {
             }
             
             HStack {
-                Button(action: addItem) {
+                Button(action: {
+                    observable.addTeam(team: RefactoredTeam(id: UUID(), teamName: "ho", subTitle: "naldo"))
+                }, label: {
                     Text("추가")
-                }
+                })
                 .padding(.top, 10)
                 
                 Button(action: deleteLastItem) {
@@ -46,11 +49,11 @@ struct TeamCRUDView: View {
         }
     }
     
-    func addItem() {
-        var newTeam = Team(id: UUID(), teamName: "새 팀", subTitle: "새 서브 타이틀", lineup: [])
-        observable.insertTeam(team: newTeam)
-        observable.teams = observable.fetchTeams()
-    }
+//    func addItem() {
+//        var newTeam = Team(id: UUID(), teamName: "새 팀", subTitle: "새 서브 타이틀", lineup: [])
+//        observable.insertTeam(team: newTeam)
+//        observable.teams = observable.fetchTeams()
+//    }
     
     func deleteLastItem() { }
     

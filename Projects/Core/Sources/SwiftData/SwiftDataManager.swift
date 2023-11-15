@@ -9,15 +9,14 @@
 import Foundation
 import SwiftData
 
+///TODO: 이후에 TEAM으로 수정해야 함.
 @MainActor
 public let teamContainer: ModelContainer = {
     do {
-        let container = try ModelContainer(for: Team.self)
+        let container = try ModelContainer(for: RefactoredTeam.self)
         let context = container.mainContext
-        if try context.fetch(FetchDescriptor<Team>()).isEmpty {
-            container.mainContext.insert(Team(id: UUID(), teamName: "새 팀 1", subTitle: "새 서브 타이틀", lineup: [
-                /// Lineup 구현 3개 요구
-            ]))
+        if try context.fetch(FetchDescriptor<RefactoredTeam>()).isEmpty {
+            container.mainContext.insert(RefactoredTeam(id: UUID(), teamName: "새 팀 1", subTitle: "새 서브 타이틀"))
         }
         return container
     } catch {
