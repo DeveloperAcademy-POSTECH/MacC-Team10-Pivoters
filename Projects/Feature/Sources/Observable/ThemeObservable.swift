@@ -13,5 +13,9 @@ import Core
 @Observable
 final class ThemeObservable {
     let theme: [Theme] = [.blueGray, .whiteGreen, .blackBlue, .grayBlack]
-    var selectedTheme: Theme = .blueGray
+    var lineup: Lineup
+    init(lineup: Lineup) {
+        self.lineup = lineup
+    }
+
 }
