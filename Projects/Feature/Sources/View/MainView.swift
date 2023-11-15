@@ -12,13 +12,7 @@ import SwiftUI
 
 public struct MainView: View {
 
-    @State private var isSharing = false
-    @State private var isLoading = true
-    @State private var isShowTeamSheet = false
-    @State private var isShowEditSheet = false
-    @State private var currentIndex: Int = 0
-    @State private var editSheetOffset = CGFloat(0)
-    @State private var editSheetIndicatorOffset = CGFloat(0)
+    @State var mainObservable = MainObservable()
 
     @State var fieldObservable = FieldObservable()
 
@@ -31,34 +25,18 @@ public struct MainView: View {
     public var body: some View {
         NavigationView {
             ZStack {
-                FieldCarousel(isShowEditSheet: $isShowEditSheet,
-                              currentIndex: $currentIndex,
-                              editSheetIndicatorOffset:
-                                $editSheetIndicatorOffset,
-                              editSheetOffset: $editSheetOffset,
-                              isShowTeamSheet: $isShowTeamSheet, isSharing: $isSharing)
+                FieldCarousel(mainObservable: $mainObservable)
                 .environment(fieldObservable)
-                TeamChangeButton(isShowingSheet: $isShowTeamSheet,
-                                 isShowEditSheet: $isShowEditSheet,
-                                 observable: observable, theme: fieldObservable.theme)
-                TeamInfo(observable: observable,
-                         isSharing: $isSharing,
-                         isShowTeamSheet: $isShowTeamSheet,
-                         isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
-                ShareImage(isSharing: $isSharing)
-                FieldCarouselButton(currentIndex: $currentIndex,
-                                    isShowEditSheet: $isShowEditSheet,
-                                    isShowTeamSheet: $isShowTeamSheet,
-                                    isSharing: $isSharing, theme: fieldObservable.theme)
-                ShareButton(isSharing: $isSharing,
-                            isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
-                LaunchScreenView(isLoading: $isLoading).transition(.opacity).zIndex(1)
-                EditSheetModalSection(isShowEditSheet: $isShowEditSheet,
-                                      editSheetOffset: $editSheetOffset)
+                TeamChangeButton(mainObservable: $mainObservable, observable: observable, theme: fieldObservable.theme)
+                TeamInfo(mainObservable: $mainObservable, observable: observable,
+                         theme: fieldObservable.theme)
+                ShareImage(isSharing: $mainObservable.isSharing)
+                FieldCarouselButton(mainObservable: $mainObservable, theme: fieldObservable.theme)
+                ShareButton(mainObservable: $mainObservable, theme: fieldObservable.theme)
+                LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
+                EditSheetModalSection(mainObservable: $mainObservable)
                 .environment(fieldObservable)
-                EditSheetIndicator(isShowEditSheet: $isShowEditSheet,
-                                   isShowTeamSheet: $isShowTeamSheet,
-                                   editSheetIndicatorOffset: $editSheetIndicatorOffset, theme: fieldObservable.theme)
+                EditSheetIndicator(mainObservable: $mainObservable, theme: fieldObservable.theme)
             }
             .background(
                 fieldObservable.theme.background
@@ -70,8 +48,8 @@ public struct MainView: View {
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                     withAnimation {
-                        isLoading.toggle()
-                        isShowEditSheet = isLoading
+                        mainObservable.isLoading.toggle()
+                        mainObservable.isShowEditSheet = mainObservable.isLoading
                     }
                 })
             }
@@ -82,32 +60,31 @@ public struct MainView: View {
 
 // 편집 시트 모달 섹션
 struct EditSheetModalSection: View {
-    @Binding var isShowEditSheet: Bool
-    @Binding var editSheetOffset: CGFloat
+    @Binding var mainObservable: MainObservable
     let maxDragHeight: CGFloat = 200
 
     @Environment(FieldObservable.self) var fieldObservable
 
     var body: some View {
-        if isShowEditSheet {
+        if mainObservable.isShowEditSheet {
             VStack {
                 Spacer()
                 ModalSegmentedView()
                     .environment(fieldObservable)
-                    .animation(.easeInOut, value: isShowEditSheet)
-                    .offset(y: editSheetOffset)
+                    .animation(.easeInOut, value: mainObservable.isShowEditSheet)
+                    .offset(y: mainObservable.editSheetOffset)
                     .gesture(
                         DragGesture()
                             .onChanged { value in
                                 if value.translation.height > 0 {
-                                    editSheetOffset = value.translation.height
+                                    mainObservable.editSheetOffset = value.translation.height
                                 }
                             }
                             .onEnded { _ in
-                                if editSheetOffset > 100 {
-                                    isShowEditSheet = false
+                                if mainObservable.editSheetOffset > 100 {
+                                    mainObservable.isShowEditSheet = false
                                 }
-                                editSheetOffset = 0
+                                mainObservable.editSheetOffset = 0
                             }
                     )
             }
@@ -117,46 +94,38 @@ struct EditSheetModalSection: View {
 
 // 필드 캐러셀
 struct FieldCarousel: View {
-    @Binding var isShowEditSheet: Bool
-    @Binding var currentIndex: Int
-    @Binding var editSheetIndicatorOffset: CGFloat
-    @Binding var editSheetOffset: CGFloat
-    @Binding var isShowTeamSheet: Bool
-    @Binding var isSharing: Bool
-
+    @Binding var mainObservable: MainObservable
     @Environment(FieldObservable.self) var fieldObservable
 
     var body: some View {
         Carousel(pageCount: 3,
                  visibleEdgeSpace: -120,
                  spacing: -30,
-                 currentIndex: $currentIndex) { _ in
+                 currentIndex: $mainObservable.currentIndex) { _ in
             VStack {
                 Spacer()
                 FieldView()
                     .environment(fieldObservable)
             }
         }
-                 .padding(.bottom, isShowEditSheet ? 330 : 20)
-                 .offset(y: editSheetIndicatorOffset)
-                 .offset(y: editSheetOffset)
-                 .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
-                 .animation(.easeInOut(duration: 0.4), value: isShowEditSheet)
+                 .padding(.bottom, mainObservable.isShowEditSheet ? 330 : 20)
+                 .offset(y: mainObservable.editSheetIndicatorOffset)
+                 .offset(y: mainObservable.editSheetOffset)
+                 .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
+                 .animation(.easeInOut(duration: 0.4), value: mainObservable.isShowEditSheet)
     }
 }
 
 // "밀어올려서 편집하기" 전환 영역
 struct EditSheetIndicator: View {
-    @Binding var isShowEditSheet: Bool
-    @Binding var isShowTeamSheet: Bool
-    @Binding var editSheetIndicatorOffset: CGFloat
+    @Binding var mainObservable: MainObservable
     var theme: Theme
 
     var body: some View {
         GeometryReader { geometry in
             let screenHeight = geometry.size.height
             let maxDragHeight = screenHeight / 3
-            if !isShowEditSheet {
+            if !mainObservable.isShowEditSheet {
                 VStack {
                     Spacer()
                     VStack {
@@ -169,22 +138,22 @@ struct EditSheetIndicator: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 136)
                 }
-                .offset(y: editSheetIndicatorOffset)
+                .offset(y: mainObservable.editSheetIndicatorOffset)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            if value.translation.height < 0 && editSheetIndicatorOffset > -maxDragHeight {
-                                editSheetIndicatorOffset = max(value.translation.height, -maxDragHeight)
+                            if value.translation.height < 0 && mainObservable.editSheetIndicatorOffset > -maxDragHeight {
+                                mainObservable.editSheetIndicatorOffset = max(value.translation.height, -maxDragHeight)
                             }
                         }
                         .onEnded { _ in
-                            if editSheetIndicatorOffset <= -maxDragHeight / 2 {
-                                isShowEditSheet = true
+                            if mainObservable.editSheetIndicatorOffset <= -maxDragHeight / 2 {
+                                mainObservable.isShowEditSheet = true
                             }
-                            editSheetIndicatorOffset = 0
+                            mainObservable.editSheetIndicatorOffset = 0
                         }
                 )
-                .blur(radius: isShowTeamSheet ? 10 : 0)
+                .blur(radius: mainObservable.isShowTeamSheet ? 10 : 0)
             }
         }
     }
@@ -192,35 +161,32 @@ struct EditSheetIndicator: View {
 
 // 필드 캐러셀 버튼
 struct FieldCarouselButton: View {
-    @Binding var currentIndex: Int
-    @Binding var isShowEditSheet: Bool
-    @Binding var isShowTeamSheet: Bool
-    @Binding var isSharing: Bool
+    @Binding var mainObservable: MainObservable
     var theme: Theme
 
     var body: some View {
 
-        if !isShowEditSheet {
+        if !mainObservable.isShowEditSheet {
             VStack {
                 HStack {
                     Button(action: {
-                        currentIndex = max(currentIndex - 1, 0)
+                        mainObservable.currentIndex = max(mainObservable.currentIndex - 1, 0)
                     }, label: {
                         Image(systemName: "chevron.left")
                             .foregroundStyle(theme.textColor)
                             .font(.system(size: 20))
-                            .opacity(currentIndex == 0 ? 0.3 : 1)
+                            .opacity(mainObservable.currentIndex == 0 ? 0.3 : 1)
                     })
                     .padding()
                     .contentShape(Rectangle())
                     Spacer()
                     Button(action: {
-                        currentIndex = min(currentIndex + 1, 2)
+                        mainObservable.currentIndex = min( mainObservable.currentIndex + 1, 2)
                     }, label: {
                         Image(systemName: "chevron.right")
                             .foregroundStyle(theme.textColor)
                             .font(.system(size: 20))
-                            .opacity(currentIndex == 2 ? 0.3 : 1)
+                            .opacity( mainObservable.currentIndex == 2 ? 0.3 : 1)
                     })
                     .padding()
                     .contentShape(Rectangle())
@@ -228,26 +194,25 @@ struct FieldCarouselButton: View {
                 .padding(.horizontal)
                 .padding(.bottom, 20)
             }
-            .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
+            .blur(radius: ( mainObservable.isSharing ||  mainObservable.isShowTeamSheet) ? 10 : 0)
         }
     }
 }
 
 // 팀 변경 버튼
 struct TeamChangeButton: View {
-    @Binding var isShowingSheet: Bool
-    @Binding var isShowEditSheet: Bool
+    @Binding var mainObservable: MainObservable
     var observable: TeamObservable
     var theme: Theme
 
     var body: some View {
-        if !isShowEditSheet {
+        if !mainObservable.isShowEditSheet {
             HStack {
                 VStack {
                     Button(action: {
-                        isShowingSheet.toggle()
+                        mainObservable.isShowTeamSheet.toggle()
                     }, label: {
-                        if isShowingSheet {
+                        if  mainObservable.isShowTeamSheet {
                             VStack {
                                 Image(systemName: "flag.2.crossed")
                                     .foregroundColor(Color.black)
@@ -271,7 +236,7 @@ struct TeamChangeButton: View {
                             }
                         }
                     })
-                    .sheet(isPresented: $isShowingSheet) {
+                    .sheet(isPresented: $mainObservable.isShowTeamSheet) {
                         TeamChangeModalView(teamObservable: observable)
                     }
                     Spacer()
@@ -280,28 +245,27 @@ struct TeamChangeButton: View {
                 .padding(.leading, 19)
                 Spacer()
             }
-            .animation(.easeInOut, value: isShowingSheet)
+            .animation(.easeInOut, value:  mainObservable.isShowTeamSheet)
         }
     }
 }
 
 // 공유 버튼
 struct ShareButton: View {
-    @Binding var isSharing: Bool
-    @Binding var isShowEditSheet: Bool
+    @Binding var mainObservable: MainObservable
     @State private var snapshotImage: UIImage?
     var theme: Theme
 
     private func captureAndShareSnapshot() {
-        snapshotImage = ShareImage(isSharing: $isSharing).snapshot()
-        isSharing = true
+        snapshotImage = ShareImage(isSharing: $mainObservable.isSharing).snapshot()
+        mainObservable.isSharing = true
         let metaData = ImageMetadataProvider(placeholderItem: snapshotImage!)
-        showShareSheet(with: [metaData], isSharing: $isSharing)
+        showShareSheet(with: [metaData], isSharing: $mainObservable.isSharing)
     }
 
     var body: some View {
 
-        if isShowEditSheet {
+        if mainObservable.isShowEditSheet {
             HStack {
                 Spacer()
                 VStack {
@@ -328,20 +292,18 @@ struct ShareButton: View {
 
 // 팀 정보 텍스트 섹션
 struct TeamInfo: View {
+    @Binding var mainObservable: MainObservable
     @ObservedObject var observable: TeamObservable
-    @Binding var isSharing: Bool
-    @Binding var isShowTeamSheet: Bool
-    @Binding var isShowEditSheet: Bool
     var theme: Theme
 
     var body: some View {
         VStack {
             HStack(alignment: .center) {
                 Text(observable.currentTeam.teamName)
-                    .font(.system(size: isShowEditSheet ? 22 : 18, weight: .bold))
+                    .font(.system(size: mainObservable.isShowEditSheet ? 22 : 18, weight: .bold))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(theme.textColor)
-                if isShowEditSheet {
+                if mainObservable.isShowEditSheet {
                     Spacer()
                 }
             }
@@ -350,17 +312,17 @@ struct TeamInfo: View {
                 Text(observable.currentTeam.subTitle)
                     .font(.system(size: 10))
                     .foregroundStyle(theme.textColor)
-                if isShowEditSheet {
+                if mainObservable.isShowEditSheet {
                     Spacer()
                 }
             }
             Spacer()
         }
         .foregroundColor(.white)
-        .padding(.top, isShowEditSheet ? 95 : 137)
-        .padding(.leading, isShowEditSheet ? 24 : 0)
-        .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
-        .animation(.easeInOut(duration: 0.3), value: isShowEditSheet)
+        .padding(.top, mainObservable.isShowEditSheet ? 95 : 137)
+        .padding(.leading, mainObservable.isShowEditSheet ? 24 : 0)
+        .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
+        .animation(.easeInOut(duration: 0.3), value: mainObservable.isShowEditSheet)
     }
 }
 
