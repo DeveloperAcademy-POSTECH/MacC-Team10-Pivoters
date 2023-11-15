@@ -20,11 +20,12 @@ public struct MainView: View {
     @State private var editSheetOffset = CGFloat(0)
     @State private var editSheetIndicatorOffset = CGFloat(0)
 
-    @State var fieldObservable = FieldObservable()
+//    @State var fieldObservable = FieldObservable()
+    @State var observable = TeamObservable()
 
     public init() {}
 
-    @State private var observable = TeamSelectObservable()
+//    @State private var observable = TeamSelectObservable()
     // 추후 model에서 반영 예정
     private var tintColor = Color.white
 
@@ -36,37 +37,42 @@ public struct MainView: View {
                               editSheetIndicatorOffset:
                                 $editSheetIndicatorOffset,
                               editSheetOffset: $editSheetOffset,
-                              isShowTeamSheet: $isShowTeamSheet, isSharing: $isSharing)
-                .environment(fieldObservable)
+                              isShowTeamSheet: $isShowTeamSheet,
+                              isSharing: $isSharing,
+                              lineup: observable.team.lineup)
                 TeamChangeButton(isShowingSheet: $isShowTeamSheet,
                                  isShowEditSheet: $isShowEditSheet,
-                                 observable: observable, theme: fieldObservable.theme)
-                TeamInfo(observable: $observable,
+                                 theme: observable.team.lineup[currentIndex].theme)
+                TeamInfo(observable: observable,
                          isSharing: $isSharing,
                          isShowTeamSheet: $isShowTeamSheet,
-                         isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
+                         isShowEditSheet: $isShowEditSheet, currentIndex: $currentIndex)
                 ShareImage(isSharing: $isSharing)
                 FieldCarouselButton(currentIndex: $currentIndex,
                                     isShowEditSheet: $isShowEditSheet,
                                     isShowTeamSheet: $isShowTeamSheet,
-                                    isSharing: $isSharing, theme: fieldObservable.theme)
+                                    isSharing: $isSharing,
+                                    theme: observable.team.lineup[currentIndex].theme)
                 ShareButton(isSharing: $isSharing,
-                            isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
+                            isShowEditSheet: $isShowEditSheet,
+                            theme: observable.team.lineup[currentIndex].theme)
                 LaunchScreenView(isLoading: $isLoading).transition(.opacity).zIndex(1)
                 EditSheetModalSection(isShowEditSheet: $isShowEditSheet,
-                                      editSheetOffset: $editSheetOffset)
-                .environment(fieldObservable)
+                                      editSheetOffset: $editSheetOffset,
+                                      lineup: observable.team.lineup[currentIndex])
                 EditSheetIndicator(isShowEditSheet: $isShowEditSheet,
                                    isShowTeamSheet: $isShowTeamSheet,
-                                   editSheetIndicatorOffset: $editSheetIndicatorOffset, theme: fieldObservable.theme)
+                                   editSheetIndicatorOffset: $editSheetIndicatorOffset,
+                                   theme: observable.team.lineup[currentIndex].theme)
             }
+            .ignoresSafeArea()
             .background(
-                fieldObservable.theme.background
+                observable.team.lineup[currentIndex].theme.background
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
+                    .animation(.easeInOut, value: currentIndex)
             )
-            .ignoresSafeArea()
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                     withAnimation {
@@ -85,15 +91,13 @@ struct EditSheetModalSection: View {
     @Binding var isShowEditSheet: Bool
     @Binding var editSheetOffset: CGFloat
     let maxDragHeight: CGFloat = 200
-
-    @Environment(FieldObservable.self) var fieldObservable
+    var lineup: Lineup
 
     var body: some View {
         if isShowEditSheet {
             VStack {
                 Spacer()
-                ModalSegmentedView()
-                    .environment(fieldObservable)
+                ModalSegmentedView(lineup: lineup)
                     .animation(.easeInOut, value: isShowEditSheet)
                     .offset(y: editSheetOffset)
                     .gesture(
@@ -124,17 +128,19 @@ struct FieldCarousel: View {
     @Binding var isShowTeamSheet: Bool
     @Binding var isSharing: Bool
 
-    @Environment(FieldObservable.self) var fieldObservable
+    var lineup: [Lineup]
 
     var body: some View {
         Carousel(pageCount: 3,
                  visibleEdgeSpace: -120,
                  spacing: -30,
-                 currentIndex: $currentIndex) { _ in
+                 currentIndex: $currentIndex) { index in
             VStack {
                 Spacer()
-                FieldView()
-                    .environment(fieldObservable)
+                FieldView(observable: FieldObservable(lineup: lineup[index]))
+                    .onAppear{
+                        print("index : \(index)")
+                    }
             }
         }
                  .padding(.bottom, isShowEditSheet ? 330 : 20)
@@ -236,7 +242,6 @@ struct FieldCarouselButton: View {
 struct TeamChangeButton: View {
     @Binding var isShowingSheet: Bool
     @Binding var isShowEditSheet: Bool
-    var observable: TeamSelectObservable
     var theme: Theme
 
     var body: some View {
@@ -253,7 +258,7 @@ struct TeamChangeButton: View {
                                     .font(.system(size: 20))
                                 Text("팀 변경")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(theme.textColor)
+                                    .foregroundStyle(Color.black)
                             }
                             .padding(.all, 9)
                             .background(Color.white)
@@ -265,13 +270,12 @@ struct TeamChangeButton: View {
                                     .foregroundStyle(theme.textColor)
                                 Text("팀 변경")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(Color.white)
                                     .foregroundStyle(theme.textColor)
                             }
                         }
                     })
                     .sheet(isPresented: $isShowingSheet) {
-                        TeamSelectView(observable: observable)
+                        TeamSelectView(observable: TeamSelectObservable())
                     }
                     Spacer()
                 }
@@ -327,28 +331,28 @@ struct ShareButton: View {
 
 // 팀 정보 텍스트 섹션
 struct TeamInfo: View {
-    @Binding var observable: TeamSelectObservable
+    var observable: TeamObservable
     @Binding var isSharing: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var isShowEditSheet: Bool
-    var theme: Theme
+    @Binding var currentIndex: Int
 
     var body: some View {
         VStack {
             HStack(alignment: .center) {
-                Text("이하이")
+                Text("\(observable.team.teamName)")
                     .font(.system(size: isShowEditSheet ? 22 : 18, weight: .bold))
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(theme.textColor)
+                    .foregroundStyle(observable.team.lineup[currentIndex].theme.textColor)
                 if isShowEditSheet {
                     Spacer()
                 }
             }
             .padding(.bottom, 5)
             HStack(alignment: .center) {
-                Text("이하이")
+                Text("\(observable.team.subTitle)")
                     .font(.system(size: 10))
-                    .foregroundStyle(theme.textColor)
+                    .foregroundStyle(observable.team.lineup[currentIndex].theme.textColor)
                 if isShowEditSheet {
                     Spacer()
                 }

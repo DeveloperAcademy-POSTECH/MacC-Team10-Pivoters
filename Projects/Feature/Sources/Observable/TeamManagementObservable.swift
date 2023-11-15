@@ -19,4 +19,15 @@ final class TeamManagementObservable {
         self.lineup = lineup
         self.selectedTypeOfFormation = lineup.selectedTypeOfFormation
     }
+
+    func changeFormation(_ formationType: TypeOfFormation) {
+        let formationOffsets: [CGSize] = formationType.returnPosition()
+
+        for index in 0..<formationOffsets.count {
+            lineup.players[index].offset.accumulatedOffset = formationOffsets[index]
+            lineup.players[index].offset.draggedOffset = formationOffsets[index]
+        }
+        print("@Log changeFormation")
+        print("\(lineup.players[1].offset.draggedOffset.width)")
+    }
 }
