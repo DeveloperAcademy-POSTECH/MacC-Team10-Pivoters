@@ -9,6 +9,22 @@
 import Foundation
 import SwiftData
 
+@MainActor
+public let teamContainer: ModelContainer = {
+    do {
+        let container = try ModelContainer(for: Team.self)
+        let context = container.mainContext
+        if try context.fetch(FetchDescriptor<Team>()).isEmpty {
+            container.mainContext.insert(Team(id: UUID(), teamName: "새 팀 1", subTitle: "새 서브 타이틀", lineup: [
+                /// Lineup 구현 3개 요구
+            ]))
+        }
+        return container
+    } catch {
+        fatalError(error.localizedDescription)
+    }
+}()
+
 public final class SwiftDataManager<T: PersistentModel> {
 
     private let modelContext: ModelContext
@@ -26,6 +42,14 @@ public final class SwiftDataManager<T: PersistentModel> {
         do {
             let items = try modelContext.fetch(FetchDescriptor<V>())
             return items
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    public func saveItems() {
+        do {
+            try modelContext.save()
         } catch {
             fatalError(error.localizedDescription)
         }
