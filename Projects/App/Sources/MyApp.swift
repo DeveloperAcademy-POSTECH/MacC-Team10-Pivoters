@@ -5,14 +5,18 @@
 //  Created by Ha Jong Myeong on 10/7/23.
 //
 
-import SwiftUI
+
+import Core
 import Feature
+import SwiftData
+import SwiftUI
 
 @main
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView()
+            AppContentView()
+                .modelContainer(teamContainer)
         }
     }
 }
