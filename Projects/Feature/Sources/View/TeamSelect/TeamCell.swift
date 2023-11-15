@@ -8,12 +8,41 @@
 
 import SwiftUI
 
-struct TeamCell: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+import Core
+import Common
+
+enum TeamCellType {
+    case add
+    case select
 }
 
-#Preview {
-    TeamCell()
+struct TeamCell: View {
+
+    let team: Team?
+    let cellType: TeamCellType
+    let isSelected: Bool
+
+    var body: some View {
+        HStack(alignment: .center) {
+            Image(asset: CommonAsset.uniform)
+                .resizable()
+                .frame(width: 36, height: 36)
+                .padding(.leading, 34)
+            Spacer()
+            Text(cellType == .select ? team!.teamName : "+ 새로운 팀 추가")
+                .foregroundStyle(cellType == .select ? Color.colorBlack : Color.colorLightGray)
+                .font(.Pretendard.black14.font)
+                .fontWeight(.bold)
+            Spacer()
+        }
+        .frame(height: 60)
+        .overlay {
+            if isSelected {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.colorLightGray, lineWidth: 1.5)
+                    .padding(1)
+            }
+        }
+        .background(.white)
+    }
 }
