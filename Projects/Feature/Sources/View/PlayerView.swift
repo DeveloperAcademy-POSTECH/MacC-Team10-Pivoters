@@ -30,8 +30,8 @@ struct PlayerView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundStyle(theme.nameField)
                         .frame(minWidth: 40)
-                        .offset(y: -12)
                 )
+                .offset(y: -12)
         }
     }
 }
