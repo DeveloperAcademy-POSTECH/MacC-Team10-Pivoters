@@ -13,17 +13,17 @@ import Core
 @Observable
 class TeamObservable {
 
-    var selectedTeam: String
+    var isPresented: Bool = false
     var teams: [Team]
+    var selectedTeam: String
 
-    init() {
-        self.teams = MockData.teams
+    init(teams: [Team] = MockData.teams) {
+        self.teams = teams
         if let selectedTeamUUID = UserDefaults.standard.string(forKey: "selectedTeamUUID") {
             self.selectedTeam = selectedTeamUUID
         } else {
-            self.selectedTeam = MockData.initLineup[0].id.uuidString
+            self.selectedTeam = teams[0].id.uuidString
         }
-        print(self.selectedTeam)
     }
 
     func addTeam() {
