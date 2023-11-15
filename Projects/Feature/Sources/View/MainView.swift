@@ -61,7 +61,7 @@ public struct MainView: View {
                                    editSheetIndicatorOffset: $editSheetIndicatorOffset)
             }
             .background(
-                Image(asset: CommonAsset.background1)
+                fieldObservable.theme.background
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
