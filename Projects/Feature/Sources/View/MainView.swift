@@ -24,7 +24,7 @@ public struct MainView: View {
 
     public init() {}
 
-    @StateObject private var observable = TeamObservable()
+    @State private var observable = TeamSelectObservable()
     // 추후 model에서 반영 예정
     private var tintColor = Color.white
 
@@ -41,7 +41,7 @@ public struct MainView: View {
                 TeamChangeButton(isShowingSheet: $isShowTeamSheet,
                                  isShowEditSheet: $isShowEditSheet,
                                  observable: observable, theme: fieldObservable.theme)
-                TeamInfo(observable: observable,
+                TeamInfo(observable: $observable,
                          isSharing: $isSharing,
                          isShowTeamSheet: $isShowTeamSheet,
                          isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
@@ -199,7 +199,6 @@ struct FieldCarouselButton: View {
     var theme: Theme
 
     var body: some View {
-
         if !isShowEditSheet {
             VStack {
                 HStack {
@@ -237,7 +236,7 @@ struct FieldCarouselButton: View {
 struct TeamChangeButton: View {
     @Binding var isShowingSheet: Bool
     @Binding var isShowEditSheet: Bool
-    var observable: TeamObservable
+    var observable: TeamSelectObservable
     var theme: Theme
 
     var body: some View {
@@ -272,7 +271,7 @@ struct TeamChangeButton: View {
                         }
                     })
                     .sheet(isPresented: $isShowingSheet) {
-                        TeamChangeModalView(teamObservable: observable)
+                        TeamSelectView(observable: observable)
                     }
                     Spacer()
                 }
@@ -328,7 +327,7 @@ struct ShareButton: View {
 
 // 팀 정보 텍스트 섹션
 struct TeamInfo: View {
-    @ObservedObject var observable: TeamObservable
+    @Binding var observable: TeamSelectObservable
     @Binding var isSharing: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var isShowEditSheet: Bool
@@ -337,7 +336,7 @@ struct TeamInfo: View {
     var body: some View {
         VStack {
             HStack(alignment: .center) {
-                Text(observable.currentTeam.teamName)
+                Text("이하이")
                     .font(.system(size: isShowEditSheet ? 22 : 18, weight: .bold))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(theme.textColor)
@@ -347,7 +346,7 @@ struct TeamInfo: View {
             }
             .padding(.bottom, 5)
             HStack(alignment: .center) {
-                Text(observable.currentTeam.subTitle)
+                Text("이하이")
                     .font(.system(size: 10))
                     .foregroundStyle(theme.textColor)
                 if isShowEditSheet {
