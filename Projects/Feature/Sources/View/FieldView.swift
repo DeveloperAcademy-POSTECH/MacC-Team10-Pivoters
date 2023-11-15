@@ -18,7 +18,7 @@ struct FieldView: View {
         ZStack {
             fieldObservable.theme.field
                 .offset(CGSize(width: 0, height: 100))
-            ForEach(0..<fieldObservable.lineup.headcount.rawValue, id: \.hashValue) { index in
+            ForEach(0..<fieldObservable.lineup.formation.rawValue, id: \.hashValue) { index in
                 if fieldObservable.lineup.players[index].isGoalkeeper {
                     PlayerView(theme: fieldObservable.theme, player: fieldObservable.lineup.players[index])
                           .offset(fieldObservable.lineup.players[index].offset.draggedOffset)

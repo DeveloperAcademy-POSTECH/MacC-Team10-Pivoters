@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+import Core
 import Common
 
 struct ModalSegmentedView: View {
@@ -23,7 +24,7 @@ struct ModalSegmentedView: View {
                 segmentedControl(buttonType: .theme)
                 segmentedControl(buttonType: .uniform)
                 segmentedControl(buttonType: .player)
-                segmentedControl(buttonType: .squad)
+                segmentedControl(buttonType: .management)
                 Spacer()
             }
             .padding(.horizontal, 20)
@@ -37,15 +38,31 @@ struct ModalSegmentedView: View {
                 UniformView(observable: UniformObservable())
                     .padding(.top, 24)
             case .player:
-                PlayerSelectionView(observable: PlayerSelectionObservable())
-                    .environment(fieldObservable)
-            case .squad:
-                Text("Squad")
+                Text("Player")
+            case .management:
+                TeamManagementView(
+                    observable: TeamManagementObservable(
+                        lineup: Lineup(id: UUID(),
+                                       uniform: .plain,
+                                       formation: .eleven,
+                                       selectedTypeOfFormation: .football4231,
+                                       players: MockData.player,
+                                       primaryColor: UniformColor(red: 0.4,
+                                                                  green: 0.4,
+                                                                  blue: 0.4),
+                                       secondaryColor: UniformColor(red: 0.2,
+                                                                    green: 0.2,
+                                                                    blue: 0.2)
+                                      )
+                    )
+                )
+                .padding(.top, 24)
             }
         }
         .frame(height: 450)
         .background(Color.white)
         .tint(Color.black)
+        .padding(.top, 8)
     }
 
     func segmentedControl(buttonType: EditType) -> some View {
@@ -64,7 +81,7 @@ enum EditType {
     case theme
     case uniform
     case player
-    case squad
+    case management
 
     var title: String {
         switch self {
@@ -74,8 +91,8 @@ enum EditType {
             "유니폼"
         case .player:
             "선수"
-        case .squad:
-            "스쿼드"
+        case .management:
+            "팀 관리"
         }
     }
 }
