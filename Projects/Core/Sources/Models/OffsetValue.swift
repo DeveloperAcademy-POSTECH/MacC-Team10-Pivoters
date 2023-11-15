@@ -8,13 +8,14 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 @Observable
 public final class OffsetValue {
     public var draggedOffset: CGSize
     public var accumulatedOffset: CGSize
 
-    public init(draggedOffset: CGSize = CGSize.zero, accumulatedOffset: CGSize = CGSize.zero) {
+    public init(draggedOffset: CGSize, accumulatedOffset: CGSize) {
         self.draggedOffset = draggedOffset
         self.accumulatedOffset = accumulatedOffset
     }

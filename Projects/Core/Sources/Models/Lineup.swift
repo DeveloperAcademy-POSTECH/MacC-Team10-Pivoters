@@ -7,34 +7,42 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 public final class Lineup {
 
     public let id: UUID
     public var uniform: Uniform
-    public var headcount: Headcount
+    public var formation: Formation
+    public var selectedTypeOfFormation: TypeOfFormation
     public var players: [Player]
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
+    public var theme: Theme
+    public var selectionPlayerIndex: Int?
 
     public init(
         id: UUID,
         uniform: Uniform,
-        headcount: Headcount,
+        formation: Formation,
+        selectedTypeOfFormation: TypeOfFormation,
         players: [Player],
         primaryColor: UniformColor,
-        secondaryColor: UniformColor) {
+        secondaryColor: UniformColor,
+        theme: Theme = .blackBlue) {
             self.id = id
             self.uniform = uniform
-            self.headcount = headcount
+            self.formation = formation
+            self.selectedTypeOfFormation = selectedTypeOfFormation
             self.players = players
             self.primaryColor = primaryColor
             self.secondaryColor = secondaryColor
+            self.theme = theme
         }
 }
 
-public struct UniformColor {
+public struct UniformColor: Codable {
     public var red: Double
     public var green: Double
     public var blue: Double
@@ -56,11 +64,4 @@ public enum Theme: Codable {
     case whiteGreen
     case blackBlue
     case grayBlack
-}
-
-public enum Headcount: Int, Codable {
-    case five = 5
-    case six = 6
-    case nine = 9
-    case eleven = 11
 }

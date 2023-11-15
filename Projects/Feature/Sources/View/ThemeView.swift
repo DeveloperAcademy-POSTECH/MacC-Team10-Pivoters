@@ -14,8 +14,6 @@ import Common
 struct ThemeView: View {
     @State var observable: ThemeObservable
 
-    @Environment(FieldObservable.self) var fieldObservable
-
     let themeSize = (UIScreen.main.bounds.width - 52) / 2 // padding 40 + spacing 12
 
     let gridItem: [GridItem] = [
@@ -32,7 +30,7 @@ struct ThemeView: View {
             LazyVGrid(columns: gridItem) {
                 ForEach(observable.theme, id: \.self) { theme in
                     themeCell(theme: theme,
-                              isSelected: fieldObservable.theme == theme)
+                              isSelected: observable.lineup.theme == theme)
                 }
             }
         }
@@ -56,7 +54,7 @@ struct ThemeView: View {
                 /// Todo
                 /// - 이후에 lineup 모델의 프로퍼티에 theme이 추가되어야 함.
                 /// - selectedTheme이 메인뷰에 있는 lineup 인스턴스의 theme이 되어야 함.
-                fieldObservable.theme = theme
+                observable.lineup.theme = theme
             }
     }
 }
