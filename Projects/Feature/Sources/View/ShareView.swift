@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct ShareView: View {
     @State private var isSharing = false
-    
+
     public init() {}
 
     public var body: some View {

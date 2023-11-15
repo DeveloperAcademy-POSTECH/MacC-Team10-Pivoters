@@ -81,7 +81,7 @@ public enum FormationType: String {
             ]
         case .form121:
             return [
-                CGSize(width: 0, height: 100), 
+                CGSize(width: 0, height: 100),
                 CGSize(width: 0, height: 40), CGSize(width: -130, height: -15),
                 CGSize(width: 130, height: -15), CGSize(width: 0, height: -80)
             ]
