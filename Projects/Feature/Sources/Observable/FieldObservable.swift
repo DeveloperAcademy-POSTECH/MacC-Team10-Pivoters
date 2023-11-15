@@ -22,6 +22,7 @@ class FieldObservable {
                                     secondaryColor: UniformColor(red: 0.2,
                                                                  green: 0.2,
                                                                  blue: 0.2))
+    var theme: Theme = .blueGray
 
     func changeFormation(_ formationType: FormationType) {
         let formationOffsets: [CGSize] = formationType.returnPosition()
