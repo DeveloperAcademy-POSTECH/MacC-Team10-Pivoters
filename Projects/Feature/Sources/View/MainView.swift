@@ -137,7 +137,7 @@ struct FieldCarousel: View {
                     .environment(fieldObservable)
             }
         }
-                 .padding(.bottom, isShowEditSheet ? 450 : 136)
+                 .padding(.bottom, isShowEditSheet ? 330 : 20)
                  .offset(y: editSheetIndicatorOffset)
                  .offset(y: editSheetOffset)
                  .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
@@ -254,7 +254,7 @@ struct TeamChangeButton: View {
                                     .font(.system(size: 20))
                                 Text("팀 변경")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(Color.black)
+                                    .foregroundStyle(theme.textColor)
                             }
                             .padding(.all, 9)
                             .background(Color.white)
