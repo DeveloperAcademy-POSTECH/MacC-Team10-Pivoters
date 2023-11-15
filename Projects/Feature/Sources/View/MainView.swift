@@ -46,7 +46,7 @@ public struct MainView: View {
                 TeamInfo(observable: observable,
                          isSharing: $isSharing,
                          isShowTeamSheet: $isShowTeamSheet,
-                         isShowEditSheet: $isShowEditSheet)
+                         isShowEditSheet: $isShowEditSheet, currentIndex: $currentIndex)
                 ShareImage(isSharing: $isSharing)
                 FieldCarouselButton(currentIndex: $currentIndex,
                                     isShowEditSheet: $isShowEditSheet,
@@ -65,13 +65,14 @@ public struct MainView: View {
                                    editSheetIndicatorOffset: $editSheetIndicatorOffset,
                                    theme: observable.team.lineup[currentIndex].theme)
             }
+            .ignoresSafeArea()
             .background(
                 observable.team.lineup[currentIndex].theme.background
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
+                    .animation(.easeInOut, value: currentIndex)
             )
-            .ignoresSafeArea()
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                     withAnimation {
@@ -257,7 +258,7 @@ struct TeamChangeButton: View {
                                     .font(.system(size: 20))
                                 Text("팀 변경")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(theme.textColor)
+                                    .foregroundStyle(Color.black)
                             }
                             .padding(.all, 9)
                             .background(Color.white)
@@ -269,7 +270,6 @@ struct TeamChangeButton: View {
                                     .foregroundStyle(theme.textColor)
                                 Text("팀 변경")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(Color.white)
                                     .foregroundStyle(theme.textColor)
                             }
                         }
@@ -335,6 +335,7 @@ struct TeamInfo: View {
     @Binding var isSharing: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var isShowEditSheet: Bool
+    @Binding var currentIndex: Int
 
     var body: some View {
         VStack {
@@ -342,7 +343,7 @@ struct TeamInfo: View {
                 Text("\(observable.team.teamName)")
                     .font(.system(size: isShowEditSheet ? 22 : 18, weight: .bold))
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(observable.team.lineup[0].theme.textColor)
+                    .foregroundStyle(observable.team.lineup[currentIndex].theme.textColor)
                 if isShowEditSheet {
                     Spacer()
                 }
@@ -351,7 +352,7 @@ struct TeamInfo: View {
             HStack(alignment: .center) {
                 Text("\(observable.team.subTitle)")
                     .font(.system(size: 10))
-                    .foregroundStyle(observable.team.lineup[0].theme.textColor)
+                    .foregroundStyle(observable.team.lineup[currentIndex].theme.textColor)
                 if isShowEditSheet {
                     Spacer()
                 }
