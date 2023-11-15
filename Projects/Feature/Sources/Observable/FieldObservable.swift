@@ -13,7 +13,7 @@ import Foundation
 class FieldObservable {
     var selectionPlayerIndex: Int?
     var lineup: Lineup = Lineup(id: UUID(),
-                                    uniform: .basic,
+                                    uniform: .plain,
                                     headcount: .eleven,
                                     players: MockData.player,
                                     primaryColor: UniformColor(red: 0.4,

@@ -12,7 +12,7 @@ public struct AppContentView: View {
     public init() {}
 
     public var body: some View {
-        FieldView(observable: FieldObservable())
+        EmptyView()
     }
 }
 

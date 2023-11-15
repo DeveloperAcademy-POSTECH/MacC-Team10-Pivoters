@@ -20,6 +20,8 @@ public struct MainView: View {
     @State private var editSheetOffset = CGFloat(0)
     @State private var editSheetIndicatorOffset = CGFloat(0)
 
+    @State var fieldObservable = FieldObservable()
+
     public init() {}
 
     @StateObject private var observable = TeamObservable()
@@ -35,6 +37,7 @@ public struct MainView: View {
                                 $editSheetIndicatorOffset,
                               editSheetOffset: $editSheetOffset,
                               isShowTeamSheet: $isShowTeamSheet, isSharing: $isSharing)
+                .environment(fieldObservable)
                 TeamChangeButton(isShowingSheet: $isShowTeamSheet,
                                  isShowEditSheet: $isShowEditSheet,
                                  observable: observable)
@@ -52,6 +55,7 @@ public struct MainView: View {
                 LaunchScreenView(isLoading: $isLoading).transition(.opacity).zIndex(1)
                 EditSheetModalSection(isShowEditSheet: $isShowEditSheet,
                                       editSheetOffset: $editSheetOffset)
+                .environment(fieldObservable)
                 EditSheetIndicator(isShowEditSheet: $isShowEditSheet,
                                    isShowTeamSheet: $isShowTeamSheet,
                                    editSheetIndicatorOffset: $editSheetIndicatorOffset)
@@ -82,11 +86,14 @@ struct EditSheetModalSection: View {
     @Binding var editSheetOffset: CGFloat
     let maxDragHeight: CGFloat = 200
 
+    @Environment(FieldObservable.self) var fieldObservable
+
     var body: some View {
         if isShowEditSheet {
             VStack {
                 Spacer()
                 ModalSegmentedView()
+                    .environment(fieldObservable)
                     .animation(.easeInOut, value: isShowEditSheet)
                     .offset(y: editSheetOffset)
                     .gesture(
@@ -117,6 +124,8 @@ struct FieldCarousel: View {
     @Binding var isShowTeamSheet: Bool
     @Binding var isSharing: Bool
 
+    @Environment(FieldObservable.self) var fieldObservable
+
     var body: some View {
         Carousel(pageCount: 3,
                  visibleEdgeSpace: -120,
@@ -124,7 +133,8 @@ struct FieldCarousel: View {
                  currentIndex: $currentIndex) { _ in
             VStack {
                 Spacer()
-                FieldView(observable: FieldObservable())
+                FieldView()
+                    .environment(fieldObservable)
             }
         }
                  .padding(.bottom, isShowEditSheet ? 450 : 136)
