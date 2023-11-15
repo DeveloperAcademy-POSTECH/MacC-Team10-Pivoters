@@ -11,24 +11,18 @@ import SwiftUI
 import Core
 import Common
 
-struct TeamChangeModalView: View {
-
+struct TeamSelectView: View {
     @State var observable: TeamObservable
 
     var body: some View {
         VStack {
-            TeamList(observable: $observable)
+            teamList
         }
         .presentationDetents([.fraction(0.5)])
         .presentationBackground(.regularMaterial)
     }
-}
 
-struct TeamList: View {
-
-    @Binding var observable: TeamObservable
-
-    var body: some View {
+    var teamList: some View {
         List {
             ForEach(observable.teams, id: \.id) { team in
                 TeamCell(team: team, cellType: .select)
@@ -48,6 +42,7 @@ struct TeamList: View {
         .background(.regularMaterial)
         .scrollContentBackground(.hidden)
     }
+
 }
 
 enum TeamCellType {
