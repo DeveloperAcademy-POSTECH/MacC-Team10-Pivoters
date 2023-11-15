@@ -59,7 +59,7 @@ public struct Carousel<Content: View>: View {
                         out = value.translation.width
                     }
                     .onEnded { value in
-                        let sensitivity: CGFloat = 0.5 // carousel 민감도
+                        let sensitivity: CGFloat = 0.4 // carousel 민감도
                         let offsetX = value.translation.width
                         let progress = -offsetX / (pageWidth * sensitivity)
                         let increment = Int(progress.rounded())

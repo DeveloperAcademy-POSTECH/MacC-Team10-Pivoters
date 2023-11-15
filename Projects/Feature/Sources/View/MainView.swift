@@ -23,20 +23,35 @@ public struct MainView: View {
     private var tintColor = Color.white
 
     public var body: some View {
-        NavigationView {
-            ZStack {
+        ZStack {
+            // LaunchScreen 뷰
+            LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
+            // 공유 버튼을 클릭시 최상단 계층에서 오버레이
+            ShareImage(isSharing: $mainObservable.isSharing).zIndex(1)
+            VStack {
+                ZStack {
+                    HStack {
+                        if mainObservable.isShowEditSheet {
+                            ShareButton(mainObservable: $mainObservable, theme: fieldObservable.theme)
+                        } else {
+                            TeamChangeButton(mainObservable: $mainObservable, observable: observable, theme: fieldObservable.theme)
+                        }
+                    }
+                    TeamInfo(mainObservable: $mainObservable, observable: observable,
+                             theme: fieldObservable.theme)
+                }
+                if !mainObservable.isShowEditSheet {
+                    FieldCarouselButton(mainObservable: $mainObservable, theme: fieldObservable.theme)
+                }
+                Spacer()
                 FieldCarousel(mainObservable: $mainObservable)
-                .environment(fieldObservable)
-                TeamChangeButton(mainObservable: $mainObservable, observable: observable, theme: fieldObservable.theme)
-                TeamInfo(mainObservable: $mainObservable, observable: observable,
-                         theme: fieldObservable.theme)
-                ShareImage(isSharing: $mainObservable.isSharing)
-                FieldCarouselButton(mainObservable: $mainObservable, theme: fieldObservable.theme)
-                ShareButton(mainObservable: $mainObservable, theme: fieldObservable.theme)
-                LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
-                EditSheetModalSection(mainObservable: $mainObservable)
-                .environment(fieldObservable)
-                EditSheetIndicator(mainObservable: $mainObservable, theme: fieldObservable.theme)
+                    .environment(fieldObservable)
+                if mainObservable.isShowEditSheet {
+                    EditSheetModalSection(mainObservable: $mainObservable)
+                        .environment(fieldObservable)
+                } else {
+                    EditSheetIndicator(mainObservable: $mainObservable, theme: fieldObservable.theme)
+                }
             }
             .background(
                 fieldObservable.theme.background
@@ -54,40 +69,34 @@ public struct MainView: View {
                 })
             }
         }
-        .tint(tintColor)
     }
 }
 
 // 편집 시트 모달 섹션
 struct EditSheetModalSection: View {
     @Binding var mainObservable: MainObservable
-    let maxDragHeight: CGFloat = 200
 
     @Environment(FieldObservable.self) var fieldObservable
 
     var body: some View {
-        if mainObservable.isShowEditSheet {
-            VStack {
-                Spacer()
-                ModalSegmentedView()
-                    .environment(fieldObservable)
-                    .animation(.easeInOut, value: mainObservable.isShowEditSheet)
-                    .offset(y: mainObservable.editSheetOffset)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                if value.translation.height > 0 {
-                                    mainObservable.editSheetOffset = value.translation.height
-                                }
+        VStack {
+            ModalSegmentedView()
+                .environment(fieldObservable)
+                .animation(.easeInOut, value: mainObservable.isShowEditSheet)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if value.translation.height > 0 {
+                                mainObservable.editSheetOffset = value.translation.height
                             }
-                            .onEnded { _ in
-                                if mainObservable.editSheetOffset > 100 {
-                                    mainObservable.isShowEditSheet = false
-                                }
-                                mainObservable.editSheetOffset = 0
+                        }
+                        .onEnded { _ in
+                            if mainObservable.editSheetOffset > 100 {
+                                mainObservable.isShowEditSheet = false
                             }
-                    )
-            }
+                            mainObservable.editSheetOffset = 0
+                        }
+                )
         }
     }
 }
@@ -103,14 +112,11 @@ struct FieldCarousel: View {
                  spacing: -30,
                  currentIndex: $mainObservable.currentIndex) { _ in
             VStack {
-                Spacer()
                 FieldView()
                     .environment(fieldObservable)
             }
         }
-                 .padding(.bottom, mainObservable.isShowEditSheet ? 330 : 20)
-                 .offset(y: mainObservable.editSheetIndicatorOffset)
-                 .offset(y: mainObservable.editSheetOffset)
+                 .offset(y: mainObservable.editSheetIndicatorOffset + 10) // +10: 그림자 값
                  .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
                  .animation(.easeInOut(duration: 0.4), value: mainObservable.isShowEditSheet)
     }
@@ -124,37 +130,36 @@ struct EditSheetIndicator: View {
     var body: some View {
         GeometryReader { geometry in
             let screenHeight = geometry.size.height
-            let maxDragHeight = screenHeight / 3
-            if !mainObservable.isShowEditSheet {
+            let maxDragHeight = screenHeight / 2
+            VStack {
+                Spacer()
                 VStack {
-                    Spacer()
-                    VStack {
-                        Image(systemName: "arrowshape.up")
-                            .foregroundStyle(theme.textColor)
-                            .padding(.bottom, 10)
-                        Text("밀어올려서 편집하기")
-                            .foregroundStyle(theme.textColor)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 136)
+                    Image(systemName: "arrowshape.up")
+                        .foregroundStyle(theme.textColor)
+                        .padding(.bottom, 10)
+                    Text("밀어올려서 편집하기")
+                        .foregroundStyle(theme.textColor)
                 }
-                .offset(y: mainObservable.editSheetIndicatorOffset)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            if value.translation.height < 0 && mainObservable.editSheetIndicatorOffset > -maxDragHeight {
-                                mainObservable.editSheetIndicatorOffset = max(value.translation.height, -maxDragHeight)
-                            }
-                        }
-                        .onEnded { _ in
-                            if mainObservable.editSheetIndicatorOffset <= -maxDragHeight / 2 {
-                                mainObservable.isShowEditSheet = true
-                            }
-                            mainObservable.editSheetIndicatorOffset = 0
-                        }
-                )
-                .blur(radius: mainObservable.isShowTeamSheet ? 10 : 0)
+                .frame(maxWidth: .infinity)
+                Spacer()
             }
+            .background(Color.gray.opacity(0.001)) // 터치 가능한 영역 설정
+            .offset(y: mainObservable.editSheetIndicatorOffset + 20)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        if value.translation.height < 0 && mainObservable.editSheetIndicatorOffset > -maxDragHeight {
+                            mainObservable.editSheetIndicatorOffset = max(value.translation.height, -maxDragHeight)
+                        }
+                    }
+                    .onEnded { _ in
+                        if mainObservable.editSheetIndicatorOffset <= -maxDragHeight / 2 {
+                            mainObservable.isShowEditSheet = true
+                        }
+                        mainObservable.editSheetIndicatorOffset = 0
+                    }
+            )
+            .blur(radius: mainObservable.isShowTeamSheet ? 10 : 0)
         }
     }
 }
@@ -165,37 +170,35 @@ struct FieldCarouselButton: View {
     var theme: Theme
 
     var body: some View {
-
-        if !mainObservable.isShowEditSheet {
-            VStack {
-                HStack {
-                    Button(action: {
-                        mainObservable.currentIndex = max(mainObservable.currentIndex - 1, 0)
-                    }, label: {
-                        Image(systemName: "chevron.left")
-                            .foregroundStyle(theme.textColor)
-                            .font(.system(size: 20))
-                            .opacity(mainObservable.currentIndex == 0 ? 0.3 : 1)
-                    })
-                    .padding()
-                    .contentShape(Rectangle())
-                    Spacer()
-                    Button(action: {
-                        mainObservable.currentIndex = min( mainObservable.currentIndex + 1, 2)
-                    }, label: {
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(theme.textColor)
-                            .font(.system(size: 20))
-                            .opacity( mainObservable.currentIndex == 2 ? 0.3 : 1)
-                    })
-                    .padding()
-                    .contentShape(Rectangle())
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 20)
+        VStack {
+            Spacer()
+            HStack {
+                // 좌우 carousel 버튼
+                buttonView(isLeft: true)
+                Spacer()
+                buttonView(isLeft: false)
             }
-            .blur(radius: ( mainObservable.isSharing ||  mainObservable.isShowTeamSheet) ? 10 : 0)
+            .padding(.horizontal)
+            .padding(.bottom, 20)
         }
+        .blur(radius: ( mainObservable.isSharing ||  mainObservable.isShowTeamSheet) ? 10 : 0)
+    }
+
+    private func buttonView(isLeft: Bool) -> some View {
+        Button(action: {
+            if isLeft {
+                mainObservable.currentIndex = max(mainObservable.currentIndex - 1, 0)
+            } else {
+                    mainObservable.currentIndex = min( mainObservable.currentIndex + 1, 2)
+                }
+        }, label: {
+            Image(systemName: isLeft ? "chevron.left" : "chevron.right")
+                .foregroundStyle(theme.textColor)
+                .font(.system(size: 20))
+                .opacity(isLeft ? (mainObservable.currentIndex == 0 ? 0.3 : 1) : (mainObservable.currentIndex == 2 ? 0.3 : 1))
+        })
+        .padding()
+        .contentShape(Rectangle())
     }
 }
 
@@ -206,47 +209,33 @@ struct TeamChangeButton: View {
     var theme: Theme
 
     var body: some View {
-        if !mainObservable.isShowEditSheet {
-            HStack {
-                VStack {
-                    Button(action: {
-                        mainObservable.isShowTeamSheet.toggle()
-                    }, label: {
-                        if  mainObservable.isShowTeamSheet {
-                            VStack {
-                                Image(systemName: "flag.2.crossed")
-                                    .foregroundColor(Color.black)
-                                    .font(.system(size: 20))
-                                Text("팀 변경")
-                                    .font(.system(size: 10))
-                                    .foregroundStyle(theme.textColor)
-                            }
-                            .padding(.all, 9)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                        } else {
-                            VStack {
-                                Image(systemName: "flag.2.crossed")
-                                    .font(.system(size: 20))
-                                    .foregroundStyle(theme.textColor)
-                                Text("팀 변경")
-                                    .font(.system(size: 10))
-                                    .foregroundStyle(Color.white)
-                                    .foregroundStyle(theme.textColor)
-                            }
+        HStack {
+            VStack {
+                Button(action: {
+                    mainObservable.isShowTeamSheet.toggle()
+                }, label: {
+                        VStack {
+                            Image(systemName: "flag.2.crossed")
+                                .font(.system(size: 20))
+                                .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
+                            Text("팀 변경")
+                                .font(.system(size: 10))
+                                .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
                         }
+                        .padding(.all, 9)
+                        .background(mainObservable.isShowTeamSheet ? Color.white : Color.clear)
+                        .clipShape(Circle())
                     })
-                    .sheet(isPresented: $mainObservable.isShowTeamSheet) {
-                        TeamChangeModalView(teamObservable: observable)
-                    }
-                    Spacer()
+                .sheet(isPresented: $mainObservable.isShowTeamSheet) {
+                    TeamChangeModalView(teamObservable: observable)
                 }
-                .padding(.top, 72)
-                .padding(.leading, 19)
                 Spacer()
             }
-            .animation(.easeInOut, value:  mainObservable.isShowTeamSheet)
+            .padding(.top, 72)
+            .padding(.leading, 19)
+            Spacer()
         }
+        .animation(.easeInOut, value: mainObservable.isShowTeamSheet)
     }
 }
 
@@ -264,29 +253,27 @@ struct ShareButton: View {
     }
 
     var body: some View {
-
-        if mainObservable.isShowEditSheet {
-            HStack {
-                Spacer()
-                VStack {
-                    Button {
-                        captureAndShareSnapshot()
-                    } label: {
-                        VStack {
-                            Image(systemName: "square.and.arrow.up")
-                                .font(.system(size: 20))
-                                .foregroundStyle(theme.textColor)
-                            Text("공유하기")
-                                .font(.system(size: 10))
-                                .foregroundStyle(theme.textColor)
-                        }
+        HStack {
+            Spacer()
+            VStack {
+                Button {
+                    captureAndShareSnapshot()
+                } label: {
+                    VStack {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 20))
+                            .foregroundStyle(theme.textColor)
+                        Text("공유하기")
+                            .font(.system(size: 10))
+                            .foregroundStyle(theme.textColor)
                     }
-                    Spacer()
                 }
+                Spacer()
             }
-            .padding(.top, 72)
-            .padding(.trailing, 19)
         }
+        .padding(.top, 72)
+        .padding(.trailing, 19)
+        Spacer()
     }
 }
 
