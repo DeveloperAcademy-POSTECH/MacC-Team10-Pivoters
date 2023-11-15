@@ -16,16 +16,17 @@ struct FieldView: View {
 
     var body: some View {
         ZStack {
-            Image(asset: CommonAsset.field)
+            fieldObservable.theme.field
+                .offset(CGSize(width: 0, height: 100))
             ForEach(0..<fieldObservable.lineup.headcount.rawValue, id: \.hashValue) { index in
                 if fieldObservable.lineup.players[index].isGoalkeeper {
-                      PlayerView(player: fieldObservable.lineup.players[index])
+                    PlayerView(theme: fieldObservable.theme, player: fieldObservable.lineup.players[index])
                           .offset(fieldObservable.lineup.players[index].offset.draggedOffset)
                           .onTapGesture {
                               fieldObservable.selectionPlayerIndex = index
                           }
                   } else {
-                      PlayerView(player: fieldObservable.lineup.players[index])
+                      PlayerView(theme: fieldObservable.theme, player: fieldObservable.lineup.players[index])
                           .offset(fieldObservable.lineup.players[index].offset.draggedOffset)
                           .gesture(
                             DragGesture()
