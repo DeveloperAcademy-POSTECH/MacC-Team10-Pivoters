@@ -15,7 +15,7 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            AppContentView()
+            TeamCRUDView(modelcontext: teamContainer.mainContext)
                 .modelContainer(teamContainer)
         }
     }

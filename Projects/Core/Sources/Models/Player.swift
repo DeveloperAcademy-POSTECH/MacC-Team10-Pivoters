@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 public final class Player: Identifiable {

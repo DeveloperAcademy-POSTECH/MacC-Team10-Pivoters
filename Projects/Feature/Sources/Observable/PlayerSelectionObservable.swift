@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import SwiftUI
+
 import Core
 
 @Observable
@@ -14,6 +16,6 @@ class PlayerSelectionObservable {
     var playerList: [Player] = []
 
     func addPlayer() {
-        playerList.append(Player(name: "새로 추가된 선수", number: 1, isGoalkeeper: false, offset: OffsetValue()))
+        playerList.append(Player(name: "새로 추가된 선수", number: 1, isGoalkeeper: false, offset: OffsetValue(draggedOffset: CGSize.zero, accumulatedOffset: CGSize.zero)))
     }
 }

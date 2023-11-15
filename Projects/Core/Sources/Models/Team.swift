@@ -7,21 +7,24 @@
 //
 
 import Foundation
+import SwiftData
 
+@Observable
 public final class Team {
     public let id: UUID
     public let teamName: String
     public let subTitle: String
     public let lineup: [Lineup]
-
+    
     public init(
         id: UUID,
         teamName: String,
         subTitle: String,
-        lineup: [Lineup]) {
-            self.id = id
-            self.teamName = teamName
-            self.subTitle = subTitle
-            self.lineup = lineup
-        }
+        lineup: [Lineup]
+    ) {
+        self.id = id
+        self.teamName = teamName
+        self.subTitle = subTitle
+        self.lineup = lineup
+    }
 }

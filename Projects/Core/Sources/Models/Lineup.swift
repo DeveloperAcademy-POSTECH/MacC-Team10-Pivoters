@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 public final class Lineup {
@@ -37,7 +38,7 @@ public final class Lineup {
         }
 }
 
-public struct UniformColor {
+public struct UniformColor: Codable {
     public var red: Double
     public var green: Double
     public var blue: Double
