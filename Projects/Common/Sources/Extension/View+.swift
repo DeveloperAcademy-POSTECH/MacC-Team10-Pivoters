@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+
+
 public extension View {
     /// 공유 시트를 표시하기 위한 메소드
     func showShareSheet(with activityItems: [Any], isSharing: Binding<Bool>) {
@@ -42,5 +44,9 @@ public extension View {
         return renderer.image { _ in
             view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
         }
+    }
+
+    func teamCellViewModifier() -> some View {
+        modifier(TeamCellModifier())
     }
 }
