@@ -12,7 +12,7 @@ import Core
 import Common
 
 enum TeamCellType {
-    case add
+    case create
     case select
 }
 
