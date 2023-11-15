@@ -12,6 +12,7 @@ import Common
 import Core
 
 struct PlayerView: View {
+    var theme: Theme
     var player: Player
 
     var body: some View {
@@ -22,10 +23,14 @@ struct PlayerView: View {
                 .frame(width: 43, height: 43)
             Text(player.name)
                 .font(.system(size: 10))
+                .foregroundStyle(theme.textColor)
                 .padding(.vertical, 2)
                 .padding(.horizontal, 5)
-                .background(.white)
-                .cornerRadius(4)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .foregroundStyle(theme.nameField)
+                        .frame(minWidth: 40)
+                )
                 .offset(y: -12)
         }
     }

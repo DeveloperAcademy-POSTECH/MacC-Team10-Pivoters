@@ -15,20 +15,20 @@ extension Theme {
     public var field: Image {
         switch self {
         case .blueGray:
-            Image(asset: CommonAsset.fieldBlue)
+            Image(asset: CommonAsset.fieldGray)
         case .whiteGreen:
             Image(asset: CommonAsset.fieldGreen)
         case .blackBlue:
-            Image(asset: CommonAsset.fieldBlack)
+            Image(asset: CommonAsset.fieldBlue)
         case .grayBlack:
-            Image(asset: CommonAsset.fieldGray)
+            Image(asset: CommonAsset.fieldBlack)
         }
     }
 
     public var background: Image {
         switch self {
         case .blueGray:
-            Image(asset: CommonAsset.backgroundGray)
+            Image(asset: CommonAsset.backgroundBlue)
         case .whiteGreen:
             Image(asset: CommonAsset.backgroundWhite)
         case .blackBlue:
@@ -48,6 +48,24 @@ extension Theme {
             Image(asset: CommonAsset.previewBlackBlue)
         case .grayBlack:
             Image(asset: CommonAsset.previewGrayBlack)
+        }
+    }
+
+    public var nameField: Color {
+        switch self {
+        case .blueGray, .blackBlue:
+            Color(asset: CommonAsset.darkGray)
+        case .whiteGreen, .grayBlack:
+            Color.white
+        }
+    }
+
+    public var textColor: Color {
+        switch self {
+        case .blueGray, .blackBlue:
+            Color.white
+        case .whiteGreen, .grayBlack:
+            Color.black
         }
     }
 }

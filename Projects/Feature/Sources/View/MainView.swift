@@ -20,6 +20,8 @@ public struct MainView: View {
     @State private var editSheetOffset = CGFloat(0)
     @State private var editSheetIndicatorOffset = CGFloat(0)
 
+    @State var fieldObservable = FieldObservable()
+
     public init() {}
 
     @StateObject private var observable = TeamObservable()
@@ -35,29 +37,31 @@ public struct MainView: View {
                                 $editSheetIndicatorOffset,
                               editSheetOffset: $editSheetOffset,
                               isShowTeamSheet: $isShowTeamSheet, isSharing: $isSharing)
+                .environment(fieldObservable)
                 TeamChangeButton(isShowingSheet: $isShowTeamSheet,
                                  isShowEditSheet: $isShowEditSheet,
-                                 observable: observable)
+                                 observable: observable, theme: fieldObservable.theme)
                 TeamInfo(observable: observable,
                          isSharing: $isSharing,
                          isShowTeamSheet: $isShowTeamSheet,
-                         isShowEditSheet: $isShowEditSheet)
+                         isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
                 ShareImage(isSharing: $isSharing)
                 FieldCarouselButton(currentIndex: $currentIndex,
                                     isShowEditSheet: $isShowEditSheet,
                                     isShowTeamSheet: $isShowTeamSheet,
-                                    isSharing: $isSharing)
+                                    isSharing: $isSharing, theme: fieldObservable.theme)
                 ShareButton(isSharing: $isSharing,
-                            isShowEditSheet: $isShowEditSheet)
+                            isShowEditSheet: $isShowEditSheet, theme: fieldObservable.theme)
                 LaunchScreenView(isLoading: $isLoading).transition(.opacity).zIndex(1)
                 EditSheetModalSection(isShowEditSheet: $isShowEditSheet,
                                       editSheetOffset: $editSheetOffset)
+                .environment(fieldObservable)
                 EditSheetIndicator(isShowEditSheet: $isShowEditSheet,
                                    isShowTeamSheet: $isShowTeamSheet,
-                                   editSheetIndicatorOffset: $editSheetIndicatorOffset)
+                                   editSheetIndicatorOffset: $editSheetIndicatorOffset, theme: fieldObservable.theme)
             }
             .background(
-                Image(asset: CommonAsset.background1)
+                fieldObservable.theme.background
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
@@ -82,11 +86,14 @@ struct EditSheetModalSection: View {
     @Binding var editSheetOffset: CGFloat
     let maxDragHeight: CGFloat = 200
 
+    @Environment(FieldObservable.self) var fieldObservable
+
     var body: some View {
         if isShowEditSheet {
             VStack {
                 Spacer()
                 ModalSegmentedView()
+                    .environment(fieldObservable)
                     .animation(.easeInOut, value: isShowEditSheet)
                     .offset(y: editSheetOffset)
                     .gesture(
@@ -117,6 +124,8 @@ struct FieldCarousel: View {
     @Binding var isShowTeamSheet: Bool
     @Binding var isSharing: Bool
 
+    @Environment(FieldObservable.self) var fieldObservable
+
     var body: some View {
         Carousel(pageCount: 3,
                  visibleEdgeSpace: -120,
@@ -124,10 +133,11 @@ struct FieldCarousel: View {
                  currentIndex: $currentIndex) { _ in
             VStack {
                 Spacer()
-                FieldView(observable: FieldObservable())
+                FieldView()
+                    .environment(fieldObservable)
             }
         }
-                 .padding(.bottom, isShowEditSheet ? 450 : 136)
+                 .padding(.bottom, isShowEditSheet ? 330 : 20)
                  .offset(y: editSheetIndicatorOffset)
                  .offset(y: editSheetOffset)
                  .blur(radius: (isSharing || isShowTeamSheet) ? 10 : 0)
@@ -140,6 +150,7 @@ struct EditSheetIndicator: View {
     @Binding var isShowEditSheet: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var editSheetIndicatorOffset: CGFloat
+    var theme: Theme
 
     var body: some View {
         GeometryReader { geometry in
@@ -150,10 +161,10 @@ struct EditSheetIndicator: View {
                     Spacer()
                     VStack {
                         Image(systemName: "arrowshape.up")
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(theme.textColor)
                             .padding(.bottom, 10)
                         Text("밀어올려서 편집하기")
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(theme.textColor)
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 136)
@@ -185,6 +196,7 @@ struct FieldCarouselButton: View {
     @Binding var isShowEditSheet: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var isSharing: Bool
+    var theme: Theme
 
     var body: some View {
 
@@ -195,6 +207,7 @@ struct FieldCarouselButton: View {
                         currentIndex = max(currentIndex - 1, 0)
                     }, label: {
                         Image(systemName: "chevron.left")
+                            .foregroundStyle(theme.textColor)
                             .font(.system(size: 20))
                             .opacity(currentIndex == 0 ? 0.3 : 1)
                     })
@@ -205,6 +218,7 @@ struct FieldCarouselButton: View {
                         currentIndex = min(currentIndex + 1, 2)
                     }, label: {
                         Image(systemName: "chevron.right")
+                            .foregroundStyle(theme.textColor)
                             .font(.system(size: 20))
                             .opacity(currentIndex == 2 ? 0.3 : 1)
                     })
@@ -224,6 +238,7 @@ struct TeamChangeButton: View {
     @Binding var isShowingSheet: Bool
     @Binding var isShowEditSheet: Bool
     var observable: TeamObservable
+    var theme: Theme
 
     var body: some View {
         if !isShowEditSheet {
@@ -239,7 +254,7 @@ struct TeamChangeButton: View {
                                     .font(.system(size: 20))
                                 Text("팀 변경")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(Color.black)
+                                    .foregroundStyle(theme.textColor)
                             }
                             .padding(.all, 9)
                             .background(Color.white)
@@ -248,9 +263,11 @@ struct TeamChangeButton: View {
                             VStack {
                                 Image(systemName: "flag.2.crossed")
                                     .font(.system(size: 20))
+                                    .foregroundStyle(theme.textColor)
                                 Text("팀 변경")
                                     .font(.system(size: 10))
                                     .foregroundStyle(Color.white)
+                                    .foregroundStyle(theme.textColor)
                             }
                         }
                     })
@@ -273,6 +290,7 @@ struct ShareButton: View {
     @Binding var isSharing: Bool
     @Binding var isShowEditSheet: Bool
     @State private var snapshotImage: UIImage?
+    var theme: Theme
 
     private func captureAndShareSnapshot() {
         snapshotImage = ShareImage(isSharing: $isSharing).snapshot()
@@ -293,8 +311,10 @@ struct ShareButton: View {
                         VStack {
                             Image(systemName: "square.and.arrow.up")
                                 .font(.system(size: 20))
+                                .foregroundStyle(theme.textColor)
                             Text("공유하기")
                                 .font(.system(size: 10))
+                                .foregroundStyle(theme.textColor)
                         }
                     }
                     Spacer()
@@ -312,6 +332,7 @@ struct TeamInfo: View {
     @Binding var isSharing: Bool
     @Binding var isShowTeamSheet: Bool
     @Binding var isShowEditSheet: Bool
+    var theme: Theme
 
     var body: some View {
         VStack {
@@ -319,6 +340,7 @@ struct TeamInfo: View {
                 Text(observable.currentTeam.teamName)
                     .font(.system(size: isShowEditSheet ? 22 : 18, weight: .bold))
                     .multilineTextAlignment(.center)
+                    .foregroundStyle(theme.textColor)
                 if isShowEditSheet {
                     Spacer()
                 }
@@ -327,6 +349,7 @@ struct TeamInfo: View {
             HStack(alignment: .center) {
                 Text(observable.currentTeam.subTitle)
                     .font(.system(size: 10))
+                    .foregroundStyle(theme.textColor)
                 if isShowEditSheet {
                     Spacer()
                 }

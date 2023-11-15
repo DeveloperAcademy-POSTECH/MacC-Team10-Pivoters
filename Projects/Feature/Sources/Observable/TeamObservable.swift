@@ -9,7 +9,6 @@
 import Core
 import SwiftUI
 
-
 class TeamObservable: ObservableObject {
     @Published var currentTeam: Team
     var mockTeams: [Team] = []

@@ -17,7 +17,7 @@ struct LaunchScreenView: View {
                 LinearGradient(
                     stops: [
                         Gradient.Stop(color: Color(red: 0.74, green: 0.74, blue: 0.74), location: 0.00),
-                        Gradient.Stop(color: Color(red: 0.74, green: 0.74, blue: 0.74).opacity(0), location: 1.00),
+                        Gradient.Stop(color: Color(red: 0.74, green: 0.74, blue: 0.74).opacity(0), location: 1.00)
                     ],
                     startPoint: UnitPoint(x: 0.5, y: 0),
                     endPoint: UnitPoint(x: 0.5, y: 1))

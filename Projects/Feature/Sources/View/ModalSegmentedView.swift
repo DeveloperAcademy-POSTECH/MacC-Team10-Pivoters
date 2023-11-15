@@ -31,6 +31,7 @@ struct ModalSegmentedView: View {
             switch editType {
             case .theme:
                 ThemeView(observable: ThemeObservable())
+                    .environment(fieldObservable)
                     .padding(.top, 24)
             case .uniform:
                 UniformView(observable: UniformObservable())

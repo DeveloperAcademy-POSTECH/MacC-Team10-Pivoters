@@ -17,7 +17,7 @@ public extension Font {
         case semiBold14
         case regular12
         case subhead
-        
+
         public var font: Font {
             switch self {
             case .headerLarge:
