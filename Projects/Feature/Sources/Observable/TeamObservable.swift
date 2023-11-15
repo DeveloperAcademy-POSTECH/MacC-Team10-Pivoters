@@ -52,3 +52,4 @@ class TeamObservable {
                                                                        blue: 0.2),
                                           theme: .blackBlue)
                           ])
+}

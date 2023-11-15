@@ -47,7 +47,6 @@ struct ModalSegmentedView: View {
                 .padding(.top, 24)
             }
         }
-        .frame(height: 450)
         .background(Color.white)
         .tint(Color.black)
         .padding(.top, 8)
