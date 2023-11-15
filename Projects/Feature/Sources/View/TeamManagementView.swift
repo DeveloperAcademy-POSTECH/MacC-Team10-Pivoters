@@ -14,6 +14,7 @@ struct TeamManagementView: View {
 
 //    let colors = ["4-3-3", "3-5-2", "4-4-2"]
 //    @State var selectedColors = "4-3-3"
+    @Environment(FieldObservable.self) var fieldObservable
     @State var observable: TeamManagementObservable
 
     init(observable: TeamManagementObservable) {
@@ -44,6 +45,9 @@ struct TeamManagementView: View {
                     Text($0.rawValue)
                         .font(.Pretendard.black14.font)
                 }
+            }
+            .onChange(of: observable.selectedTypeOfFormation) { _, selectedFormation in
+                fieldObservable.changeFormation(selectedFormation)
             }
             .tint(.gray)
             .pickerStyle(.menu)
