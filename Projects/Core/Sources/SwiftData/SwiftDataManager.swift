@@ -20,6 +20,7 @@ public let teamContainer: ModelContainer = {
                                                         teamName: "새 팀 1",
                                                         subTitle: "새 서브 타이틀",
                                                         isSelected: true,
+                                                        lineups: [],
                                                         createdAt: Date(),
                                                         updatedAt: Date()))
         }
