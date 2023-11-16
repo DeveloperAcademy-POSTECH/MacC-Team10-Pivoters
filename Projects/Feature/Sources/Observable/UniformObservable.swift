@@ -15,21 +15,12 @@ import Common
 @Observable
 public final class UniformObservable {
 
-    var lineup = Lineup(id: UUID(),
-                        uniform: .plain,
-                        formation: .eleven,
-                        selectedTypeOfFormation: .football4231,
-                        players: MockData.player,
-                        primaryColor: UniformColor(red: 0.4,
-                                                   green: 0.4,
-                                                   blue: 0.4),
-                        secondaryColor: UniformColor(red: 0.2,
-                                                     green: 0.2,
-                                                     blue: 0.2))
-
+    var lineup: Lineup
     var uniforms: [Uniform] = [.plain, .stripe]
 
-    public init () { }
+    init(lineup: Lineup) {
+        self.lineup = lineup
+    }
 
     func updateUniformColor(colors: [String], colorSequence: ColorSequence) {
         let colorsTypeDouble = stringToDouble(colors: colors)
