@@ -15,38 +15,33 @@ import Core
 @Observable
 class TeamSelectObservable {
 
-    private let swiftDataManager: SwiftDataManager<RefactoredTeam>
-    var modelContext: ModelContext
-    var teams: [RefactoredTeam]
+    let modelContext: ModelContext
+    var teams: [RefactoredTeam] = []
 
     var isCreatePresented: Bool = false
-    var selectedTeam: String
     var currentPresentationDetent: PresentationDetent = .fraction(0.5)
     var presentationDetent: Set<PresentationDetent> = [.fraction(0.5)]
 
     @MainActor
     init(modelContext: ModelContext) {
-        self.swiftDataManager = SwiftDataManager<RefactoredTeam>(modelContext: modelContext)
         self.modelContext = modelContext
-        self.teams = swiftDataManager.fetchItem()
-        if let selectedTeamUUID = UserDefaults.standard.string(forKey: "selectedTeamUUID") {
-            self.selectedTeam = selectedTeamUUID
-        } else {
-            self.selectedTeam = ""
-        }
+        self.teams = fetchTeam()
     }
 
     func fetchTeam() -> [RefactoredTeam] {
-        swiftDataManager.fetchItem()
-    }
-
-    func addTeam() {
-        let randomInt = Int.random(in: 0...1111)
-        let team = RefactoredTeam(id: UUID(),
-                                  teamName: "\(randomInt)",
-                                  subTitle: "how")
-        swiftDataManager.insertItem(item: team)
-        teams.append(team)
+        do {
+            var fetchDescriptor = FetchDescriptor<RefactoredTeam>()
+            // MARK: 최신 생성 순을 보여지게 하기 위해 reverse
+            fetchDescriptor.sortBy = [SortDescriptor<RefactoredTeam>(\.updatedAt, order: .reverse)]
+            var teams = try modelContext.fetch(fetchDescriptor)
+            // MARK: 선택 팀을 최상단에 보여지기 위함
+            teams.sort { pre, _ in
+                pre.isSelected
+            }
+            return teams
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 
     func moreButtonClicked() {
@@ -58,17 +53,12 @@ class TeamSelectObservable {
         presentationDetent.remove(.large)
     }
 
-    func selectTeam(id: String) {
-        self.selectedTeam = id
-        UserDefaults.standard.setValue("selectedTeamUUID", forKey: id)
-        self.teams.sort {
-            if $0.id.uuidString == id {
-                return true
-            } else if $1.id.uuidString == id {
-                return false
-            } else {
-                return false
-            }
+    func selectTeam(selectedTeam: RefactoredTeam) {
+        for team in teams {
+            team.isSelected = selectedTeam == team
+        }
+        teams.sort { pre, _ in
+            pre.isSelected
         }
     }
 }
