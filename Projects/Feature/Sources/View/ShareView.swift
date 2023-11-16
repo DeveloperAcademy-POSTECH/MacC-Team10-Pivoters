@@ -8,25 +8,27 @@
 
 import Foundation
 import SwiftUI
+import Core
 
 public struct ShareView: View {
-    @State private var isSharing = false
-
-    public init() {}
+    @Binding var mainObservable: MainObservable
+    @State var observable = TeamObservable()
 
     public var body: some View {
-        ShareImage(isSharing: $isSharing)
+        VStack {
+            ShareImage(isSharing: mainObservable.isSharing, lineup: observable.team.lineup)
+            Spacer()
+        }
     }
 }
 
-struct ShareImage: View {
-    @Binding var isSharing: Bool
+public struct ShareImage: View {
+    var isSharing: Bool
+    var lineup: [Lineup]
 
-    var body: some View {
+    public var body: some View {
         if isSharing {
-            Color.red
-                .frame(width: 200, height: 200)
-                .padding(.bottom, 400)
+            FieldView(observable: FieldObservable(lineup: lineup[0]))
         }
     }
 }

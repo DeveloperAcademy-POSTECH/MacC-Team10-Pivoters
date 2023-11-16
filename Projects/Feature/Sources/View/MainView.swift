@@ -21,27 +21,32 @@ public struct MainView: View {
             // LaunchScreen 뷰
             LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
             // 공유 버튼을 클릭시 최상단 계층에서 오버레이
-            ShareImage(isSharing: $mainObservable.isSharing).zIndex(1)
+            ShareView(mainObservable: $mainObservable).zIndex(1)
             VStack {
                 ZStack {
                     HStack {
                         if mainObservable.isShowEditSheet {
-                            ShareButton(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                            ShareButton(mainObservable: mainObservable,
+                                        theme: observable.team.lineup[mainObservable.currentIndex].theme)
                         } else {
-                            TeamChangeButton(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                            TeamChangeButton(mainObservable: $mainObservable,
+                                             theme: observable.team.lineup[mainObservable.currentIndex].theme)
                         }
                     }
                     TeamInfo(mainObservable: $mainObservable, observable: observable)
                 }
                 if !mainObservable.isShowEditSheet {
-                    FieldCarouselButton(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                    FieldCarouselButton(mainObservable: $mainObservable,
+                                        theme: observable.team.lineup[mainObservable.currentIndex].theme)
                 }
                 Spacer()
                 FieldCarousel(mainObservable: $mainObservable, lineup: observable.team.lineup)
                 if mainObservable.isShowEditSheet {
-                    EditSheetModalSection(mainObservable: $mainObservable, lineup: observable.team.lineup[mainObservable.currentIndex])
+                    EditSheetModalSection(mainObservable: $mainObservable,
+                                          lineup: observable.team.lineup[mainObservable.currentIndex])
                 } else {
-                    EditSheetIndicator(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                    EditSheetIndicator(mainObservable: $mainObservable,
+                                       theme: observable.team.lineup[mainObservable.currentIndex].theme)
                 }
             }
             .ignoresSafeArea()
@@ -231,15 +236,17 @@ struct TeamChangeButton: View {
 
 // 공유 버튼
 struct ShareButton: View {
-    @Binding var mainObservable: MainObservable
+    var mainObservable: MainObservable
+    @State var observable = TeamObservable()
     @State private var snapshotImage: UIImage?
     var theme: Theme
 
     private func captureAndShareSnapshot() {
-        snapshotImage = ShareImage(isSharing: $mainObservable.isSharing).snapshot()
-        mainObservable.isSharing = true
+        snapshotImage = ShareImage(isSharing: mainObservable.isSharing, lineup: observable.team.lineup).snapshot()
         let metaData = ImageMetadataProvider(placeholderItem: snapshotImage!)
-        showShareSheet(with: [metaData], isSharing: $mainObservable.isSharing)
+        showShareSheet(with: [metaData], onDismiss: {
+            mainObservable.isSharing = false
+        })
     }
 
     var body: some View {
@@ -247,6 +254,7 @@ struct ShareButton: View {
             Spacer()
             VStack {
                 Button {
+                    mainObservable.isSharing = true
                     captureAndShareSnapshot()
                 } label: {
                     VStack {
