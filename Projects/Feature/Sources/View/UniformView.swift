@@ -16,8 +16,7 @@ struct UniformView: View {
     @State var observable: UniformObservable
     @State var primaryColor: Color
     @State var secondaryColor: Color
-    @State var selectedUniform: Uniform = .plain
-    @State var isPresented: Bool = false
+
     let rows = [GridItem(.fixed(100))]
 
     init(observable: UniformObservable) {
@@ -37,17 +36,22 @@ struct UniformView: View {
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows) {
                     ForEach(observable.uniforms, id: \.self) { uniform in
-                        overlapUniform(uniform: uniform,
-                                       uniformSize: 80,
-                                       isSelected: selectedUniform == uniform ? true : false)
+                        RoundedRectangle(cornerRadius: 12)
+                            .foregroundColor(Color(uiColor: .systemGray5))
+                            .frame(width: 90, height: 90)
+                            .overlay {
+                                overlapUniform(uniform: uniform,
+                                               uniformSize: 80,
+                                               isSelected: observable.lineup.uniform == uniform ? true : false)
+
+                            }
                     }
                 }
             }
-
             .padding(.horizontal, 20)
             .frame(height: 100)
             RoundedRectangle(cornerSize: CGSize(width: 12, height: 12))
-                .foregroundStyle(Color.gray)
+                .foregroundColor(Color(uiColor: .systemGray5))
                 .opacity(0.4)
                 .frame(height: 90)
                 .overlay {
@@ -60,6 +64,7 @@ struct UniformView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.top, 8)
             Spacer()
         }
         .onChange(of: primaryColor) {
@@ -90,10 +95,9 @@ struct UniformView: View {
                               primaryColor: observable.lineup.primaryColor,
                               secondaryColor: observable.lineup.secondaryColor,
                               isSelected: isSelected)
-        .padding(.trailing, 22)
         .opacity(isSelected ? 0.7 : 1)
         .onTapGesture {
-            selectedUniform = uniform
+            observable.lineup.uniform = uniform
         }
     }
 }
