@@ -20,13 +20,17 @@ struct FieldView: View {
                 .offset(CGSize(width: 0, height: 100))
             ForEach(0..<observable.lineup.formation.rawValue, id: \.hashValue) { index in
                 if observable.lineup.players[index].isGoalkeeper {
-                    PlayerView(theme: observable.lineup.theme, player: observable.lineup.players[index])
+                    PlayerView(theme: observable.lineup.theme, 
+                               player: observable.lineup.players[index], 
+                               lineup: observable.lineup)
                           .offset(observable.lineup.players[index].offset.draggedOffset)
                           .onTapGesture {
                               observable.lineup.selectionPlayerIndex = index
                           }
                   } else {
-                      PlayerView(theme: observable.lineup.theme, player: observable.lineup.players[index])
+                      PlayerView(theme: observable.lineup.theme,
+                                 player: observable.lineup.players[index],
+                                 lineup: observable.lineup)
                           .offset(observable.lineup.players[index].offset.draggedOffset)
                           .gesture(
                             DragGesture()
