@@ -22,9 +22,14 @@ public struct MainView: View {
 
     @State var fieldObservable = FieldObservable()
 
-    public init() {}
+    @State private var observable: TeamSelectObservable
 
-    @State private var observable = TeamSelectObservable()
+    @MainActor
+    public init() {
+        let observable = TeamSelectObservable(modelContext: teamContainer.mainContext)
+        _observable = State(initialValue: observable)
+    }
+
     // 추후 model에서 반영 예정
     private var tintColor = Color.white
 
@@ -272,6 +277,7 @@ struct TeamChangeButton: View {
                     })
                     .sheet(isPresented: $isShowingSheet) {
                         TeamSelectView(observable: observable)
+                            .modelContainer(teamContainer)
                     }
                     Spacer()
                 }

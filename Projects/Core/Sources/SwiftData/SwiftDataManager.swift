@@ -37,9 +37,9 @@ public final class SwiftDataManager<T: PersistentModel> {
         modelContext.insert(item)
     }
 
-    public func fetchItem<V: PersistentModel>() -> [V]? {
+    public func fetchItem() -> [T] {
         do {
-            let items = try modelContext.fetch(FetchDescriptor<V>())
+            let items = try modelContext.fetch(FetchDescriptor<T>())
             return items
         } catch {
             fatalError(error.localizedDescription)

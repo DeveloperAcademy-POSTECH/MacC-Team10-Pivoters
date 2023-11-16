@@ -81,7 +81,8 @@ struct TeamSelectView: View {
                      isSelected: false)
             .teamCellViewModifier()
             .onTapGesture {
-                observable.isCreatePresented.toggle()
+                observable.addTeam()
+                //                observable.isCreatePresented.toggle()
             }
         }
         .padding(.top, 24)
@@ -99,7 +100,8 @@ struct TeamSelectView: View {
                      isSelected: false)
             .teamCellViewModifier()
             .onTapGesture {
-                observable.isCreatePresented.toggle()
+                observable.addTeam()
+                //                observable.isCreatePresented.toggle()
             }
             ForEach(observable.teams, id: \.id) { team in
                 TeamCell(team: team,

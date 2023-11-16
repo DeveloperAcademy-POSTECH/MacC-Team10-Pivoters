@@ -8,29 +8,45 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 import Core
 
 @Observable
 class TeamSelectObservable {
 
+    private let swiftDataManager: SwiftDataManager<RefactoredTeam>
+    var modelContext: ModelContext
+    var teams: [RefactoredTeam]
+
     var isCreatePresented: Bool = false
-    var teams: [Team]
     var selectedTeam: String
     var currentPresentationDetent: PresentationDetent = .fraction(0.5)
     var presentationDetent: Set<PresentationDetent> = [.fraction(0.5)]
 
-    init(teams: [Team] = MockData.teams) {
-        self.teams = teams
+    @MainActor
+    init(modelContext: ModelContext) {
+        self.swiftDataManager = SwiftDataManager<RefactoredTeam>(modelContext: modelContext)
+        self.modelContext = modelContext
+        self.teams = swiftDataManager.fetchItem()
         if let selectedTeamUUID = UserDefaults.standard.string(forKey: "selectedTeamUUID") {
             self.selectedTeam = selectedTeamUUID
         } else {
-            self.selectedTeam = teams[0].id.uuidString
+            self.selectedTeam = ""
         }
     }
 
-    func addTeam() {
+    func fetchTeam() -> [RefactoredTeam] {
+        swiftDataManager.fetchItem()
+    }
 
+    func addTeam() {
+        let randomInt = Int.random(in: 0...1111)
+        let team = RefactoredTeam(id: UUID(),
+                                  teamName: "\(randomInt)",
+                                  subTitle: "how")
+        swiftDataManager.insertItem(item: team)
+        teams.append(team)
     }
 
     func moreButtonClicked() {
@@ -55,5 +71,4 @@ class TeamSelectObservable {
             }
         }
     }
-
 }
