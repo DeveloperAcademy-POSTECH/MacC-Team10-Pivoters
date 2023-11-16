@@ -14,6 +14,7 @@ public struct TeamCRUDView: View {
     @Query private var teams: [RefactoredTeam]
     
     @Environment(\.modelContext) var context
+
     @State var observable: TeamSelectObservable
 
     @MainActor
@@ -23,39 +24,65 @@ public struct TeamCRUDView: View {
     }
     
     public var body: some View {
-        VStack {
-//            if let teams = observable.teams {
-            List {
-                ForEach(teams, id: \.self) { team in
-                    Text(team.teamName)
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(teams, id: \.self) { team in
+                        NavigationLink(destination: LineupCRUDView(team: team)) {
+                            Text(team.teamName)
+                        }
+                    }
+                    .onDelete(perform: deleteTeam)
                 }
-                .onDelete(perform: deleteItems)
-                //                }
             }
             
             HStack {
                 Button(action: {
-                    observable.addTeam()
+                    context.insert(
+                        RefactoredTeam(
+                            id: UUID(),
+                            teamName: "새 팀 " + String(teams.count + 1),
+                            subTitle: "naldo",
+                            isSelected: true,
+                            lineups: [
+                                RefactoredLineup(
+                                    id: UUID(),
+                                    lineupName: "새 라인업 1",
+                                    uniform: .stripe,
+                                    formation: .eleven,
+                                    primaryColor: UniformColor(red: 0.3, green: 0.6, blue: 0.45),
+                                    secondaryColor: UniformColor(red: 0.8, green: 0.8, blue: 0.8)),
+                                RefactoredLineup(
+                                    id: UUID(),
+                                    lineupName: "새 라인업 2",
+                                    uniform: .stripe,
+                                    formation: .eleven,
+                                    primaryColor: UniformColor(red: 0.3, green: 0.6, blue: 0.45),
+                                    secondaryColor: UniformColor(red: 0.8, green: 0.8, blue: 0.8)),
+                                RefactoredLineup(
+                                    id: UUID(),
+                                    lineupName: "새 라인업 3",
+                                    uniform: .stripe,
+                                    formation: .eleven,
+                                    primaryColor: UniformColor(red: 0.3, green: 0.6, blue: 0.45),
+                                    secondaryColor: UniformColor(red: 0.8, green: 0.8, blue: 0.8)),
+                            ],
+                            createdAt: Date(),
+                            updatedAt: Date()))
                 }, label: {
-                    Text("추가")
+                    Text("팀 추가")
                 })
-                .padding(.top, 10)
-                
-                Button(action: deleteLastItem) {
-                    Text("마지막 삭제")
-                }
                 .padding(.top, 10)
             }
         }
     }
     
-//    func addItem() {
-//        var newTeam = Team(id: UUID(), teamName: "새 팀", subTitle: "새 서브 타이틀", lineup: [])
-//        observable.insertTeam(team: newTeam)
-//        observable.teams = observable.fetchTeams()
-//    }
-    
-    func deleteLastItem() { }
-    
-    func deleteItems(at offsets: IndexSet) { }
+    func deleteTeam(at offsets: IndexSet) {
+        for index in offsets {
+            let teamToDelete = teams[index]
+            context.delete(teamToDelete)
+        }
+    }
+
+
 }
