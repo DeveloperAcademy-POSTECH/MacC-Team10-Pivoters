@@ -14,11 +14,11 @@ public struct TeamCRUDView: View {
     @Query private var teams: [RefactoredTeam]
     
     @Environment(\.modelContext) var context
-    @State var observable: RefactoredTeamObservable
-    
+    @State var observable: TeamSelectObservable
+
     @MainActor
     public init(modelcontext: ModelContext) {
-        let observable = RefactoredTeamObservable(modelContext: modelcontext)
+        let observable = TeamSelectObservable(modelContext: modelcontext)
         _observable = State(initialValue: observable)
     }
     
@@ -35,7 +35,7 @@ public struct TeamCRUDView: View {
             
             HStack {
                 Button(action: {
-                    observable.addTeam(team: RefactoredTeam(id: UUID(), teamName: "ho", subTitle: "naldo"))
+                    observable.addTeam()
                 }, label: {
                     Text("추가")
                 })

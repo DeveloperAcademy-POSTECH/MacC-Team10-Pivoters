@@ -11,7 +11,7 @@ import SwiftUI
 struct TeamCreateView: View {
 
     @Environment(\.dismiss) var dismiss
-    @State var teamName: String = ""
+    @State var observable: TeamCreateObservable
 
     var body: some View {
         VStack(spacing: 0) {
@@ -30,7 +30,7 @@ struct TeamCreateView: View {
             .padding(.top, 16)
             .padding(.trailing, 16)
 
-            TextField("팀명", text: $teamName)
+            TextField("팀명", text: $observable.teamName)
                 .frame(height: 55)
                 .foregroundStyle(Color.colorBlack)
                 .font(.Pretendard.headerNormal.font)
@@ -40,7 +40,9 @@ struct TeamCreateView: View {
                 .padding(.horizontal, 24)
             Spacer()
             Button {
-                // MARK: addTeam
+                // MARK: createTeam
+                observable.createTeam()
+                dismiss()
             } label: {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundStyle(Color.indigo)
@@ -54,8 +56,4 @@ struct TeamCreateView: View {
         }
 
     }
-}
-
-#Preview {
-    TeamCreateView()
 }

@@ -14,7 +14,13 @@ public struct MainView: View {
     @State var mainObservable = MainObservable()
     @State var observable = TeamObservable()
 
-    public init() {}
+    @State private var observable: TeamSelectObservable
+
+    @MainActor
+    public init() {
+        let observable = TeamSelectObservable(modelContext: teamContainer.mainContext)
+        _observable = State(initialValue: observable)
+    }
 
     public var body: some View {
         ZStack {
@@ -216,8 +222,11 @@ struct TeamChangeButton: View {
                         .background(mainObservable.isShowTeamSheet ? Color.white : Color.clear)
                         .clipShape(Circle())
                     })
-                .sheet(isPresented: $mainObservable.isShowTeamSheet) {
-                    TeamSelectView(observable: TeamSelectObservable())
+                    .sheet(isPresented: $mainObservable.isShowTeamSheet) {
+                        TeamSelectView(observable: observable)
+                            .modelContainer(teamContainer)
+                    }
+                    Spacer()
                 }
                 Spacer()
             }
