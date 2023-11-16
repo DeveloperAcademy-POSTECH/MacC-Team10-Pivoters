@@ -49,7 +49,6 @@ struct ModalSegmentedView: View {
         }
         .background(Color.white)
         .tint(Color.black)
-        .padding(.top, 8)
     }
 
     func segmentedControl(buttonType: EditType) -> some View {
