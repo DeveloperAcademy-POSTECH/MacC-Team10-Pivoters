@@ -22,7 +22,7 @@ struct PlayerView: View {
                 .scaledToFit()
                 .frame(width: 43, height: 43)
             Text(player.name)
-                .font(.system(size: 10))
+                .font(.Pretendard.semiBold10.font)
                 .foregroundStyle(theme.textColor)
                 .padding(.vertical, 2)
                 .padding(.horizontal, 5)
