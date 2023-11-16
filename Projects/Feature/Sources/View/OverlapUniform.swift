@@ -34,17 +34,17 @@ struct OverlapUniform: View {
                 .foregroundColor(primaryColor)
                 .frame(width: uniformSize, height: uniformSize)
 
-//            if let secondary = uniform.secondary {
-//                let secondaryColor = Color(.sRGB,
-//                                           red: self.secondaryColor.red,
-//                                           green: self.secondaryColor.green,
-//                                           blue: self.secondaryColor.blue)
-//                secondary
-//                    .resizable()
-//                    .renderingMode(.template)
-//                    .foregroundColor(secondaryColor)
-//                    .frame(width: uniformSize, height: uniformSize)
-//            }
+            if let secondary = uniform.secondary {
+                let secondaryColor = Color(.sRGB,
+                                           red: self.secondaryColor.red,
+                                           green: self.secondaryColor.green,
+                                           blue: self.secondaryColor.blue)
+                secondary
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(secondaryColor)
+                    .frame(width: uniformSize, height: uniformSize)
+            }
 
             if isSelected {
                 Image(systemName: "checkmark.circle")
