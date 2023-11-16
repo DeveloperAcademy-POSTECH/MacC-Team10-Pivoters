@@ -8,17 +8,13 @@
 
 import SwiftUI
 
-
-
 public extension View {
     /// 공유 시트를 표시하기 위한 메소드
-    func showShareSheet(with activityItems: [Any], isSharing: Binding<Bool>) {
+    func showShareSheet(with activityItems: [Any], onDismiss: @escaping () -> Void) {
         let activityVC = CustomActivityViewController(activityItems: activityItems, applicationActivities: nil)
 
-        // 공유 화면을 닫을 때, 상태값을 false로 설정
-        activityVC.onDismiss = {
-            isSharing.wrappedValue = false
-        }
+        // 시트 비활성화 시, 콜백 실행
+        activityVC.onDismiss = onDismiss
 
         // 현재 활성화된 UIWindowScene을 가져와 activityVC를 모달로 표시
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
