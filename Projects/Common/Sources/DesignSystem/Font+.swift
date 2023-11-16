@@ -16,6 +16,7 @@ public extension Font {
         case black14
         case semiBold14
         case semiBold10
+        case regular14
         case regular12
         case subhead
 
@@ -31,6 +32,8 @@ public extension Font {
                 CommonFontFamily.Pretendard.semiBold.swiftUIFont(size: 14)
             case .semiBold10:
                 CommonFontFamily.Pretendard.semiBold.swiftUIFont(size: 10)
+            case .regular14:
+                CommonFontFamily.Pretendard.regular.swiftUIFont(size: 14)
             case .regular12:
                 CommonFontFamily.Pretendard.regular.swiftUIFont(size: 12)
             case .subhead:

@@ -129,6 +129,7 @@ struct EditSheetIndicator: View {
                         .foregroundStyle(theme.textColor)
                         .padding(.bottom, 10)
                     Text("밀어올려서 편집하기")
+                        .font(.Pretendard.regular14.font)
                         .foregroundStyle(theme.textColor)
                 }
                 .frame(maxWidth: .infinity)
@@ -209,7 +210,7 @@ struct TeamChangeButton: View {
                                 .font(.system(size: 20))
                                 .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
                             Text("팀 변경")
-                                .font(.system(size: 10))
+                                .font(.Pretendard.subhead.font)
                                 .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
                         }
                         .padding(.all, 9)
@@ -254,7 +255,7 @@ struct ShareButton: View {
                             .font(.system(size: 20))
                             .foregroundStyle(theme.textColor)
                         Text("공유하기")
-                            .font(.system(size: 10))
+                            .font(.Pretendard.subhead.font)
                             .foregroundStyle(theme.textColor)
                     }
                 }
@@ -277,6 +278,7 @@ struct TeamInfo: View {
             HStack(alignment: .center) {
                 Text("\(observable.team.teamName)")
                     .font(.system(size: mainObservable.isShowEditSheet ? 22 : 18, weight: .bold))
+                    .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(observable.team.lineup[mainObservable.currentIndex].theme.textColor)
                 if mainObservable.isShowEditSheet {
@@ -286,7 +288,7 @@ struct TeamInfo: View {
             .padding(.bottom, 5)
             HStack(alignment: .center) {
                 Text("\(observable.team.subTitle)")
-                    .font(.system(size: 10))
+                    .font(.Pretendard.subhead.font)
                     .foregroundStyle(observable.team.lineup[mainObservable.currentIndex].theme.textColor)
                 if mainObservable.isShowEditSheet {
                     Spacer()
@@ -300,8 +302,4 @@ struct TeamInfo: View {
         .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
         .animation(.easeInOut(duration: 0.3), value: mainObservable.isShowEditSheet)
     }
-}
-
-#Preview {
-    MainView()
 }
