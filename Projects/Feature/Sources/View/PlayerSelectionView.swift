@@ -13,14 +13,12 @@ import Core
 
 struct PlayerSelectionView: View {
     @State var observable: PlayerSelectionObservable
-    @Environment(FieldObservable.self) var fieldObservable
 
     var body: some View {
         ScrollView {
             addPlayerCell()
             ForEach(observable.playerList.indices, id: \.hashValue) { index in
-                PlayerCell(player: $observable.playerList[index])
-                    .environment(fieldObservable)
+                PlayerCell(player: $observable.playerList[index], observable: observable)
             }
         }
 
@@ -43,14 +41,14 @@ struct PlayerSelectionView: View {
 struct PlayerCell: View {
     @Binding var player: Player
     @State var editPlayer = false
-    @Environment(FieldObservable.self) var fieldObservable
+    var observable: PlayerSelectionObservable
 
     var body: some View {
         HStack {
             Image(asset: CommonAsset.cirecleUniform)
                 .onTapGesture {
                     print("선수 선택")
-                    fieldObservable.selectPlayer(player)
+                    observable.selectPlayer(player)
                 }
             if editPlayer {
                 TextField("\(player.name)", text: $player.name)
@@ -75,7 +73,7 @@ struct PlayerCell: View {
                 }
                 .onTapGesture {
                     print("선수 선택")
-                    fieldObservable.selectPlayer(player)
+                    observable.selectPlayer(player)
                 }
             }
             Image(systemName: "square.and.pencil")

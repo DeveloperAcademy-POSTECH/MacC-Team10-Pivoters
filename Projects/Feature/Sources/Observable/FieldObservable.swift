@@ -11,19 +11,10 @@ import Foundation
 
 @Observable
 class FieldObservable {
-    var selectionPlayerIndex: Int?
-    var lineup: Lineup = Lineup(id: UUID(),
-                                uniform: .plain,
-                                formation: .eleven,
-                                selectedTypeOfFormation: .football433,
-                                players: MockData.player,
-                                primaryColor: UniformColor(red: 0.4,
-                                                           green: 0.4,
-                                                           blue: 0.4),
-                                secondaryColor: UniformColor(red: 0.2,
-                                                             green: 0.2,
-                                                             blue: 0.2))
-    var theme: Theme = .blueGray
+    var lineup: Lineup
+    init(lineup: Lineup) {
+        self.lineup = lineup
+    }
 
     func changeFormation(_ formationType: TypeOfFormation) {
         let formationOffsets: [CGSize] = formationType.returnPosition()
@@ -37,7 +28,7 @@ class FieldObservable {
     }
 
     func selectPlayer(_ player: Player) {
-        guard let index = selectionPlayerIndex else { return }
+        guard let index = lineup.selectionPlayerIndex else { return }
         if lineup.players[index].name == " " {
             if player.id != nil {
                 for positionIndex in 0..<lineup.players.count {

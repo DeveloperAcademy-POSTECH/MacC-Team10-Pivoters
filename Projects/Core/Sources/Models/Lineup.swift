@@ -19,6 +19,8 @@ public final class Lineup {
     public var players: [Player]
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
+    public var theme: Theme
+    public var selectionPlayerIndex: Int?
 
     public init(
         id: UUID,
@@ -27,7 +29,8 @@ public final class Lineup {
         selectedTypeOfFormation: TypeOfFormation,
         players: [Player],
         primaryColor: UniformColor,
-        secondaryColor: UniformColor) {
+        secondaryColor: UniformColor,
+        theme: Theme = .blackBlue) {
             self.id = id
             self.uniform = uniform
             self.formation = formation
@@ -35,6 +38,7 @@ public final class Lineup {
             self.players = players
             self.primaryColor = primaryColor
             self.secondaryColor = secondaryColor
+            self.theme = theme
         }
 }
 

@@ -12,9 +12,9 @@ import Core
 import Common
 
 struct ModalSegmentedView: View {
-
     @State var editType: EditType = .theme
-    @Environment(FieldObservable.self) var fieldObservable
+    var lineup: Lineup
+
     var body: some View {
         VStack(spacing: 0) {
             Rectangle()
@@ -31,35 +31,22 @@ struct ModalSegmentedView: View {
 
             switch editType {
             case .theme:
-                ThemeView(observable: ThemeObservable())
-                    .environment(fieldObservable)
+                ThemeView(observable: ThemeObservable(lineup: lineup))
                     .padding(.top, 24)
             case .uniform:
                 UniformView(observable: UniformObservable())
                     .padding(.top, 24)
             case .player:
-                Text("Player")
+                PlayerSelectionView(observable: PlayerSelectionObservable(lineup: lineup))
             case .management:
                 TeamManagementView(
                     observable: TeamManagementObservable(
-                        lineup: Lineup(id: UUID(),
-                                       uniform: .plain,
-                                       formation: .eleven,
-                                       selectedTypeOfFormation: .football4231,
-                                       players: MockData.player,
-                                       primaryColor: UniformColor(red: 0.4,
-                                                                  green: 0.4,
-                                                                  blue: 0.4),
-                                       secondaryColor: UniformColor(red: 0.2,
-                                                                    green: 0.2,
-                                                                    blue: 0.2)
-                                      )
+                        lineup: lineup
                     )
                 )
                 .padding(.top, 24)
             }
         }
-        .frame(height: 450)
         .background(Color.white)
         .tint(Color.black)
         .padding(.top, 8)
@@ -95,8 +82,4 @@ enum EditType {
             "팀 관리"
         }
     }
-}
-
-#Preview {
-    ModalSegmentedView()
 }
