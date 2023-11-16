@@ -236,13 +236,13 @@ struct TeamChangeButton: View {
 
 // 공유 버튼
 struct ShareButton: View {
-    var mainObservable: MainObservable
+    @State var mainObservable: MainObservable
     @State var observable = TeamObservable()
     @State private var snapshotImage: UIImage?
     var theme: Theme
 
     private func captureAndShareSnapshot() {
-        snapshotImage = ShareImage(isSharing: mainObservable.isSharing, lineup: observable.team.lineup).snapshot()
+        snapshotImage = ShareImage(mainObservable: $mainObservable, isSharing: mainObservable.isSharing, lineup: observable.team.lineup).snapshot()
         let metaData = ImageMetadataProvider(placeholderItem: snapshotImage!)
         showShareSheet(with: [metaData], onDismiss: {
             mainObservable.isSharing = false

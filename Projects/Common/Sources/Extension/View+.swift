@@ -29,14 +29,14 @@ public extension View {
         let controller = UIHostingController(rootView: self)
 
         let view = controller.view
-        let targetSize = CGSize(width: 200, height: 200)
-        view?.frame = CGRect(origin: .zero, size: targetSize)
+        let targetSize = view?.intrinsicContentSize
+        view?.frame = CGRect(origin: .zero, size: targetSize ?? CGSize(width: 270, height: 270))
         view?.backgroundColor = .clear
 
         view?.layoutIfNeeded()
 
         // 내부적으로 렌더링 수행
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        let renderer = UIGraphicsImageRenderer(size: targetSize ?? CGSize(width: 270, height: 270))
         return renderer.image { _ in
             view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
         }
