@@ -33,7 +33,7 @@ struct PlayerView: View {
                         .foregroundStyle(theme.nameField)
                         .frame(minWidth: 40)
                 )
-                .offset(y: -12)
+                .offset(y: -16)
         }
     }
 }
