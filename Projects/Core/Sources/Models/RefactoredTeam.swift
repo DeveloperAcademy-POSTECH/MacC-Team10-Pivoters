@@ -12,16 +12,24 @@ import SwiftData
 @Model
 public final class RefactoredTeam {
     public let id: UUID
-    public let teamName: String
-    public let subTitle: String
+    public var teamName: String
+    public var subTitle: String
+    public var isSelected: Bool
+    public let createdAt: Date
+    public var updatedAt: Date
 
     public init(
         id: UUID,
         teamName: String,
-        subTitle: String)
-    {
-        self.id = id
-        self.teamName = teamName
-        self.subTitle = subTitle
-    }
+        subTitle: String,
+        isSelected: Bool,
+        createdAt: Date,
+        updatedAt: Date) {
+            self.id = id
+            self.teamName = teamName
+            self.subTitle = subTitle
+            self.isSelected = isSelected
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+        }
 }
