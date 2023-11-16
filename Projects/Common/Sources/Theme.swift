@@ -68,4 +68,17 @@ extension Theme {
             Color.black
         }
     }
+
+    public var share: Image {
+        switch self {
+        case .blueGray:
+                Image(asset: CommonAsset.shareGray)
+        case .whiteGreen:
+            Image(asset: CommonAsset.shareGreen)
+        case .blackBlue:
+            Image(asset: CommonAsset.shareBlue)
+        case .grayBlack:
+            Image(asset: CommonAsset.shareBlack)
+        }
+    }
 }
