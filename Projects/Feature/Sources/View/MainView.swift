@@ -73,24 +73,26 @@ struct EditSheetModalSection: View {
     var lineup: Lineup
 
     var body: some View {
-        VStack {
-            ModalSegmentedView(lineup: lineup)
-                .animation(.easeInOut, value: mainObservable.isShowEditSheet)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
+
+        ModalSegmentedView(lineup: lineup)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
                             if value.translation.height > 0 {
-                                mainObservable.editSheetOffset = value.translation.height
+                            mainObservable.editSheetOffset += value.translation.height
                             }
+                    }
+                    .onEnded { value in
+                        if mainObservable.editSheetOffset > 50 {
+                            mainObservable.isShowEditSheet = false
                         }
-                        .onEnded { _ in
-                            if mainObservable.editSheetOffset > 100 {
-                                mainObservable.isShowEditSheet = false
-                            }
-                            mainObservable.editSheetOffset = 0
-                        }
-                )
-        }.frame(height: UIScreen.main.bounds.height * 3 / 7)
+                        mainObservable.editSheetOffset = 0
+                    }
+            )
+
+        .frame(height: UIScreen.main.bounds.height * 3 / 7)
+        .offset(y: mainObservable.editSheetOffset)
+        .animation(.easeInOut, value: mainObservable.isShowEditSheet)
     }
 }
 
@@ -106,7 +108,7 @@ struct FieldCarousel: View {
                  spacing: -30,
                  currentIndex: $mainObservable.currentIndex) { index in
                 FieldView(observable: FieldObservable(lineup: lineup[index]))
-                    .offset(y: mainObservable.isShowEditSheet ? 0: mainObservable.editSheetIndicatorOffset + UIScreen.main.bounds.height / 7)
+                .offset(y: mainObservable.isShowEditSheet ? mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset + UIScreen.main.bounds.height / 7)
         }
                  .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
                  .animation(.easeInOut(duration: 0.4), value: mainObservable.isShowEditSheet)
@@ -149,6 +151,9 @@ struct EditSheetIndicator: View {
                 }
         )
         .blur(radius: mainObservable.isShowTeamSheet ? 10 : 0)
+        .sheet(isPresented: $mainObservable.isShowEditSheet, content: {
+            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Sheet Content")/*@END_MENU_TOKEN@*/
+        })
     }
 }
 
