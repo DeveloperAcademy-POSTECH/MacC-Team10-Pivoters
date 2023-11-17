@@ -22,6 +22,10 @@ public class ImageMetadataProvider: UIActivityItemProvider {
         super.init(placeholderItem: image)
     }
 
+    public override var item: Any {
+        return self.image
+    }
+
     @available(iOS 13.0, *)
     public override func activityViewControllerLinkMetadata(
         _ activityViewController: UIActivityViewController
