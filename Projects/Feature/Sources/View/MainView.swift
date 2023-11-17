@@ -21,12 +21,12 @@ public struct MainView: View {
             // LaunchScreen 뷰
             LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
             // 공유 버튼을 클릭시 최상단 계층에서 오버레이
-            ShareView(mainObservable: $mainObservable).zIndex(1)
+            ShareView(mainObservable: $mainObservable, team: observable.team).zIndex(1)
             VStack {
                 ZStack {
                     HStack {
                         if mainObservable.isShowEditSheet {
-                            ShareButton(mainObservable: mainObservable,
+                            ShareButton(mainObservable: mainObservable, team: observable.team,
                                         theme: observable.team.lineup[mainObservable.currentIndex].theme)
                         } else {
                             TeamChangeButton(mainObservable: $mainObservable,
@@ -237,16 +237,18 @@ struct TeamChangeButton: View {
 // 공유 버튼
 struct ShareButton: View {
     @State var mainObservable: MainObservable
-    @State var observable = TeamObservable()
+    var team: Team
     @State private var snapshotImage: UIImage?
     var theme: Theme
 
     private func captureAndShareSnapshot() {
-        snapshotImage = ShareImage(mainObservable: $mainObservable, isSharing: mainObservable.isSharing, lineup: observable.team.lineup).snapshot()
-        let metaData = ImageMetadataProvider(placeholderItem: snapshotImage!)
-        showShareSheet(with: [metaData], onDismiss: {
-            mainObservable.isSharing = false
-        })
+        snapshotImage = ShareImage(mainObservable: $mainObservable, team: team, isSharing: mainObservable.isSharing, lineup: team.lineup).snapshot()
+        if let image = snapshotImage {
+            let metaData = ImageMetadataProvider(image: image, team: team)
+            showShareSheet(with: [metaData], onDismiss: {
+                mainObservable.isSharing = false
+            })
+        }
     }
 
     var body: some View {
