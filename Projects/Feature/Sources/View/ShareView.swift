@@ -9,26 +9,28 @@
 import Foundation
 import SwiftUI
 import Core
+import Common
 
 public struct ShareView: View {
     @Binding var mainObservable: MainObservable
-    @State var observable = TeamObservable()
+    var team: Team
     @State private var snapshotImage: UIImage?
 
     public var body: some View {
         if mainObservable.isSharing {
-            VStack(alignment: .leading) {
+            VStack {
                 HStack {
                     if let image = snapshotImage {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .frame(width: 380, height: 310)
                 .onAppear {
-                    self.snapshotImage = ShareImage(mainObservable: $mainObservable, isSharing: true, lineup: observable.team.lineup).snapshot()
+                    self.snapshotImage = ShareImage(mainObservable: $mainObservable, team: team,
+                                                    isSharing: true,
+                                                    lineup: team.lineup).snapshot()
                 }
             }
             .padding(.bottom, 470) // 추후 반응형으로 y축 위치 조정
@@ -38,32 +40,43 @@ public struct ShareView: View {
 
 public struct ShareImage: View {
     @Binding var mainObservable: MainObservable
-    @State var observable = TeamObservable()
+    var team: Team
     var isSharing: Bool
     var lineup: [Lineup]
 
     public var body: some View {
         if isSharing {
-            VStack {
-                Text("\(observable.team.teamName)")
-                    .font(.Pretendard.black16.font)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(observable.team.lineup[mainObservable.currentIndex].theme.textColor)
-                    .padding(.bottom, 1)
-
-                Text("\(observable.team.subTitle)")
-                    .font(.Pretendard.subhead.font)
-                    .foregroundStyle(observable.team.lineup[mainObservable.currentIndex].theme.textColor)
+            ZStack {
+                Image(asset: CommonAsset.shareBlue)
+                    .resizable()
+                    .frame(width: 393, height: 393) // 추후 반응형으로 크기 조정
+                    .offset(y: -20) // 추후 반응형으로 크기 조정
                 VStack {
-                    FieldView(observable: FieldObservable(lineup: lineup[0]))
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 380, height: 310)
-                        .clipShape(Rectangle())
+                    Text("\(team.teamName)")
+                        .font(.Pretendard.black16.font)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(team.lineup[mainObservable.currentIndex].theme.textColor)
+                        .padding(.bottom, 1)
+                    Text("\(team.subTitle)")
+                        .font(.Pretendard.subhead.font)
+                        .foregroundStyle(team.lineup[mainObservable.currentIndex].theme.textColor)
+                    Spacer()
                 }
-                Spacer()
+                .padding(.top, 30) // 추후 반응형으로 위치 조정
+                ForEach(0..<lineup[0].formation.rawValue, id: \.hashValue) { index in
+                    if lineup[0].players[index].isGoalkeeper {
+                        PlayerView(theme: lineup[0].theme,
+                                   player: lineup[0].players[index])
+                        .offset(lineup[0].players[index].offset.draggedOffset)
+                    } else {
+                        PlayerView(theme: lineup[0].theme,
+                                   player: lineup[0].players[index])
+                        .offset(lineup[0].players[index].offset.draggedOffset)
+                    }
+                }
+                .offset(y: 40) // 추후 반응형으로 위치 조정
             }
-            .background(
-                observable.team.lineup[mainObservable.currentIndex].theme.background)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
         }
     }
 }
