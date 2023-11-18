@@ -8,62 +8,61 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 import Core
 
 @Observable
 class PlayerSelectionObservable {
+
     var playerList: [Player]
     var lineup: Lineup
+
     init(playerList: [Player] = [], lineup: Lineup) {
         self.playerList = playerList
         self.lineup = lineup
     }
 
     func addPlayer() {
-        playerList.append(Player(name: "새로 추가된 선수", number: 1, isGoalkeeper: false, offset: OffsetValue(draggedOffset: CGSize.zero, accumulatedOffset: CGSize.zero)))
+        playerList.append(Player(name: "\(self.playerList.count)",
+                                 number: 7,
+                                 isGoalkeeper: false,
+                                 offset: OffsetValue(draggedOffsetWidth: 0,
+                                                     draggedOffsetHeight: 0,
+                                                     accumulatedOffsetWidth: 0,
+                                                     accumulatedOffsetHeight: 0)))
     }
 
-    func selectPlayer(_ player: Player) {
+    func selectPlayer(_ registerPlayer: Player) {
         guard let index = lineup.selectionPlayerIndex else { return }
         if lineup.players[index].name == " " {
-            if player.id != nil {
-                for positionIndex in 0..<lineup.players.count {
-                    if lineup.players[positionIndex].id == player.id {
-                        let human = Player(id: player.id,
-                                           name: " ",
-                                           number: player.number,
-                                           isGoalkeeper: player.isGoalkeeper,
-                                           offset: player.offset
-                        )
-
-                        lineup.players[positionIndex] = human
-                    }
+            if registerPlayer.id != nil {
+                if let registeredIndex = lineup.players.firstIndex(where: { $0.id == registerPlayer.id }) {
+                    let clearPlayer = Player(id: registerPlayer.id,
+                                             name: " ",
+                                             number: registerPlayer.number,
+                                             isGoalkeeper: registerPlayer.isGoalkeeper,
+                                             offset: registerPlayer.offset)
+                    lineup.players[registeredIndex] = clearPlayer
                 }
             }
-            player.offset = lineup.players[index].offset
-            player.isGoalkeeper = lineup.players[index].isGoalkeeper
-            player.number = lineup.players[index].number
-            player.id = lineup.players[index].id
-
-            lineup.players[index] = player
+            registerPlayer.offset = lineup.players[index].offset
+            registerPlayer.isGoalkeeper = lineup.players[index].isGoalkeeper
+            registerPlayer.number = lineup.players[index].number
+            registerPlayer.id = lineup.players[index].id
+            lineup.players[index] = registerPlayer
         } else {
-            if player.id != nil {
-                for positionIndex in 0..<lineup.players.count {
-                    if lineup.players[positionIndex].id == player.id {
-                        let swapOffset = lineup.players[index].offset
-                        lineup.players[index].offset = player.offset
-                        player.offset = swapOffset
-                    }
-                }
+            if registerPlayer.id != nil {
+                let swapOffset = lineup.players[index].offset
+                lineup.players[index].offset = registerPlayer.offset
+                registerPlayer.offset = swapOffset
             } else {
-                player.offset = lineup.players[index].offset
-                player.isGoalkeeper = lineup.players[index].isGoalkeeper
-                player.number = lineup.players[index].number
-                player.id = lineup.players[index].id
-
+                registerPlayer.offset = lineup.players[index].offset
+                registerPlayer.isGoalkeeper = lineup.players[index].isGoalkeeper
+                registerPlayer.number = lineup.players[index].number
+                registerPlayer.id = lineup.players[index].id
                 lineup.players[index].id = nil
-                lineup.players[index] = player
+                lineup.players[index] = registerPlayer
             }
         }
     }
