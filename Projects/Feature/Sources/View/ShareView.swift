@@ -24,6 +24,7 @@ public struct ShareView: View {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.main.bounds.width * 7 / 9)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                 }
@@ -32,8 +33,9 @@ public struct ShareView: View {
                                                     isSharing: true,
                                                     lineup: team.lineup).snapshot()
                 }
+                Spacer()
             }
-            .padding(.bottom, 470) // 추후 반응형으로 y축 위치 조정
+            .padding()
         }
     }
 }
@@ -49,8 +51,9 @@ public struct ShareImage: View {
             ZStack {
                 Image(asset: CommonAsset.shareBlue)
                     .resizable()
-                    .frame(width: 393, height: 393) // 추후 반응형으로 크기 조정
-                    .offset(y: -20) // 추후 반응형으로 크기 조정
+                    .scaledToFit()
+                    .frame(height: UIScreen.main.bounds.width)
+                    .offset(y: -20)
                 VStack {
                     Text("\(team.teamName)")
                         .font(.Pretendard.black16.font)
@@ -62,7 +65,7 @@ public struct ShareImage: View {
                         .foregroundStyle(team.lineup[mainObservable.currentIndex].theme.textColor)
                     Spacer()
                 }
-                .padding(.top, 30) // 추후 반응형으로 위치 조정
+                .padding(.top, 30)
                 ForEach(0..<lineup[0].formation.rawValue, id: \.hashValue) { index in
                     if lineup[0].players[index].isGoalkeeper {
                         PlayerView(theme: lineup[0].theme,
@@ -76,7 +79,6 @@ public struct ShareImage: View {
                 }
                 .offset(y: 40) // 추후 반응형으로 위치 조정
             }
-            .clipShape(RoundedRectangle(cornerRadius: 20))
         }
     }
 }
