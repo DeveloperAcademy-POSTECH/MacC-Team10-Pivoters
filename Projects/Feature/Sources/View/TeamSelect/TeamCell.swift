@@ -18,7 +18,7 @@ enum TeamCellType {
 
 struct TeamCell: View {
 
-    let team: RefactoredTeam?
+    let team: Team?
     let cellType: TeamCellType
     let isSelected: Bool
 
