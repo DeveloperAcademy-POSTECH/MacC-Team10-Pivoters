@@ -1,6 +1,6 @@
 //
 //  ImageMetadataProvider.swift
-//  Common
+//  Feature
 //
 //  Created by Ha Jong Myeong on 11/9/23.
 //  Copyright © 2023 com.pivoters. All rights reserved.
@@ -9,21 +9,21 @@
 import Foundation
 import UIKit
 import LinkPresentation
+import Core
 
 public class ImageMetadataProvider: UIActivityItemProvider {
     var image: UIImage
+    var team: Team
+
+    init(image: UIImage, team: Team) {
+        self.image = image
+        self.team = team
+
+        super.init(placeholderItem: image)
+    }
 
     public override var item: Any {
         return self.image
-    }
-
-    public override init(placeholderItem: Any) {
-        guard let image = placeholderItem as? UIImage else {
-            fatalError("DEBUG ::: Couldn't create image from provided item")
-        }
-
-        self.image = image
-        super.init(placeholderItem: placeholderItem)
     }
 
     @available(iOS 13.0, *)
@@ -31,8 +31,8 @@ public class ImageMetadataProvider: UIActivityItemProvider {
         _ activityViewController: UIActivityViewController
     ) -> LPLinkMetadata? {
         let metadata = LPLinkMetadata()
-        metadata.title = "Titles" // 팀 이름으로 변경 예정
-        metadata.originalURL = URL(fileURLWithPath: "Subtitles") // 포메이션 이름으로 변경 예정
+        metadata.title = team.teamName
+        metadata.originalURL = URL(fileURLWithPath: team.subTitle)
         var thumbnail: NSSecureCoding = NSNull()
         if let imageData = self.image.pngData() {
             thumbnail = NSData(data: imageData)
