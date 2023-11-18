@@ -9,29 +9,35 @@
 import Foundation
 import SwiftData
 
-@Observable
+@Model
 public final class Lineup {
 
     public let id: UUID
+    public let index: Int
+    public var lineupName: String
     public var uniform: Uniform
     public var formation: Formation
     public var selectedTypeOfFormation: TypeOfFormation
-    public var players: [Player]
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
     public var theme: Theme
     public var selectionPlayerIndex: Int?
+    public var players: [Player] = [Player]()
 
     public init(
         id: UUID,
+        index: Int,
+        lineupName: String,
         uniform: Uniform,
         formation: Formation,
         selectedTypeOfFormation: TypeOfFormation,
         players: [Player],
         primaryColor: UniformColor,
         secondaryColor: UniformColor,
-        theme: Theme = .blackBlue) {
+        theme: Theme) {
             self.id = id
+            self.index = index
+            self.lineupName = lineupName
             self.uniform = uniform
             self.formation = formation
             self.selectedTypeOfFormation = selectedTypeOfFormation
