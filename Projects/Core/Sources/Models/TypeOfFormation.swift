@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TypeOfFormation: String {
+public enum TypeOfFormation: String, Codable {
     case football343 = "3-4-3"
     case football442 = "4-4-2"
     case football433 = "4-3-3"
