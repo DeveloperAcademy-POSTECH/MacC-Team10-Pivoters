@@ -14,13 +14,15 @@ import Core
 struct PlayerView: View {
     var theme: Theme
     var player: Player
+    var lineup: Lineup
 
     var body: some View {
         VStack {
-            Image(asset: CommonAsset.uniform)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 43, height: 43)
+            OverlapUniform(uniform: lineup.uniform,
+                           uniformSize: 43,
+                           primaryColor: lineup.primaryColor,
+                           secondaryColor: lineup.secondaryColor,
+                           isSelected: false)
             Text(player.name)
                 .font(.Pretendard.semiBold10.font)
                 .foregroundStyle(theme.textColor)

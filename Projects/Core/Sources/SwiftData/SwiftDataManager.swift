@@ -9,14 +9,20 @@
 import Foundation
 import SwiftData
 
-///TODO: 이후에 TEAM으로 수정해야 함.
+/// TODO: 이후에 TEAM으로 수정해야 함.
 @MainActor
 public let teamContainer: ModelContainer = {
     do {
         let container = try ModelContainer(for: RefactoredTeam.self)
         let context = container.mainContext
         if try context.fetch(FetchDescriptor<RefactoredTeam>()).isEmpty {
-            container.mainContext.insert(RefactoredTeam(id: UUID(), teamName: "새 팀 1", subTitle: "새 서브 타이틀"))
+            container.mainContext.insert(RefactoredTeam(id: UUID(),
+                                                        teamName: "새 팀 1",
+                                                        subTitle: "새 서브 타이틀",
+                                                        isSelected: true,
+                                                        lineups: [],
+                                                        createdAt: Date(),
+                                                        updatedAt: Date()))
         }
         return container
     } catch {
@@ -37,15 +43,15 @@ public final class SwiftDataManager<T: PersistentModel> {
         modelContext.insert(item)
     }
 
-    public func fetchItem<V: PersistentModel>() -> [V]? {
+    public func fetchItem() -> [T] {
         do {
-            let items = try modelContext.fetch(FetchDescriptor<V>())
+            let items = try modelContext.fetch(FetchDescriptor<T>())
             return items
         } catch {
             fatalError(error.localizedDescription)
         }
     }
-    
+
     public func saveItems() {
         do {
             try modelContext.save()

@@ -34,10 +34,11 @@ struct ModalSegmentedView: View {
                 ThemeView(observable: ThemeObservable(lineup: lineup))
                     .padding(.top, 24)
             case .uniform:
-                UniformView(observable: UniformObservable())
+                UniformView(observable: UniformObservable(lineup: lineup))
                     .padding(.top, 24)
             case .player:
                 PlayerSelectionView(observable: PlayerSelectionObservable(lineup: lineup))
+                    .padding(.top, 24)
             case .management:
                 TeamManagementView(
                     observable: TeamManagementObservable(
@@ -46,6 +47,7 @@ struct ModalSegmentedView: View {
                 )
                 .padding(.top, 24)
             }
+            Spacer()
         }
         .background(Color.white)
         .tint(Color.black)
