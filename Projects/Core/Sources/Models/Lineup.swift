@@ -17,7 +17,7 @@ public final class Lineup {
     public var lineupName: String
     public var uniform: Uniform
     public var formation: Formation
-    public var selectedTypeOfFormation: TypeOfFormation
+    public var selectedTypeOfFormation: TypeOfFormation // 선택된 포메이션이 저장되지 않고 있음.
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
     public var theme: Theme
