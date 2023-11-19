@@ -259,6 +259,17 @@ struct TeamInfo: View {
     var body: some View {
         VStack {
             HStack {
+                if !mainObservable.isShowEditSheet {
+                    ForEach(0..<3, id: \.self) { index in
+                        Circle()
+                            .foregroundStyle(.white)
+                            .frame(width: 6, height: 6)
+                            .opacity(mainObservable.currentIndex == index ? 1: 0.3)
+                            .animation(.easeInOut(duration: 0.3), value: mainObservable.currentIndex)
+                    }.offset(y: -50)
+                }
+            }
+            HStack {
                 Text("\(observable.team.teamName)")
                     .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
