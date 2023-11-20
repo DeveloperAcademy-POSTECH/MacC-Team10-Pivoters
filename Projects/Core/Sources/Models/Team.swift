@@ -13,7 +13,7 @@ import SwiftData
 @Model
 public final class Team {
     public let id: UUID
-    public let teamName: String
+    public var teamName: String
     public var isSelected: Bool
     public let createdAt: Date
     public var updatedAt: Date
