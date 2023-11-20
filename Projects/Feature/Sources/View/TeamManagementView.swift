@@ -39,13 +39,13 @@ struct TeamManagementView: View {
                 .font(.Pretendard.semiBold14.font)
                 .tint(.colorBlack)
             Spacer()
-            Picker("포메이션", selection: $observable.selectedTypeOfFormation) {
+            Picker("포메이션", selection: $observable.lineup.selectedTypeOfFormation) {
                 ForEach(observable.lineup.formation.typeOfFormation, id: \.self) {
                     Text($0.rawValue)
                         .font(.Pretendard.black14.font)
                 }
             }
-            .onChange(of: observable.selectedTypeOfFormation) { _, selectedFormation in
+            .onChange(of: observable.lineup.selectedTypeOfFormation) { _, selectedFormation in
                 observable.changeFormation(selectedFormation)
             }
             .tint(.gray)
