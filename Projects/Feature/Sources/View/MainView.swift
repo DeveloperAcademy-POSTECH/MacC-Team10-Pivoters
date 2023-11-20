@@ -55,6 +55,7 @@ public struct MainView: View {
                 }
                 if mainObservable.isShowEditSheet {
                     EditSheetModalSection(mainObservable: $mainObservable,
+                                          team: observable.team!,
                                           lineup: observable.lineup[mainObservable.currentIndex])
                 } else {
                     EditSheetIndicator(mainObservable: $mainObservable,
@@ -90,11 +91,12 @@ public struct MainView: View {
 struct EditSheetModalSection: View {
     @Binding var mainObservable: MainObservable
 
+    var team: Team
     var lineup: Lineup
 
     var body: some View {
 
-        ModalSegmentedView(lineup: lineup)
+        ModalSegmentedView(team: team, lineup: lineup)
             .gesture(
                 DragGesture()
                     .onChanged { value in
