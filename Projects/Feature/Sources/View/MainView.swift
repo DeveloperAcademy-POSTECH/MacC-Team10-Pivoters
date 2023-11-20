@@ -47,7 +47,7 @@ public struct MainView: View {
                          observable: observable)
                 Spacer()
                 ZStack {
-                    FieldCarousel(mainObservable: $mainObservable, lineup: observable.lineup)
+                    FieldCarousel(mainObservable: mainObservable, lineup: observable.lineup)
                     if !mainObservable.isShowEditSheet {
                         FieldCarouselButton(mainObservable: $mainObservable,
                                             theme: observable.lineup[mainObservable.currentIndex].theme)
@@ -118,15 +118,14 @@ struct EditSheetModalSection: View {
 
 // 필드 캐러셀
 struct FieldCarousel: View {
-
-    @Binding var mainObservable: MainObservable
+    var mainObservable: MainObservable
     var lineup: [Lineup]
 
     var body: some View {
         Carousel(pageCount: 3,
                  visibleEdgeSpace: -120,
                  spacing: -30,
-                 currentIndex: $mainObservable.currentIndex) { index in
+                 mainObservable: mainObservable) { index in
                 FieldView(observable: FieldObservable(lineup: lineup[index]))
                 .offset(y: mainObservable.isShowEditSheet ?
                         mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset
@@ -307,6 +306,7 @@ struct TeamInfo: View {
                     .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
+                    .padding(.bottom, 8)
                 if mainObservable.isShowEditSheet {
                     Spacer()
                 }

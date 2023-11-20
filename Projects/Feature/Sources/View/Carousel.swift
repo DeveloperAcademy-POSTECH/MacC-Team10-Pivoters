@@ -17,20 +17,20 @@ public struct Carousel<Content: View>: View {
     let content: (PageIndex) -> Content
 
     @GestureState var dragOffset: CGFloat = 0
-    @Binding var currentIndex: Int
+    var mainObservable: MainObservable
 
     public init(
         pageCount: Int,
         visibleEdgeSpace: CGFloat,
         spacing: CGFloat,
-        currentIndex: Binding<Int>,
+        mainObservable: MainObservable,
         @ViewBuilder content: @escaping (PageIndex) -> Content
     ) {
         self.pageCount = pageCount
         self.visibleEdgeSpace = visibleEdgeSpace
         self.spacing = spacing
         self.content = content
-        self._currentIndex = currentIndex
+        self.mainObservable = mainObservable
     }
 
     public var body: some View {
@@ -38,8 +38,8 @@ public struct Carousel<Content: View>: View {
             let baseOffset: CGFloat = spacing + visibleEdgeSpace
             let pageWidth: CGFloat = proxy.size.width - (visibleEdgeSpace + spacing) * 2
             let offsetX: CGFloat = baseOffset
-            + CGFloat(currentIndex) * -pageWidth
-            + CGFloat(currentIndex) * -spacing
+            + CGFloat(mainObservable.currentIndex) * -pageWidth
+            + CGFloat(mainObservable.currentIndex) * -spacing
             + dragOffset
 
             HStack(spacing: spacing) {
@@ -54,17 +54,25 @@ public struct Carousel<Content: View>: View {
             }
             .offset(x: offsetX)
             .gesture(
-                DragGesture()
+                mainObservable.isShowEditSheet ? DragGesture()
+                    .updating($dragOffset) { _, _, _ in
+                        print("update gesture.")
+                    }
+                    .onEnded { _ in
+                        print("ended gesture.")
+                    }:
+                    DragGesture()
                     .updating($dragOffset) { value, out, _ in
                         out = value.translation.width
                     }
                     .onEnded { value in
-                        let sensitivity: CGFloat = 0.4 // carousel 민감도
+                        let sensitivity: CGFloat = 0.3 // carousel 민감도
                         let offsetX = value.translation.width
                         let progress = -offsetX / (pageWidth * sensitivity)
                         let increment = Int(progress.rounded())
 
-                        currentIndex = max(min(currentIndex + increment, pageCount - 1), 0)
+                        mainObservable.currentIndex =
+                        max(min(mainObservable.currentIndex + increment, pageCount - 1), 0)
                     }
             )
             .animation(.spring, value: offsetX)
