@@ -34,6 +34,7 @@ struct ThemeView: View {
                 }
             }
         }
+        .scrollIndicators(.hidden)
         .padding(.horizontal, 20)
     }
 
