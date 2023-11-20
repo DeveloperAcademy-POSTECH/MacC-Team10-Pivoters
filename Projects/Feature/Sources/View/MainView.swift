@@ -9,16 +9,16 @@
 import Core
 import Common
 import SwiftUI
+import SwiftData
 
 public struct MainView: View {
     @State var mainObservable = MainObservable()
-    @State var observable = TeamObservable()
 
-    @State private var observable: TeamSelectObservable
+    @State var observable: TeamObservable
 
     @MainActor
-    public init() {
-        let observable = TeamSelectObservable(modelContext: teamContainer.mainContext)
+    public init(modelContext: ModelContext) {
+        let observable = TeamObservable(modelContext: modelContext)
         _observable = State(initialValue: observable)
     }
 
@@ -27,40 +27,47 @@ public struct MainView: View {
             // LaunchScreen 뷰
             LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
             // 공유 버튼을 클릭시 최상단 계층에서 오버레이
-            ShareView(mainObservable: $mainObservable, team: observable.team).zIndex(1)
+            ShareView(mainObservable: mainObservable, team: observable.team, lineup: observable.lineup[mainObservable.currentIndex]).zIndex(1)
             VStack {
                 HStack {
                     if !mainObservable.isShowEditSheet {
-                        TeamChangeButton(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                        TeamChangeButton(mainObservable: $mainObservable, theme: observable.lineup[mainObservable.currentIndex].theme)
                         Spacer()
                     } else {
                         Spacer()
-                        ShareButton(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                        //MARK: !
+                        ShareButton(mainObservable: mainObservable, team: observable.team!, lineup: observable.lineup[mainObservable.currentIndex])
                     }
                 }
                 TeamInfo(mainObservable: $mainObservable, observable: observable)
                 Spacer()
                 ZStack {
-                    FieldCarousel(mainObservable: $mainObservable, lineup: observable.team.lineup)
+                    FieldCarousel(mainObservable: $mainObservable, lineup: observable.lineup)
                     if !mainObservable.isShowEditSheet {
-                        FieldCarouselButton(mainObservable: $mainObservable, theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                        FieldCarouselButton(mainObservable: $mainObservable, theme: observable.lineup[mainObservable.currentIndex].theme)
                     }
                 }
                 if mainObservable.isShowEditSheet {
                     EditSheetModalSection(mainObservable: $mainObservable,
-                                          lineup: observable.team.lineup[mainObservable.currentIndex])
+                                          lineup: observable.lineup[mainObservable.currentIndex])
                 } else {
                     EditSheetIndicator(mainObservable: $mainObservable,
-                                       theme: observable.team.lineup[mainObservable.currentIndex].theme)
+                                       theme: observable.lineup[mainObservable.currentIndex].theme)
                 }
             }
+            .animation(.linear, value: mainObservable.isShowTeamSheet)
             .background(
-                observable.team.lineup[mainObservable.currentIndex].theme.background
+                observable.lineup[mainObservable.currentIndex].theme.background
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
                     .animation(.easeInOut, value: mainObservable.currentIndex)
             )
+            .onChange(of: mainObservable.isShowTeamSheet) { old, _ in
+                if old {
+                    observable.fetchTeam()
+                }
+            }
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                     withAnimation {
@@ -221,7 +228,8 @@ struct TeamChangeButton: View {
                 .clipShape(Circle())
         })
         .sheet(isPresented: $mainObservable.isShowTeamSheet) {
-            TeamSelectView(observable: TeamSelectObservable())
+            TeamSelectView(observable: TeamSelectObservable(modelContext: teamContainer.mainContext))
+                .modelContainer(teamContainer)
         }
         .animation(.easeInOut, value: mainObservable.isShowTeamSheet)
         .padding()
@@ -230,15 +238,15 @@ struct TeamChangeButton: View {
 
 // 공유 버튼
 struct ShareButton: View {
-    @State var mainObservable: MainObservable
+    var mainObservable: MainObservable
     var team: Team
     @State private var snapshotImage: UIImage?
-    var theme: Theme
+    var lineup: Lineup
 
     private func captureAndShareSnapshot() {
-        snapshotImage = ShareImage(mainObservable: $mainObservable, team: team, isSharing: mainObservable.isSharing, lineup: team.lineup).snapshot()
+        snapshotImage = ShareImage(mainObservable: mainObservable, team: team, isSharing: mainObservable.isSharing, lineup: lineup).snapshot()
         if let image = snapshotImage {
-            let metaData = ImageMetadataProvider(image: image, team: team)
+            let metaData = ImageMetadataProvider(image: image, team: team, lineup: lineup)
             showShareSheet(with: [metaData], onDismiss: {
                 mainObservable.isSharing = false
             })
@@ -253,10 +261,10 @@ struct ShareButton: View {
             VStack {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 20))
-                    .foregroundStyle(theme.textColor)
+                    .foregroundStyle(lineup.theme.textColor)
                 Text("공유하기")
                     .font(.Pretendard.subhead.font)
-                    .foregroundStyle(theme.textColor)
+                    .foregroundStyle(lineup.theme.textColor)
             }
         }
         .padding(25)
@@ -282,18 +290,18 @@ struct TeamInfo: View {
                 }
             }
             HStack {
-                Text("\(observable.team.teamName)")
+                Text("\(observable.team!.teamName)")
                     .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(observable.team.lineup[mainObservable.currentIndex].theme.textColor)
+                    .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
                 if mainObservable.isShowEditSheet {
                     Spacer()
                 }
             }
             HStack {
-                Text("\(observable.team.subTitle)")
+                Text(observable.lineup[mainObservable.currentIndex].lineupName)
                     .font(.Pretendard.subhead.font)
-                    .foregroundStyle(observable.team.lineup[mainObservable.currentIndex].theme.textColor)
+                    .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
                 if mainObservable.isShowEditSheet {
                     Spacer()
                 }

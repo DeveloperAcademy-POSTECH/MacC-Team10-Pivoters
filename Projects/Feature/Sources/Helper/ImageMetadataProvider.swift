@@ -14,11 +14,12 @@ import Core
 public class ImageMetadataProvider: UIActivityItemProvider {
     var image: UIImage
     var team: Team
-
-    init(image: UIImage, team: Team) {
+    var lineup: Lineup
+    
+    init(image: UIImage, team: Team, lineup: Lineup) {
         self.image = image
         self.team = team
-
+        self.lineup = lineup
         super.init(placeholderItem: image)
     }
 
@@ -32,7 +33,7 @@ public class ImageMetadataProvider: UIActivityItemProvider {
     ) -> LPLinkMetadata? {
         let metadata = LPLinkMetadata()
         metadata.title = team.teamName
-        metadata.originalURL = URL(fileURLWithPath: team.subTitle)
+        metadata.originalURL = URL(fileURLWithPath: lineup.lineupName)
         var thumbnail: NSSecureCoding = NSNull()
         if let imageData = self.image.pngData() {
             thumbnail = NSData(data: imageData)

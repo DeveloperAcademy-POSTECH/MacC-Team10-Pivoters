@@ -20,37 +20,46 @@ struct FieldView: View {
                 .offset(CGSize(width: 0, height: 100))
             ForEach(0..<observable.lineup.formation.rawValue, id: \.hashValue) { index in
                 if observable.lineup.players[index].isGoalkeeper {
-                    PlayerView(theme: observable.lineup.theme, 
-                               player: observable.lineup.players[index], 
+                    PlayerView(theme: observable.lineup.theme,
+                               player: observable.lineup.players[index],
                                lineup: observable.lineup)
-                          .offset(observable.lineup.players[index].offset.draggedOffset)
-                          .onTapGesture {
-                              observable.lineup.selectionPlayerIndex = index
-                          }
-                  } else {
-                      PlayerView(theme: observable.lineup.theme,
-                                 player: observable.lineup.players[index],
-                                 lineup: observable.lineup)
-                          .offset(observable.lineup.players[index].offset.draggedOffset)
-                          .gesture(
-                            DragGesture()
-                                  .onChanged { gesture in
-                                      let draggedOffset =
-                                      observable.lineup.players[index].offset.accumulatedOffset
-                                      + gesture.translation
-                                      observable.lineup.players[index].offset.draggedOffset = draggedOffset
-                                      print("\(observable.lineup.players[index].offset.draggedOffset)")
-                                  }
-                                  .onEnded { gesture in
-                                      let accumulatedOffset =
-                                      observable.lineup.players[index].offset.accumulatedOffset
-                                      + gesture.translation
-                                      observable.lineup.players[index].offset.accumulatedOffset = accumulatedOffset
-                                  }
-                          )
-                          .onTapGesture {
-                              observable.lineup.selectionPlayerIndex = index
-                          }
+                    .offset(CGSize(width: observable.lineup.players[index].offset.draggedOffsetWidth,
+                                   height: observable.lineup.players[index].offset.draggedOffsetHeight))
+                    .onTapGesture {
+                        observable.lineup.selectionPlayerIndex = index
+                    }
+                } else {
+                    PlayerView(theme: observable.lineup.theme,
+                               player: observable.lineup.players[index],
+                               lineup: observable.lineup)
+                    .offset(CGSize(width: observable.lineup.players[index].offset.draggedOffsetWidth,
+                                   height: observable.lineup.players[index].offset.draggedOffsetHeight))
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                let draggedOffsetWidth =
+                                gesture.translation.width +
+                                observable.lineup.players[index].offset.accumulatedOffsetWidth
+                                let draggedOffsetHeight =
+                                gesture.translation.height + 
+                                observable.lineup.players[index].offset.accumulatedOffsetHeight
+                                observable.lineup.players[index].offset.draggedOffsetWidth = draggedOffsetWidth
+                                observable.lineup.players[index].offset.draggedOffsetHeight = draggedOffsetHeight
+                            }
+                            .onEnded { gesture in
+                                let accumulatedOffsetWidth =
+                                gesture.translation.width + 
+                                observable.lineup.players[index].offset.accumulatedOffsetWidth
+                                let accumulatedOffsetHeight =
+                                gesture.translation.height + 
+                                observable.lineup.players[index].offset.accumulatedOffsetHeight
+                                observable.lineup.players[index].offset.accumulatedOffsetWidth = accumulatedOffsetWidth
+                                observable.lineup.players[index].offset.accumulatedOffsetHeight = accumulatedOffsetHeight
+                            }
+                    )
+                    .onTapGesture {
+                        observable.lineup.selectionPlayerIndex = index
+                    }
                 }
             }
         }

@@ -16,7 +16,8 @@ struct MyApp: App {
         WindowGroup {
 //            TeamCRUDView(modelcontext: teamContainer.mainContext)
 //                .modelContainer(teamContainer)
-            MainView()
+            MainView(modelContext: teamContainer.mainContext)
+                .modelContainer(teamContainer)
         }
     }
 }

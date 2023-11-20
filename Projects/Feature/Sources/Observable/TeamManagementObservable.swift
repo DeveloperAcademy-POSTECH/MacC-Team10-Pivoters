@@ -24,10 +24,10 @@ final class TeamManagementObservable {
         let formationOffsets: [CGSize] = formationType.returnPosition()
 
         for index in 0..<formationOffsets.count {
-            lineup.players[index].offset.accumulatedOffset = formationOffsets[index]
-            lineup.players[index].offset.draggedOffset = formationOffsets[index]
+            lineup.players[index].offset.accumulatedOffsetWidth = formationOffsets[index].width
+            lineup.players[index].offset.accumulatedOffsetHeight = formationOffsets[index].height
+            lineup.players[index].offset.draggedOffsetWidth = formationOffsets[index].width
+            lineup.players[index].offset.draggedOffsetHeight = formationOffsets[index].height
         }
-        print("@Log changeFormation")
-        print("\(lineup.players[1].offset.draggedOffset.width)")
     }
 }
