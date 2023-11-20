@@ -280,6 +280,7 @@ struct ShareButton: View {
             }
         }
         .padding(25)
+        .blur(radius: ( mainObservable.isSharing ||  mainObservable.isShowTeamSheet) ? 10 : 0)
     }
 }
 
