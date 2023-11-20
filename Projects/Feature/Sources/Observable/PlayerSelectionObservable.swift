@@ -14,25 +14,20 @@ import Core
 
 @Observable
 class PlayerSelectionObservable {
-
-    var playerList: [Player]
+    var team: Team
+//    var addedPlayers: [Player]
     var lineup: Lineup
     var players: [Player] = [Player]()
 
-    init(playerList: [Player] = [], lineup: Lineup) {
-        self.playerList = playerList
+    init(team: Team, lineup: Lineup) {
+//        self.addedPlayers = playerList
+        self.team = team
         self.lineup = lineup
         self.players = lineup.players.sorted { $0.number < $1.number }
     }
 
     func addPlayer() {
-        playerList.append(Player(name: "\(self.playerList.count)",
-                                 number: 7,
-                                 isGoalkeeper: false,
-                                 offset: OffsetValue(draggedOffsetWidth: 0,
-                                                     draggedOffsetHeight: 0,
-                                                     accumulatedOffsetWidth: 0,
-                                                     accumulatedOffsetHeight: 0)))
+        team.addedPlayers.append(InitTeamContainer.makePlayer(name: "새로운 선수", number: 1))
     }
 
     func selectPlayer(_ registerPlayer: Player) {

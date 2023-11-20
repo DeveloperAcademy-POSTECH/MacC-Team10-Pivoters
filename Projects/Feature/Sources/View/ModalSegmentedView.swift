@@ -38,7 +38,7 @@ struct ModalSegmentedView: View {
                 UniformView(observable: UniformObservable(lineup: lineup))
                     .padding(.top, 24)
             case .player:
-                PlayerSelectionView(observable: PlayerSelectionObservable(lineup: lineup))
+                PlayerSelectionView(observable: PlayerSelectionObservable(team: team, lineup: lineup))
                     .padding(.top, 24)
             case .management:
                 TeamManagementView(observable: TeamManagementObservable(team: team,
