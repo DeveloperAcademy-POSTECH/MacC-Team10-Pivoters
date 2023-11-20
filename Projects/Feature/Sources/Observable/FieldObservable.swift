@@ -11,63 +11,58 @@ import Foundation
 
 @Observable
 class FieldObservable {
+
     var lineup: Lineup
+    var players: [Player] = [Player]()
+
     init(lineup: Lineup) {
         self.lineup = lineup
+        self.players = lineup.players.sorted { $0.number < $1.number }
     }
 
     func changeFormation(_ formationType: TypeOfFormation) {
         let formationOffsets: [CGSize] = formationType.returnPosition()
 
         for index in 0..<formationOffsets.count {
-            lineup.players[index].offset.accumulatedOffsetWidth = formationOffsets[index].width
-            lineup.players[index].offset.accumulatedOffsetHeight = formationOffsets[index].height
-            lineup.players[index].offset.draggedOffsetWidth = formationOffsets[index].width
-            lineup.players[index].offset.draggedOffsetHeight = formationOffsets[index].height
+            players[index].offset.accumulatedOffsetWidth = formationOffsets[index].width
+            players[index].offset.accumulatedOffsetHeight = formationOffsets[index].height
+            players[index].offset.draggedOffsetWidth = formationOffsets[index].width
+            players[index].offset.draggedOffsetHeight = formationOffsets[index].height
         }
     }
-
-    func selectPlayer(_ player: inout Player) {
+    
+    func selectPlayer(_ registerPlayer: Player) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if lineup.players[index].name == " " {
-            if player.id != nil {
-                for positionIndex in 0..<lineup.players.count {
-                    if lineup.players[positionIndex].id == player.id {
-                        let human = Player(id: player.id,
-                                           name: " ",
-                                           number: player.number,
-                                           isGoalkeeper: player.isGoalkeeper,
-                                           offset: player.offset
-                        )
-
-                        lineup.players[positionIndex] = human
-                    }
+        if players[index].name == " " {
+            if registerPlayer.id != nil {
+                if let registeredIndex = players.firstIndex(where: { $0.id == registerPlayer.id }) {
+                    let clearPlayer = Player(id: registerPlayer.id,
+                                             name: " ",
+                                             number: registerPlayer.number,
+                                             isGoalkeeper: registerPlayer.isGoalkeeper,
+                                             offset: registerPlayer.offset)
+                    players[registeredIndex] = clearPlayer
                 }
             }
-            player.offset = lineup.players[index].offset
-            player.isGoalkeeper = lineup.players[index].isGoalkeeper
-            player.number = lineup.players[index].number
-            player.id = lineup.players[index].id
-
-            lineup.players[index] = player
+            registerPlayer.offset = players[index].offset
+            registerPlayer.isGoalkeeper = players[index].isGoalkeeper
+            registerPlayer.number = players[index].number
+            registerPlayer.id = players[index].id
+            players[index] = registerPlayer
         } else {
-            if player.id != nil {
-                for positionIndex in 0..<lineup.players.count {
-                    if lineup.players[positionIndex].id == player.id {
-                        let swapOffset = lineup.players[index].offset
-                        lineup.players[index].offset = player.offset
-                        player.offset = swapOffset
-                    }
-                }
+            if registerPlayer.id != nil {
+                let swapOffset = players[index].offset
+                players[index].offset = registerPlayer.offset
+                registerPlayer.offset = swapOffset
             } else {
-                player.offset = lineup.players[index].offset
-                player.isGoalkeeper = lineup.players[index].isGoalkeeper
-                player.number = lineup.players[index].number
-                player.id = lineup.players[index].id
-
-                lineup.players[index].id = nil
-                lineup.players[index] = player
+                registerPlayer.offset = players[index].offset
+                registerPlayer.isGoalkeeper = players[index].isGoalkeeper
+                registerPlayer.number = players[index].number
+                registerPlayer.id = players[index].id
+                players[index].id = nil
+                players[index] = registerPlayer
             }
         }
     }
+
 }
