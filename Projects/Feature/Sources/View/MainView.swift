@@ -27,24 +27,30 @@ public struct MainView: View {
             // LaunchScreen 뷰
             LaunchScreenView(isLoading: $mainObservable.isLoading).transition(.opacity).zIndex(1)
             // 공유 버튼을 클릭시 최상단 계층에서 오버레이
-            ShareView(mainObservable: mainObservable, team: observable.team, lineup: observable.lineup[mainObservable.currentIndex]).zIndex(1)
+            ShareView(mainObservable: mainObservable,
+                      team: observable.team,
+                      lineup: observable.lineup[mainObservable.currentIndex]).zIndex(1)
             VStack {
                 HStack {
                     if !mainObservable.isShowEditSheet {
-                        TeamChangeButton(mainObservable: $mainObservable, theme: observable.lineup[mainObservable.currentIndex].theme)
+                        TeamChangeButton(mainObservable: $mainObservable,
+                                         theme: observable.lineup[mainObservable.currentIndex].theme)
                         Spacer()
                     } else {
                         Spacer()
-                        //MARK: !
-                        ShareButton(mainObservable: mainObservable, team: observable.team!, lineup: observable.lineup[mainObservable.currentIndex])
+                        ShareButton(mainObservable: mainObservable,
+                                    team: observable.team!,
+                                    lineup: observable.lineup[mainObservable.currentIndex])
                     }
                 }
-                TeamInfo(mainObservable: $mainObservable, observable: observable)
+                TeamInfo(mainObservable: $mainObservable,
+                         observable: observable)
                 Spacer()
                 ZStack {
                     FieldCarousel(mainObservable: $mainObservable, lineup: observable.lineup)
                     if !mainObservable.isShowEditSheet {
-                        FieldCarouselButton(mainObservable: $mainObservable, theme: observable.lineup[mainObservable.currentIndex].theme)
+                        FieldCarouselButton(mainObservable: $mainObservable,
+                                            theme: observable.lineup[mainObservable.currentIndex].theme)
                     }
                 }
                 if mainObservable.isShowEditSheet {
@@ -92,11 +98,11 @@ struct EditSheetModalSection: View {
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                            if value.translation.height > 0 {
+                        if value.translation.height > 0 || mainObservable.editSheetOffset > 0 {
                             mainObservable.editSheetOffset += value.translation.height
-                            }
+                        }
                     }
-                    .onEnded { value in
+                    .onEnded { _ in
                         if mainObservable.editSheetOffset > 50 {
                             mainObservable.isShowEditSheet = false
                         }
@@ -122,7 +128,9 @@ struct FieldCarousel: View {
                  spacing: -30,
                  currentIndex: $mainObservable.currentIndex) { index in
                 FieldView(observable: FieldObservable(lineup: lineup[index]))
-                .offset(y: mainObservable.isShowEditSheet ? mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset + UIScreen.main.bounds.height / 7)
+                .offset(y: mainObservable.isShowEditSheet ?
+                        mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset
+                        + UIScreen.main.bounds.height / 7)
         }
                  .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
                  .animation(.easeInOut(duration: 0.4), value: mainObservable.isShowEditSheet)
@@ -165,9 +173,9 @@ struct EditSheetIndicator: View {
                 }
         )
         .blur(radius: mainObservable.isShowTeamSheet ? 10 : 0)
-        .sheet(isPresented: $mainObservable.isShowEditSheet, content: {
+        .sheet(isPresented: $mainObservable.isShowEditSheet) {
             /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Sheet Content")/*@END_MENU_TOKEN@*/
-        })
+        }
     }
 }
 
@@ -199,7 +207,8 @@ struct FieldCarouselButton: View {
             Image(systemName: isLeft ? "chevron.left" : "chevron.right")
                 .foregroundStyle(theme.textColor)
                 .font(.system(size: 20))
-                .opacity(isLeft ? (mainObservable.currentIndex == 0 ? 0.3 : 1) : (mainObservable.currentIndex == 2 ? 0.3 : 1))
+                .opacity(isLeft ?
+                         (mainObservable.currentIndex == 0 ? 0.3 : 1) : (mainObservable.currentIndex == 2 ? 0.3 : 1))
         })
         .padding()
         .contentShape(Rectangle())
@@ -244,7 +253,10 @@ struct ShareButton: View {
     var lineup: Lineup
 
     private func captureAndShareSnapshot() {
-        snapshotImage = ShareImage(mainObservable: mainObservable, team: team, isSharing: mainObservable.isSharing, lineup: lineup).snapshot()
+        snapshotImage = ShareImage(mainObservable: mainObservable,
+                                   team: team,
+                                   isSharing: mainObservable.isSharing,
+                                   lineup: lineup).snapshot()
         if let image = snapshotImage {
             let metaData = ImageMetadataProvider(image: image, team: team, lineup: lineup)
             showShareSheet(with: [metaData], onDismiss: {
