@@ -13,6 +13,7 @@ import Common
 
 struct ModalSegmentedView: View {
     @State var editType: EditType = .theme
+    var team: Team
     var lineup: Lineup
 
     var body: some View {
@@ -40,11 +41,8 @@ struct ModalSegmentedView: View {
                 PlayerSelectionView(observable: PlayerSelectionObservable(lineup: lineup))
                     .padding(.top, 24)
             case .management:
-                TeamManagementView(
-                    observable: TeamManagementObservable(
-                        lineup: lineup
-                    )
-                )
+                TeamManagementView(observable: TeamManagementObservable(team: team,
+                                                                        lineup: lineup))
                 .padding(.top, 24)
             }
             Spacer()
