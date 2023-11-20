@@ -12,8 +12,6 @@ import Common
 
 struct TeamManagementView: View {
 
-//    let colors = ["4-3-3", "3-5-2", "4-4-2"]
-//    @State var selectedColors = "4-3-3"
     @State var observable: TeamManagementObservable
 
     init(observable: TeamManagementObservable) {
@@ -31,7 +29,7 @@ struct TeamManagementView: View {
                 .padding(.horizontal, 20)
 
             Button {
-
+                observable.isChangeTeamInfoPresented.toggle()
             } label: {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(Color(uiColor: .systemGray6))
@@ -41,9 +39,13 @@ struct TeamManagementView: View {
                             Text("팀 이름")
                                 .font(.Pretendard.semiBold14.font)
                             Spacer()
-                            Text("토트넘 핫수퍼")
-                                .font(.Pretendard.regular14.font)
-                                .tint(Color(uiColor: .lightGray))
+                            HStack {
+                                Text(observable.team.teamName)
+                                    .font(.Pretendard.semiBold14.font)
+                                    .tint(Color(uiColor: .lightGray))
+                                Image(systemName: "chevron.right")
+                                    .tint(Color(uiColor: .lightGray))
+                            }
                         }
                         .padding(.horizontal, 12)
                     }
@@ -52,7 +54,7 @@ struct TeamManagementView: View {
             .padding(.top, 12)
 
             Button {
-
+                observable.isChangeLineupInfoPresented.toggle()
             } label: {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(Color(uiColor: .systemGray6))
@@ -62,9 +64,13 @@ struct TeamManagementView: View {
                             Text("스쿼드 이름")
                                 .font(.Pretendard.semiBold14.font)
                             Spacer()
-                            Text("1번 라인업")
-                                .font(.Pretendard.regular14.font)
-                                .tint(Color(uiColor: .lightGray))
+                            HStack {
+                                Text(observable.lineup.lineupName)
+                                    .font(.Pretendard.semiBold14.font)
+                                    .tint(Color(uiColor: .lightGray))
+                                Image(systemName: "chevron.right")
+                                    .tint(Color(uiColor: .lightGray))
+                            }
                         }
                         .padding(.horizontal, 12)
                     }
@@ -73,6 +79,22 @@ struct TeamManagementView: View {
             .padding(.top, 12)
 
             Spacer()
+        }
+        .sheet(isPresented: $observable.isChangeTeamInfoPresented) {
+            ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .team,
+                                                                    name: observable.team.teamName,
+                                                                    team: observable.team),
+                               changeTeamInfo: .team)
+            .presentationDetents([.fraction(0.5)])
+            .presentationBackground(.regularMaterial)
+        }
+        .sheet(isPresented: $observable.isChangeLineupInfoPresented) {
+            ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .squad,
+                                                                    name: observable.lineup.lineupName,
+                                                                    lineup: observable.lineup),
+                               changeTeamInfo: .squad)
+            .presentationDetents([.fraction(0.5)])
+            .presentationBackground(.regularMaterial)
         }
     }
 
