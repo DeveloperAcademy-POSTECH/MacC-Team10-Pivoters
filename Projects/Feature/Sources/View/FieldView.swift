@@ -13,6 +13,14 @@ import Core
 
 struct FieldView: View {
     var observable: FieldObservable
+    var isShowEditSheet: Bool
+    let noneGesture = DragGesture()
+        .onChanged { _ in
+            print("onChange")
+        }
+        .onEnded { _ in
+            print("noneGesture")
+        }
 
     var body: some View {
         ZStack {
@@ -35,6 +43,7 @@ struct FieldView: View {
                     .offset(CGSize(width: observable.lineup.players[index].offset.draggedOffsetWidth,
                                    height: observable.lineup.players[index].offset.draggedOffsetHeight))
                     .gesture(
+                        isShowEditSheet ?
                         DragGesture()
                             .onChanged { gesture in
                                 let draggedOffsetWidth =
@@ -61,7 +70,9 @@ struct FieldView: View {
                                 observable.lineup.players[index].offset.accumulatedOffsetHeight =
                                 accumulatedOffsetHeight > 0 ?
                                 min(accumulatedOffsetHeight, 120): max(accumulatedOffsetHeight, -110)
-                            }
+                            }:
+                            noneGesture
+
                     )
                     .onTapGesture {
                         observable.lineup.selectionPlayerIndex = index

@@ -126,7 +126,8 @@ struct FieldCarousel: View {
                  visibleEdgeSpace: -120,
                  spacing: -30,
                  mainObservable: mainObservable) { index in
-                FieldView(observable: FieldObservable(lineup: lineup[index]))
+            FieldView(observable: FieldObservable(lineup: lineup[index]),
+                      isShowEditSheet: mainObservable.isShowEditSheet)
                 .offset(y: mainObservable.isShowEditSheet ?
                         mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset
                         + UIScreen.main.bounds.height / 7)
