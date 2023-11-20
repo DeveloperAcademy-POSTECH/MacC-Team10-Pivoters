@@ -35,7 +35,6 @@ public struct TeamCRUDView: View {
                     .onDelete(perform: deleteTeam)
                 }
             }
-            
             HStack {
                 Button(action: {
                     context.insert(
@@ -76,13 +75,12 @@ public struct TeamCRUDView: View {
             }
         }
     }
-    
+
     func deleteTeam(at offsets: IndexSet) {
         for index in offsets {
             let teamToDelete = teams[index]
             context.delete(teamToDelete)
         }
     }
-
 
 }
