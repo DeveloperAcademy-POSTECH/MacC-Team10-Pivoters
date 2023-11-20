@@ -13,10 +13,14 @@ import Core
 @Observable
 final class TeamManagementObservable {
 
+    var isChangeTeamInfoPresented: Bool = false
+    var isChangeLineupInfoPresented: Bool = false
+    var team: Team
     var lineup: Lineup
     var players: [Player] = [Player]()
 
-    init(lineup: Lineup) {
+    init(team: Team, lineup: Lineup) {
+        self.team = team
         self.lineup = lineup
         self.players = lineup.players.sorted { $0.number < $1.number }
     }
