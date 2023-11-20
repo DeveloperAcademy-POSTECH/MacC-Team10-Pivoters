@@ -41,20 +41,26 @@ struct FieldView: View {
                                 gesture.translation.width +
                                 observable.lineup.players[index].offset.accumulatedOffsetWidth
                                 let draggedOffsetHeight =
-                                gesture.translation.height + 
+                                gesture.translation.height +
                                 observable.lineup.players[index].offset.accumulatedOffsetHeight
-                                observable.lineup.players[index].offset.draggedOffsetWidth = draggedOffsetWidth
-                                observable.lineup.players[index].offset.draggedOffsetHeight = draggedOffsetHeight
+                                observable.lineup.players[index].offset.draggedOffsetWidth =
+                                draggedOffsetWidth > 0 ? min(draggedOffsetWidth, 180): max(draggedOffsetWidth, -180)
+                                observable.lineup.players[index].offset.draggedOffsetHeight =
+                                draggedOffsetHeight > 0 ? min(draggedOffsetHeight, 120): max(draggedOffsetHeight, -110)
                             }
                             .onEnded { gesture in
                                 let accumulatedOffsetWidth =
-                                gesture.translation.width + 
+                                gesture.translation.width +
                                 observable.lineup.players[index].offset.accumulatedOffsetWidth
                                 let accumulatedOffsetHeight =
-                                gesture.translation.height + 
+                                gesture.translation.height +
                                 observable.lineup.players[index].offset.accumulatedOffsetHeight
-                                observable.lineup.players[index].offset.accumulatedOffsetWidth = accumulatedOffsetWidth
-                                observable.lineup.players[index].offset.accumulatedOffsetHeight = accumulatedOffsetHeight
+                                observable.lineup.players[index].offset.accumulatedOffsetWidth =
+                                accumulatedOffsetWidth > 0 ?
+                                min(accumulatedOffsetWidth, 180): max(accumulatedOffsetWidth, -180)
+                                observable.lineup.players[index].offset.accumulatedOffsetHeight =
+                                accumulatedOffsetHeight > 0 ?
+                                min(accumulatedOffsetHeight, 120): max(accumulatedOffsetHeight, -110)
                             }
                     )
                     .onTapGesture {
