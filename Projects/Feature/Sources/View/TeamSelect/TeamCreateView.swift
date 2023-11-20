@@ -13,6 +13,8 @@ struct TeamCreateView: View {
     @Environment(\.dismiss) var dismiss
     @State var observable: TeamCreateObservable
 
+    let limitTeamName: Int = 15
+
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -36,6 +38,11 @@ struct TeamCreateView: View {
                 .font(.Pretendard.headerNormal.font)
                 .textFieldStyle(PlainTextFieldStyle())
                 .padding(.horizontal, 24)
+                .onReceive(observable.teamName.publisher.collect(), perform: { newText in
+                    if newText.count > limitTeamName {
+                        observable.teamName = String(newText.prefix(limitTeamName))
+                    }
+                })
             Divider()
                 .padding(.horizontal, 24)
             Spacer()
