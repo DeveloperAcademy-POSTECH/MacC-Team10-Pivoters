@@ -32,7 +32,8 @@ public struct InitTeamContainer {
              isSelected: true,
              createdAt: Date(),
              updatedAt: Date(),
-             lineup: makeLineup())
+             lineup: makeLineup(),
+             addedPlayers: [])
     }
 
     public static func makeTeam(teamName: String) -> Team {
@@ -41,7 +42,18 @@ public struct InitTeamContainer {
              isSelected: false,
              createdAt: Date(),
              updatedAt: Date(),
-             lineup: makeLineup())
+             lineup: makeLineup(),
+             addedPlayers: [])
+    }
+
+    public static func makePlayer(name: String, number: Int) -> Player {
+        Player(name: name,
+               number: number,
+               isGoalkeeper: false,
+               offset: OffsetValue(draggedOffsetWidth: 0,
+                                   draggedOffsetHeight: 0,
+                                   accumulatedOffsetWidth: 0,
+                                   accumulatedOffsetHeight: 0))
     }
 
     static func makeLineup() -> [Lineup] {
