@@ -72,9 +72,10 @@ public struct ShareImage: View {
                 .padding(.top, 30)
                 ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
                     PlayerView(theme: lineup.theme,
-                               player: lineup.players[index], 
+                               player: lineup.players[index],
                                lineup: lineup)
-                    .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth, height: lineup.players[index].offset.draggedOffsetHeight))
+                    .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
+                                   height: lineup.players[index].offset.draggedOffsetHeight))
                 }
                 .offset(y: 40) // 추후 반응형으로 위치 조정
             }
