@@ -12,22 +12,23 @@ import Core
 
 @Observable
 final class TeamManagementObservable {
+
     var lineup: Lineup
-    var selectedTypeOfFormation: TypeOfFormation
+    var players: [Player] = [Player]()
 
     init(lineup: Lineup) {
         self.lineup = lineup
-        self.selectedTypeOfFormation = lineup.selectedTypeOfFormation
+        self.players = lineup.players.sorted { $0.number < $1.number }
     }
 
     func changeFormation(_ formationType: TypeOfFormation) {
         let formationOffsets: [CGSize] = formationType.returnPosition()
 
         for index in 0..<formationOffsets.count {
-            lineup.players[index].offset.accumulatedOffsetWidth = formationOffsets[index].width
-            lineup.players[index].offset.accumulatedOffsetHeight = formationOffsets[index].height
-            lineup.players[index].offset.draggedOffsetWidth = formationOffsets[index].width
-            lineup.players[index].offset.draggedOffsetHeight = formationOffsets[index].height
+            players[index].offset.accumulatedOffsetWidth = formationOffsets[index].width
+            players[index].offset.accumulatedOffsetHeight = formationOffsets[index].height
+            players[index].offset.draggedOffsetWidth = formationOffsets[index].width
+            players[index].offset.draggedOffsetHeight = formationOffsets[index].height
         }
     }
 }
