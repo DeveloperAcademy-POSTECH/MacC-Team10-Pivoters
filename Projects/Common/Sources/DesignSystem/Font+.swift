@@ -15,8 +15,11 @@ public extension Font {
         case headerNormal
         case black14
         case semiBold14
+        case semiBold10
+        case regular14
         case regular12
         case subhead
+        case black16
 
         public var font: Font {
             switch self {
@@ -28,10 +31,16 @@ public extension Font {
                 CommonFontFamily.Pretendard.black.swiftUIFont(size: 14)
             case .semiBold14:
                 CommonFontFamily.Pretendard.semiBold.swiftUIFont(size: 14)
+            case .semiBold10:
+                CommonFontFamily.Pretendard.semiBold.swiftUIFont(size: 10)
+            case .regular14:
+                CommonFontFamily.Pretendard.regular.swiftUIFont(size: 14)
             case .regular12:
                 CommonFontFamily.Pretendard.regular.swiftUIFont(size: 12)
             case .subhead:
                 CommonFontFamily.Pretendard.regular.swiftUIFont(size: 10)
+            case .black16:
+                CommonFontFamily.Pretendard.black.swiftUIFont(size: 16)
             }
         }
     }
