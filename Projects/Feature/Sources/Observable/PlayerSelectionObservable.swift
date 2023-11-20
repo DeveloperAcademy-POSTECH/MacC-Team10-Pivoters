@@ -17,10 +17,12 @@ class PlayerSelectionObservable {
 
     var playerList: [Player]
     var lineup: Lineup
+    var players: [Player] = [Player]()
 
     init(playerList: [Player] = [], lineup: Lineup) {
         self.playerList = playerList
         self.lineup = lineup
+        self.players = lineup.players.sorted { $0.number < $1.number }
     }
 
     func addPlayer() {
@@ -35,34 +37,34 @@ class PlayerSelectionObservable {
 
     func selectPlayer(_ registerPlayer: Player) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if lineup.players[index].name == " " {
+        if players[index].name == " " {
             if registerPlayer.id != nil {
-                if let registeredIndex = lineup.players.firstIndex(where: { $0.id == registerPlayer.id }) {
+                if let registeredIndex = players.firstIndex(where: { $0.id == registerPlayer.id }) {
                     let clearPlayer = Player(id: registerPlayer.id,
                                              name: " ",
                                              number: registerPlayer.number,
                                              isGoalkeeper: registerPlayer.isGoalkeeper,
                                              offset: registerPlayer.offset)
-                    lineup.players[registeredIndex] = clearPlayer
+                    players[registeredIndex] = clearPlayer
                 }
             }
-            registerPlayer.offset = lineup.players[index].offset
-            registerPlayer.isGoalkeeper = lineup.players[index].isGoalkeeper
-            registerPlayer.number = lineup.players[index].number
-            registerPlayer.id = lineup.players[index].id
-            lineup.players[index] = registerPlayer
+            registerPlayer.offset = players[index].offset
+            registerPlayer.isGoalkeeper = players[index].isGoalkeeper
+            registerPlayer.number = players[index].number
+            registerPlayer.id = players[index].id
+            players[index] = registerPlayer
         } else {
             if registerPlayer.id != nil {
-                let swapOffset = lineup.players[index].offset
-                lineup.players[index].offset = registerPlayer.offset
+                let swapOffset = players[index].offset
+                players[index].offset = registerPlayer.offset
                 registerPlayer.offset = swapOffset
             } else {
-                registerPlayer.offset = lineup.players[index].offset
-                registerPlayer.isGoalkeeper = lineup.players[index].isGoalkeeper
-                registerPlayer.number = lineup.players[index].number
-                registerPlayer.id = lineup.players[index].id
-                lineup.players[index].id = nil
-                lineup.players[index] = registerPlayer
+                registerPlayer.offset = players[index].offset
+                registerPlayer.isGoalkeeper = players[index].isGoalkeeper
+                registerPlayer.number = players[index].number
+                registerPlayer.id = players[index].id
+                players[index].id = nil
+                players[index] = registerPlayer
             }
         }
     }
