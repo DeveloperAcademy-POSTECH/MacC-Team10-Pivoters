@@ -96,7 +96,9 @@ struct EditSheetModalSection: View {
 
     var body: some View {
 
-        ModalSegmentedView(team: team, lineup: lineup, currentIndex: mainObservable.currentIndex)
+        ModalSegmentedView(team: team,
+                           lineup: lineup,
+                           currentIndex: mainObservable.currentIndex)
             .gesture(
                 DragGesture()
                     .onChanged { value in
