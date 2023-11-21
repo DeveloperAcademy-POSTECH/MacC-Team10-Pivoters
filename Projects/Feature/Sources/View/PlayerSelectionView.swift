@@ -18,8 +18,8 @@ struct PlayerSelectionView: View {
         List {
             addPlayerCell()
                 .listRowSeparator(.hidden)
-            ForEach(observable.team.teamMembers.indices, id: \.hashValue) { index in
-                PlayerCell(human: $observable.team.teamMembers[index],
+            ForEach(observable.humans.indices, id: \.hashValue) { index in
+                PlayerCell(human: $observable.humans[index],
                            observable: observable)
                     .listRowSeparator(.hidden)
             }
