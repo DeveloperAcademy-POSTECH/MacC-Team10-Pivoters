@@ -76,9 +76,11 @@ struct PlayerCell: View {
             }
             .padding(.horizontal, 10)
             .onTapGesture {
-                print("선수 선택")
-                observable.selectPlayer(human)
-                observable.isEditedHuman = nil
+                if observable.isEditedHuman != human.id {
+                    print("선수 선택")
+                    observable.selectPlayer(human)
+                    observable.isEditedHuman = nil
+                }
             }
             Image(systemName: "square.and.pencil")
                 .onTapGesture {

@@ -40,8 +40,12 @@ class PlayerSelectionObservable {
             players[index].human = registerHuman
         } else {
             if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                players[registerdIndex].human = players[index].human
-                players[index].human = registerHuman
+                if players[index].human?.id == registerHuman.id {
+                    players[index].human = nil
+                } else {
+                    players[registerdIndex].human = players[index].human
+                    players[index].human = registerHuman
+                }
             } else {
                 players[index].human = registerHuman
             }
