@@ -59,6 +59,7 @@ public struct InitTeamContainer {
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
+                goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
                 theme: .blueGray),
          Lineup(id: UUID(),
@@ -69,6 +70,7 @@ public struct InitTeamContainer {
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
+                goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
                 theme: .blueGray),
          Lineup(id: UUID(),
@@ -79,7 +81,8 @@ public struct InitTeamContainer {
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),  
+                goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
+                secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
                 theme: .blueGray)
         ]
     }

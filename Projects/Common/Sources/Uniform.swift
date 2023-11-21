@@ -40,4 +40,31 @@ extension Uniform {
         }
     }
 
+    public var goalkeeperPrimary: Image {
+        switch self {
+        case .plain:
+            Image(asset: CommonAsset.gkPlainPrimary)
+        case .stripe:
+            Image(asset: CommonAsset.gkStripePrimary)
+        }
+    }
+
+    public var goalkeeperSecondary: Image? {
+        switch self {
+        case .plain:
+            nil
+        case .stripe:
+            Image(asset: CommonAsset.gkStripeSecondary)
+        }
+    }
+
+    public var goalkeeperBorder: Image {
+        switch self {
+        case .plain:
+            Image(asset: CommonAsset.gkPlainBorder)
+        case .stripe:
+            Image(asset: CommonAsset.gkStripeBorder)
+        }
+    }
+
 }

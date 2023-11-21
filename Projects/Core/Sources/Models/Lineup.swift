@@ -20,6 +20,7 @@ public final class Lineup {
     public var selectedTypeOfFormation: TypeOfFormation // 선택된 포메이션이 저장되지 않고 있음.
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
+    public var goalkeeperPrimaryColor: UniformColor
     public var theme: Theme
     public var selectionPlayerIndex: Int?
     public var players: [Player] = [Player]()
@@ -34,6 +35,7 @@ public final class Lineup {
         selectedTypeOfFormation: TypeOfFormation,
         players: [Player],
         primaryColor: UniformColor,
+        goalkeeperPrimaryColor: UniformColor,
         secondaryColor: UniformColor,
         theme: Theme) {
             self.id = id
@@ -44,6 +46,7 @@ public final class Lineup {
             self.selectedTypeOfFormation = selectedTypeOfFormation
             self.players = players
             self.primaryColor = primaryColor
+            self.goalkeeperPrimaryColor = goalkeeperPrimaryColor
             self.secondaryColor = secondaryColor
             self.theme = theme
         }

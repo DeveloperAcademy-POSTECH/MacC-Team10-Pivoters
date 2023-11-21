@@ -16,6 +16,7 @@ struct UniformView: View {
     @State var observable: UniformObservable
     @State var primaryColor: Color
     @State var secondaryColor: Color
+    @State var goalkeeperPrimaryColor: Color
 
     let rows = [GridItem(.fixed(100))]
 
@@ -25,6 +26,10 @@ struct UniformView: View {
                                   red: observable.lineup.primaryColor.red,
                                   green: observable.lineup.primaryColor.green,
                                   blue: observable.lineup.primaryColor.blue)
+        self.goalkeeperPrimaryColor = Color(.sRGB,
+                                            red: observable.lineup.goalkeeperPrimaryColor.red,
+                                            green: observable.lineup.goalkeeperPrimaryColor.green,
+                                            blue: observable.lineup.goalkeeperPrimaryColor.blue)
         self.secondaryColor = Color(.sRGB,
                                     red: observable.lineup.secondaryColor.red,
                                     green: observable.lineup.secondaryColor.green,
@@ -42,7 +47,8 @@ struct UniformView: View {
                             .overlay {
                                 overlapUniform(uniform: uniform,
                                                uniformSize: 80,
-                                               isSelected: observable.lineup.uniform == uniform ? true : false)
+                                               isSelected: observable.lineup.uniform == uniform ? true : false,
+                                               isGoalkeeper: false)
 
                             }
                     }
@@ -53,7 +59,7 @@ struct UniformView: View {
             RoundedRectangle(cornerSize: CGSize(width: 12, height: 12))
                 .foregroundColor(Color(uiColor: .systemGray5))
                 .opacity(0.4)
-                .frame(height: 90)
+                .frame(height: 180)
                 .overlay {
                     VStack {
                         ColorPicker(String(localized: "Main Color"), selection: $primaryColor, supportsOpacity: false)
@@ -61,6 +67,14 @@ struct UniformView: View {
                             .padding(.horizontal)
                         Divider()
                         ColorPicker(String(localized: "Sub Color"), selection: $secondaryColor, supportsOpacity: false)
+                            .padding(.horizontal)
+                            .font(.Pretendard.semiBold14.font)
+                        Divider()
+                        ColorPicker("골키퍼 메인 컬러", selection: $goalkeeperPrimaryColor, supportsOpacity: false)
+                            .padding(.horizontal)
+                            .font(.Pretendard.semiBold14.font)
+                        Divider()
+                        ColorPicker("골키퍼 서브 컬러", selection: $goalkeeperPrimaryColor, supportsOpacity: false)
                             .padding(.horizontal)
                             .font(.Pretendard.semiBold14.font)
                     }
@@ -79,6 +93,16 @@ struct UniformView: View {
                 }
             observable.updateUniformColor(colors: colors, colorSequence: .primaryColor)
         }
+        .onChange(of: goalkeeperPrimaryColor) {
+            let colors: [String] =
+            goalkeeperPrimaryColor
+                .description
+                .split(separator: " ")
+                .map {
+                    String($0)
+                }
+            observable.updateUniformColor(colors: colors, colorSequence: .goalkeeperPrimaryColor)
+        }
         .onChange(of: secondaryColor) {
             let colors: [String] =
             secondaryColor
@@ -91,12 +115,16 @@ struct UniformView: View {
         }
     }
 
-    func overlapUniform(uniform: Uniform, uniformSize: CGFloat, isSelected: Bool) -> some View {
+    func overlapUniform(uniform: Uniform,
+                        uniformSize: CGFloat,
+                        isSelected: Bool,
+                        isGoalkeeper: Bool) -> some View {
         return OverlapUniform(uniform: uniform,
                               uniformSize: 80,
                               primaryColor: observable.lineup.primaryColor,
                               secondaryColor: observable.lineup.secondaryColor,
-                              isSelected: isSelected)
+                              isSelected: isSelected,
+                              isGoalkeeper: isGoalkeeper)
         .opacity(isSelected ? 0.7 : 1)
         .onTapGesture {
             observable.lineup.uniform = uniform

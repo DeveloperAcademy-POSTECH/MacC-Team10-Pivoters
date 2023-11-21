@@ -19,11 +19,23 @@ struct PlayerView: View {
 
     var body: some View {
         VStack {
-            OverlapUniform(uniform: lineup.uniform,
-                           uniformSize: 43,
-                           primaryColor: lineup.primaryColor,
-                           secondaryColor: lineup.secondaryColor,
-                           isSelected: false)
+            // isGoalkeeper
+            if player.isGoalkeeper {
+                OverlapUniform(uniform: lineup.uniform,
+                               uniformSize: 50,
+                               primaryColor: lineup.goalkeeperPrimaryColor,
+                               secondaryColor: lineup.secondaryColor,
+                               isSelected: false,
+                               isGoalkeeper: true)
+            } else {
+                OverlapUniform(uniform: lineup.uniform,
+                               uniformSize: 50,
+                               primaryColor: lineup.primaryColor,
+                               secondaryColor: lineup.secondaryColor,
+                               isSelected: false,
+                               isGoalkeeper: false)
+            }
+
             Text(player.human?.name ?? " ")
                 .coordinateSpace(name: lineup.trigger)
                 .task(id: lineup.trigger) {
@@ -37,8 +49,9 @@ struct PlayerView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundStyle(lineup.selectionPlayerIndex == index ? Color(asset: CommonAsset.tintColor): theme.nameField)
                         .frame(minWidth: 40)
+                        .frame(height: 17)
                 )
-                .offset(y: -12)
+                .offset(y: -20)
         }
     }
 }
