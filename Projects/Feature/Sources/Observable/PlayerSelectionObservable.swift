@@ -14,55 +14,35 @@ import Core
 
 @Observable
 class PlayerSelectionObservable {
-
-    var playerList: [Player]
+    var team: Team
     var lineup: Lineup
+    var players: [Player] = [Player]()
+    let currentIndex: Int
 
-    init(playerList: [Player] = [], lineup: Lineup) {
-        self.playerList = playerList
+    init(team: Team, lineup: Lineup, currentIndex: Int) {
+        self.team = team
         self.lineup = lineup
+        self.players = lineup.players.sorted { $0.number < $1.number }
+        self.currentIndex = currentIndex
     }
 
     func addPlayer() {
-        playerList.append(Player(name: "\(self.playerList.count)",
-                                 number: 7,
-                                 isGoalkeeper: false,
-                                 offset: OffsetValue(draggedOffsetWidth: 0,
-                                                     draggedOffsetHeight: 0,
-                                                     accumulatedOffsetWidth: 0,
-                                                     accumulatedOffsetHeight: 0)))
+        team.teamMembers.append(InitTeamContainer.makeHuman(name: "새로운 선수", backNumber: 1))
     }
 
-    func selectPlayer(_ registerPlayer: Player) {
+    func selectPlayer(_ registerHuman: Human) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if lineup.players[index].name == " " {
-            if registerPlayer.id != nil {
-                if let registeredIndex = lineup.players.firstIndex(where: { $0.id == registerPlayer.id }) {
-                    let clearPlayer = Player(id: registerPlayer.id,
-                                             name: " ",
-                                             number: registerPlayer.number,
-                                             isGoalkeeper: registerPlayer.isGoalkeeper,
-                                             offset: registerPlayer.offset)
-                    lineup.players[registeredIndex] = clearPlayer
-                }
+        if players[index].human == nil {
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = nil
             }
-            registerPlayer.offset = lineup.players[index].offset
-            registerPlayer.isGoalkeeper = lineup.players[index].isGoalkeeper
-            registerPlayer.number = lineup.players[index].number
-            registerPlayer.id = lineup.players[index].id
-            lineup.players[index] = registerPlayer
+            players[index].human = registerHuman
         } else {
-            if registerPlayer.id != nil {
-                let swapOffset = lineup.players[index].offset
-                lineup.players[index].offset = registerPlayer.offset
-                registerPlayer.offset = swapOffset
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = players[index].human
+                players[index].human = registerHuman
             } else {
-                registerPlayer.offset = lineup.players[index].offset
-                registerPlayer.isGoalkeeper = lineup.players[index].isGoalkeeper
-                registerPlayer.number = lineup.players[index].number
-                registerPlayer.id = lineup.players[index].id
-                lineup.players[index].id = nil
-                lineup.players[index] = registerPlayer
+                players[index].human = registerHuman
             }
         }
     }

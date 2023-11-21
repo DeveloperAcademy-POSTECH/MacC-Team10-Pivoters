@@ -1,19 +1,30 @@
 //
-//  TeamCreateView.swift
+//  ChangeTeamInfoView.swift
 //  Feature
 //
-//  Created by 한지석 on 11/15/23.
+//  Created by 한지석 on 11/21/23.
 //  Copyright © 2023 com.pivoters. All rights reserved.
 //
 
 import SwiftUI
 
-struct TeamCreateView: View {
+enum ChangeTeamInfo {
+    case team
+    case squad
+}
+
+struct ChangeTeamInfoView: View {
 
     @Environment(\.dismiss) var dismiss
-    @State var observable: TeamCreateObservable
+    @State var observable: ChangeTeamInfoObservable
+    let changeTeamInfo: ChangeTeamInfo
 
-    let limitTeamName: Int = 15
+    init(observable: ChangeTeamInfoObservable,
+         changeTeamInfo: ChangeTeamInfo) {
+        self.changeTeamInfo = changeTeamInfo
+        let observable = observable
+        _observable = State(initialValue: observable)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -32,35 +43,31 @@ struct TeamCreateView: View {
             .padding(.top, 16)
             .padding(.trailing, 16)
 
-            TextField("팀명", text: $observable.teamName)
+            TextField(changeTeamInfo == .team ? "팀 이름" : "스쿼드 이름", text: $observable.name)
                 .frame(height: 55)
                 .foregroundStyle(Color.colorBlack)
                 .font(.Pretendard.headerNormal.font)
                 .textFieldStyle(PlainTextFieldStyle())
                 .padding(.horizontal, 24)
-                .onReceive(observable.teamName.publisher.collect(), perform: { newText in
-                    if newText.count > limitTeamName {
-                        observable.teamName = String(newText.prefix(limitTeamName))
-                    }
-                })
             Divider()
                 .padding(.horizontal, 24)
             Spacer()
             Button {
                 // MARK: createTeam
-                observable.createTeam()
+                observable.changeName()
                 dismiss()
             } label: {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundStyle(Color.indigo)
+                    .foregroundStyle(Color(red: 0 / 255, green: 122 / 255, blue: 255 / 255))
                     .frame(height: 60)
                     .padding(.horizontal, 20)
                     .overlay {
-                        Text("추가")
+                        Text("변경")
+                            .font(.Pretendard.headerNormal.font)
+                            .foregroundColor(.colorWhite)
                     }
             }
             .padding(.bottom, 20)
         }
-
     }
 }

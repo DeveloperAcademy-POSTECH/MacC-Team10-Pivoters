@@ -51,7 +51,7 @@ public struct ShareImage: View {
     public var body: some View {
         if isSharing {
             ZStack {
-                Image(asset: CommonAsset.shareBlue)
+                lineup.theme.share
                     .resizable()
                     .scaledToFit()
                     .frame(height: UIScreen.main.bounds.width)

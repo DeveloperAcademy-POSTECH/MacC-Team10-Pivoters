@@ -15,7 +15,7 @@ import Core
 @Observable
 class TeamObservable {
 
-    var team: Team? = nil
+    var team: Team?
     var lineup: [Lineup] = [Lineup]()
     private let modelContext: ModelContext
 
