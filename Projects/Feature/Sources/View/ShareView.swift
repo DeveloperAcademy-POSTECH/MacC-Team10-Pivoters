@@ -73,7 +73,8 @@ public struct ShareImage: View {
                 ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
                     PlayerView(theme: lineup.theme,
                                player: lineup.players[index],
-                               lineup: lineup)
+                               lineup: lineup,
+                               index: 100)
                     .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
                                    height: lineup.players[index].offset.draggedOffsetHeight))
                 }

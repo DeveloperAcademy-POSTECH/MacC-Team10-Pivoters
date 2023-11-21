@@ -83,6 +83,11 @@ public struct MainView: View {
                     }
                 })
             }
+            .task(id: mainObservable.isShowEditSheet) {
+                observable.team?.lineup.map({ lineup in
+                    lineup.selectionPlayerIndex = nil
+                })
+            }
         }
     }
 }
@@ -96,7 +101,9 @@ struct EditSheetModalSection: View {
 
     var body: some View {
 
-        ModalSegmentedView(team: team, lineup: lineup, currentIndex: mainObservable.currentIndex)
+        ModalSegmentedView(team: team,
+                           lineup: lineup,
+                           currentIndex: mainObservable.currentIndex)
             .gesture(
                 DragGesture()
                     .onChanged { value in

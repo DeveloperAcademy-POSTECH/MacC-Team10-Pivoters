@@ -20,6 +20,10 @@ struct TeamSelectView: View {
         VStack(spacing: 0) {
             // MARK: 상단 X Button
             HStack {
+                Text("팀 변경")
+                    .font(.Pretendard.title.font)
+                    .foregroundColor(.colorBlack)
+                    .padding(.top, 8)
                 Spacer()
                 Button {
                     if observable.currentPresentationDetent == .large {
@@ -36,7 +40,7 @@ struct TeamSelectView: View {
                 }
             }
             .padding(.top, 16)
-            .padding(.trailing, 16)
+            .padding(.horizontal, 16)
 
             if observable.currentPresentationDetent == .fraction(0.5) {
                 HStack {
@@ -46,7 +50,7 @@ struct TeamSelectView: View {
                     } label: {
                         Text(String(localized: "Show More"))
                             .font(.Pretendard.semiBold14.font)
-                            .foregroundStyle(Color.colorBlack)
+                            .foregroundStyle(Color.colorBlue)
                     }
                     .padding(.top, 16)
                     .padding(.bottom, 8)
@@ -114,6 +118,7 @@ struct TeamSelectView: View {
         .listRowSpacing(12)
         .background(.regularMaterial)
         .scrollContentBackground(.hidden)
+        .scrollIndicators(.hidden)
     }
 
     var detailTeamList: some View {
