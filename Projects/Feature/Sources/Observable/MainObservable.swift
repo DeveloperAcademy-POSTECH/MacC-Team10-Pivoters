@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 @Observable
 public final class MainObservable {
@@ -24,7 +25,7 @@ public final class MainObservable {
         self.isShowTeamSheet = false
         self.isShowEditSheet = false
         self.currentIndex = 0
-        self.editSheetOffset = CGFloat(0)
-        self.editSheetIndicatorOffset = CGFloat(0)
+        self.editSheetOffset = CGFloat.zero
+        self.editSheetIndicatorOffset = CGFloat.zero
     }
 }

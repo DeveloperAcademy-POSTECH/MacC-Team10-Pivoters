@@ -23,8 +23,8 @@ struct PlayerView: View {
                            primaryColor: lineup.primaryColor,
                            secondaryColor: lineup.secondaryColor,
                            isSelected: false)
-            Text(player.name)
-                .font(.system(size: 10))
+            Text(player.human?.name ?? " ")
+                .font(.Pretendard.semiBold10.font)
                 .foregroundStyle(theme.textColor)
                 .padding(.vertical, 2)
                 .padding(.horizontal, 5)

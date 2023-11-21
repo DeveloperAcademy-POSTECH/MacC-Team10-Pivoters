@@ -15,23 +15,27 @@ struct PlayerSelectionView: View {
     @State var observable: PlayerSelectionObservable
 
     var body: some View {
-        ScrollView {
+        List {
             addPlayerCell()
-            ForEach(observable.playerList.indices, id: \.hashValue) { index in
-                PlayerCell(player: $observable.playerList[index], observable: observable)
+                .listRowSeparator(.hidden)
+            ForEach(observable.team.teamMembers.indices, id: \.hashValue) { index in
+                PlayerCell(human: $observable.team.teamMembers[index], observable: observable)
+                    .listRowSeparator(.hidden)
             }
         }
-
+        .listStyle(.plain)
+        .listRowSpacing(-8)
     }
 
     func addPlayerCell() -> some View {
         HStack {
             Image(asset: CommonAsset.addButton)
             Text("선수 추가")
-                .padding(.horizontal)
+                .font(.Pretendard.regular12.font)
+                .padding(.horizontal, 10)
             Spacer()
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 10)
         .onTapGesture {
             observable.addPlayer()
         }
@@ -39,30 +43,42 @@ struct PlayerSelectionView: View {
 }
 
 struct PlayerCell: View {
-    @Binding var player: Player
+    @Binding var human: Human
     @State var editPlayer = false
     var observable: PlayerSelectionObservable
+    let limitLength: Int = 10
 
     var body: some View {
         HStack {
-            Image(asset: CommonAsset.cirecleUniform)
+            Image(asset: CommonAsset.circleUniform)
                 .onTapGesture {
                     print("선수 선택")
-                    observable.selectPlayer(player)
+                    observable.selectPlayer(human)
                 }
             if editPlayer {
-                TextField("\(player.name)", text: $player.name)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal)
+                VStack {
+                    TextField("\(human.name)", text: $human.name)
+                        .font(.Pretendard.regular12.font)
+                        .textFieldStyle(.automatic)
+                        .onReceive(human.name.publisher.collect()) { newText in
+                                        if newText.count > limitLength {
+                                            human.name = String(newText.prefix(limitLength))
+                                        }
+                                    }
+                    Rectangle()
+                        .frame(height: 1)
+                        .foregroundColor(.gray)
+                }.padding(.horizontal, 10)
             } else {
                 HStack {
-                    Text(player.name)
+                    Text(human.name)
+                        .font(.Pretendard.regular12.font)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
+                        .padding(.horizontal, 10)
                     Spacer()
-                    if player.id != nil {
+                    if observable.currentIndex == 0 {
                         Text("등록 완료")
-                            .font(.system(size: 10))
+                            .font(.Pretendard.subhead.font)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
                             .background(
@@ -73,7 +89,7 @@ struct PlayerCell: View {
                 }
                 .onTapGesture {
                     print("선수 선택")
-                    observable.selectPlayer(player)
+                    observable.selectPlayer(human)
                 }
             }
             Image(systemName: "square.and.pencil")
@@ -81,6 +97,6 @@ struct PlayerCell: View {
                     editPlayer.toggle()
                 }
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 10)
     }
 }

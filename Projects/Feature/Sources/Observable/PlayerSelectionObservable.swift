@@ -8,62 +8,41 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 import Core
 
 @Observable
 class PlayerSelectionObservable {
-    var playerList: [Player]
+    var team: Team
     var lineup: Lineup
-    init(playerList: [Player] = [], lineup: Lineup) {
-        self.playerList = playerList
+    var players: [Player] = [Player]()
+    let currentIndex: Int
+
+    init(team: Team, lineup: Lineup, currentIndex: Int) {
+        self.team = team
         self.lineup = lineup
+        self.players = lineup.players.sorted { $0.number < $1.number }
+        self.currentIndex = currentIndex
     }
 
     func addPlayer() {
-        playerList.append(Player(name: "새로 추가된 선수", number: 1, isGoalkeeper: false, offset: OffsetValue(draggedOffset: CGSize.zero, accumulatedOffset: CGSize.zero)))
+        team.teamMembers.append(InitTeamContainer.makeHuman(name: "새로운 선수", backNumber: 1))
     }
 
-    func selectPlayer(_ player: Player) {
+    func selectPlayer(_ registerHuman: Human) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if lineup.players[index].name == " " {
-            if player.id != nil {
-                for positionIndex in 0..<lineup.players.count {
-                    if lineup.players[positionIndex].id == player.id {
-                        let human = Player(id: player.id,
-                                           name: " ",
-                                           number: player.number,
-                                           isGoalkeeper: player.isGoalkeeper,
-                                           offset: player.offset
-                        )
-
-                        lineup.players[positionIndex] = human
-                    }
-                }
+        if players[index].human == nil {
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = nil
             }
-            player.offset = lineup.players[index].offset
-            player.isGoalkeeper = lineup.players[index].isGoalkeeper
-            player.number = lineup.players[index].number
-            player.id = lineup.players[index].id
-
-            lineup.players[index] = player
+            players[index].human = registerHuman
         } else {
-            if player.id != nil {
-                for positionIndex in 0..<lineup.players.count {
-                    if lineup.players[positionIndex].id == player.id {
-                        let swapOffset = lineup.players[index].offset
-                        lineup.players[index].offset = player.offset
-                        player.offset = swapOffset
-                    }
-                }
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = players[index].human
+                players[index].human = registerHuman
             } else {
-                player.offset = lineup.players[index].offset
-                player.isGoalkeeper = lineup.players[index].isGoalkeeper
-                player.number = lineup.players[index].number
-                player.id = lineup.players[index].id
-
-                lineup.players[index].id = nil
-                lineup.players[index] = player
+                players[index].human = registerHuman
             }
         }
     }

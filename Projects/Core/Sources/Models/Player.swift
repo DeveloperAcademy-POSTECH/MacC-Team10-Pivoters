@@ -9,19 +9,23 @@
 import Foundation
 import SwiftData
 
-@Observable
-public final class Player: Identifiable {
+@Model
+public final class Player {
     public var id: UUID?
-    public var name: String
     public var number: Int
     public var isGoalkeeper: Bool
     public var offset: OffsetValue
+    public var human: Human?
 
-    public init(id: UUID? = nil, name: String, number: Int, isGoalkeeper: Bool, offset: OffsetValue) {
+    public init(id: UUID? = nil,
+                number: Int,
+                isGoalkeeper: Bool,
+                offset: OffsetValue,
+                human: Human? = nil) {
         self.id = id
-        self.name = name
         self.number = number
         self.isGoalkeeper = isGoalkeeper
         self.offset = offset
+        self.human = human
     }
 }

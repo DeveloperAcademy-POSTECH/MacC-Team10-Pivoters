@@ -7,49 +7,40 @@
 //
 
 import Foundation
+import SwiftData
 
 import Core
 
+//@Observable - FetchDescriptor에서 Sorted가 먹지 않음.. 이유는 모름
 @Observable
 class TeamObservable {
-    var team: Team = Team(id: UUID(),
-                          teamName: "어찌구fc",
-                          subTitle: "저찌구",
-                          lineup: [Lineup(id: UUID(),
-                                          uniform: .plain,
-                                          formation: .eleven,
-                                          selectedTypeOfFormation: .football433,
-                                          players: MockData.player,
-                                          primaryColor: UniformColor(red: 0.4,
-                                                                     green: 0.4,
-                                                                     blue: 0.4),
-                                          secondaryColor: UniformColor(red: 0.2,
-                                                                       green: 0.2,
-                                                                       blue: 0.2),
-                                          theme: .blackBlue),
-                                   Lineup(id: UUID(),
-                                          uniform: .plain,
-                                          formation: .eleven,
-                                          selectedTypeOfFormation: .football433,
-                                          players: MockData.player1,
-                                          primaryColor: UniformColor(red: 0.4,
-                                                                     green: 0.4,
-                                                                     blue: 0.4),
-                                          secondaryColor: UniformColor(red: 0.2,
-                                                                       green: 0.2,
-                                                                       blue: 0.2),
-                                          theme: .blackBlue),
-                                   Lineup(id: UUID(),
-                                          uniform: .plain,
-                                          formation: .eleven,
-                                          selectedTypeOfFormation: .football433,
-                                          players: MockData.player2,
-                                          primaryColor: UniformColor(red: 0.4,
-                                                                     green: 0.4,
-                                                                     blue: 0.4),
-                                          secondaryColor: UniformColor(red: 0.2,
-                                                                       green: 0.2,
-                                                                       blue: 0.2),
-                                          theme: .blackBlue)
-                          ])
+
+    var team: Team?
+    var lineup: [Lineup] = [Lineup]()
+    private let modelContext: ModelContext
+
+    @MainActor
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        fetchTeam()
+    }
+
+    func fetchTeam() {
+        do {
+            var fetchDescriptor = FetchDescriptor<Team>()
+            // MARK: 최신 생성 순을 보여지게 하기 위해 reverse
+            fetchDescriptor.predicate = #Predicate {
+                $0.isSelected
+            }
+            var teams = try modelContext.fetch(fetchDescriptor)
+            // MARK: 선택 팀을 최상단에 보여지기 위함
+            teams.sort { pre, _ in
+                pre.isSelected
+            }
+            self.team = teams[0]
+            self.lineup = teams[0].lineup.sorted { $0.index < $1.index }
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
 }

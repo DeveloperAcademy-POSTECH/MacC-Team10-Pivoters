@@ -16,7 +16,7 @@ import Core
 class TeamSelectObservable {
 
     let modelContext: ModelContext
-    var teams: [RefactoredTeam] = []
+    var teams: [Team] = []
 
     var isCreatePresented: Bool = false
     var currentPresentationDetent: PresentationDetent = .fraction(0.5)
@@ -28,11 +28,11 @@ class TeamSelectObservable {
         self.teams = fetchTeam()
     }
 
-    func fetchTeam() -> [RefactoredTeam] {
+    func fetchTeam() -> [Team] {
         do {
-            var fetchDescriptor = FetchDescriptor<RefactoredTeam>()
+            var fetchDescriptor = FetchDescriptor<Team>()
             // MARK: 최신 생성 순을 보여지게 하기 위해 reverse
-            fetchDescriptor.sortBy = [SortDescriptor<RefactoredTeam>(\.updatedAt, order: .reverse)]
+            fetchDescriptor.sortBy = [SortDescriptor<Team>(\.updatedAt, order: .reverse)]
             var teams = try modelContext.fetch(fetchDescriptor)
             // MARK: 선택 팀을 최상단에 보여지기 위함
             teams.sort { pre, _ in
@@ -53,7 +53,7 @@ class TeamSelectObservable {
         presentationDetent.remove(.large)
     }
 
-    func selectTeam(selectedTeam: RefactoredTeam) {
+    func selectTeam(selectedTeam: Team) {
         for team in teams {
             team.isSelected = selectedTeam == team
         }

@@ -10,13 +10,20 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-@Observable
-public final class OffsetValue {
-    public var draggedOffset: CGSize
-    public var accumulatedOffset: CGSize
+public struct OffsetValue: Codable {
 
-    public init(draggedOffset: CGSize, accumulatedOffset: CGSize) {
-        self.draggedOffset = draggedOffset
-        self.accumulatedOffset = accumulatedOffset
+    public var draggedOffsetWidth: Double
+    public var draggedOffsetHeight: Double
+    public var accumulatedOffsetWidth: Double
+    public var accumulatedOffsetHeight: Double
+
+    public init(draggedOffsetWidth: Double,
+                draggedOffsetHeight: Double,
+                accumulatedOffsetWidth: Double,
+                accumulatedOffsetHeight: Double) {
+        self.draggedOffsetWidth = draggedOffsetWidth
+        self.draggedOffsetHeight = draggedOffsetHeight
+        self.accumulatedOffsetWidth = accumulatedOffsetWidth
+        self.accumulatedOffsetHeight = accumulatedOffsetHeight
     }
 }

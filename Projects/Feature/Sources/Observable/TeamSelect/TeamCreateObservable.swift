@@ -11,6 +11,7 @@ import SwiftData
 
 import Core
 
+@Observable
 class TeamCreateObservable {
     private let modelContext: ModelContext
     var teamName: String = ""
@@ -22,12 +23,7 @@ class TeamCreateObservable {
 
     func createTeam() {
         guard self.teamName != "" else { return }
-        let team = RefactoredTeam(id: UUID(),
-                                  teamName: teamName,
-                                  subTitle: "temp",
-                                  isSelected: false,
-                                  createdAt: Date(),
-                                  updatedAt: Date())
+        let team = InitTeamContainer.makeTeam(teamName: self.teamName)
         modelContext.insert(team)
     }
 }

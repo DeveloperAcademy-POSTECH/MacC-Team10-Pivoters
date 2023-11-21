@@ -12,8 +12,9 @@ import Core
 import Common
 
 public struct ShareView: View {
-    @Binding var mainObservable: MainObservable
-    var team: Team
+    var mainObservable: MainObservable
+    var team: Team?
+    var lineup: Lineup
     @State private var snapshotImage: UIImage?
 
     public var body: some View {
@@ -29,9 +30,9 @@ public struct ShareView: View {
                     }
                 }
                 .onAppear {
-                    self.snapshotImage = ShareImage(mainObservable: $mainObservable, team: team,
+                    self.snapshotImage = ShareImage(mainObservable: mainObservable, team: team,
                                                     isSharing: true,
-                                                    lineup: team.lineup).snapshot()
+                                                    lineup: lineup).snapshot()
                 }
                 Spacer()
             }
@@ -41,43 +42,42 @@ public struct ShareView: View {
 }
 
 public struct ShareImage: View {
-    @Binding var mainObservable: MainObservable
-    var team: Team
+    var mainObservable: MainObservable
+    var team: Team?
     var isSharing: Bool
-    var lineup: [Lineup]
+    var lineup: Lineup
+    let deviceHeight = UIScreen.main.bounds.height
 
     public var body: some View {
         if isSharing {
             ZStack {
-                Image(asset: CommonAsset.shareBlue)
+                lineup.theme.share
                     .resizable()
                     .scaledToFit()
                     .frame(height: UIScreen.main.bounds.width)
-                    .offset(y: -20)
+                    .ignoresSafeArea()
                 VStack {
-                    Text("\(team.teamName)")
-                        .font(.Pretendard.black16.font)
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(team.lineup[mainObservable.currentIndex].theme.textColor)
-                        .padding(.bottom, 1)
-                    Text("\(team.subTitle)")
+                    if let team = team {
+                        Text("\(team.teamName)")
+                            .font(.Pretendard.black16.font)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(lineup.theme.textColor)
+                            .padding(.bottom, 1)
+                    }
+                    Text("\(lineup.lineupName)")
                         .font(.Pretendard.subhead.font)
-                        .foregroundStyle(team.lineup[mainObservable.currentIndex].theme.textColor)
+                        .foregroundStyle(lineup.theme.textColor)
                     Spacer()
                 }
-                .padding(.top, 30)
-                ForEach(0..<lineup[0].formation.rawValue, id: \.hashValue) { index in
-                    if lineup[0].players[index].isGoalkeeper {
-                        PlayerView(theme: lineup[0].theme,
-                                   player: lineup[0].players[index])
-                        .offset(lineup[0].players[index].offset.draggedOffset)
-                    } else {
-                        PlayerView(theme: lineup[0].theme,
-                                   player: lineup[0].players[index])
-                        .offset(lineup[0].players[index].offset.draggedOffset)
-                    }
+                .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.04 : deviceHeight * 0.022)
+                ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
+                    PlayerView(theme: lineup.theme,
+                               player: lineup.players[index],
+                               lineup: lineup)
+                    .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
+                                   height: lineup.players[index].offset.draggedOffsetHeight))
                 }
-                .offset(y: 40) // 추후 반응형으로 위치 조정
+                .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.17 : deviceHeight * 0.08)
             }
         }
     }
