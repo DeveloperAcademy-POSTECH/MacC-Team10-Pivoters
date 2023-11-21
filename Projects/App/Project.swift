@@ -11,8 +11,9 @@ import ProjectDescriptionHelpers
 private let moduleName = "App"
 
 let infoPlist: [String: Plist.Value] = [
-    "CFBundleShortVersionString": "1.0",
+    "CFBundleShortVersionString": "1.0.0",
     "CFBundleVersion": "1",
+    "CFBundleDisplayName" : "Linable",
     "UIMainStoryboardFile": "",
     "UILaunchStoryboardName": "LaunchScreen",
     "NSPhotoLibraryAddUsageDescription" : "이미지를 사진 라이브러리로 내보낼 수 있습니다.",
