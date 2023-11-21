@@ -23,6 +23,7 @@ public final class Lineup {
     public var theme: Theme
     public var selectionPlayerIndex: Int?
     public var players: [Player] = [Player]()
+    public var trigger: Int?
 
     public init(
         id: UUID,

@@ -18,11 +18,15 @@ struct PlayerSelectionView: View {
         List {
             addPlayerCell()
                 .listRowSeparator(.hidden)
-            ForEach(observable.team.teamMembers.indices, id: \.hashValue) { index in
-                PlayerCell(human: $observable.team.teamMembers[index], observable: observable)
+            ForEach(observable.humans.indices, id: \.hashValue) { index in
+                PlayerCell(human: $observable.humans[index],
+                           observable: observable)
                     .listRowSeparator(.hidden)
             }
         }
+        .task(id: observable.lineup.selectionPlayerIndex, {
+            observable.isEditedHuman = nil
+        })
         .listStyle(.plain)
         .listRowSpacing(-8)
     }
@@ -44,7 +48,6 @@ struct PlayerSelectionView: View {
 
 struct PlayerCell: View {
     @Binding var human: Human
-    @State var editPlayer = false
     var observable: PlayerSelectionObservable
     let limitLength: Int = 10
 
@@ -55,48 +58,64 @@ struct PlayerCell: View {
                     print("선수 선택")
                     observable.selectPlayer(human)
                 }
-            if editPlayer {
-                VStack {
-                    TextField("\(human.name)", text: $human.name)
-                        .font(.Pretendard.regular12.font)
-                        .textFieldStyle(.automatic)
-                        .onReceive(human.name.publisher.collect()) { newText in
-                                        if newText.count > limitLength {
-                                            human.name = String(newText.prefix(limitLength))
-                                        }
+            VStack {
+                TextField("\(human.name)", text: $human.name, onCommit: {
+                    observable.isEditedHuman = nil
+                })
+                    .font(.Pretendard.regular12.font)
+                    .textFieldStyle(.automatic)
+                    .onReceive(human.name.publisher.collect()) { newText in
+                                    if newText.count > limitLength {
+                                        human.name = String(newText.prefix(limitLength))
                                     }
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.gray)
-                }.padding(.horizontal, 10)
-            } else {
-                HStack {
-                    Text(human.name)
-                        .font(.Pretendard.regular12.font)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 10)
-                    Spacer()
-                    if observable.currentIndex == 0 {
-                        Text("등록 완료")
-                            .font(.Pretendard.subhead.font)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(lineWidth: 1.0)
-                            )
-                    }
-                }
-                .onTapGesture {
+                                }
+                    .disabled(observable.isEditedHuman != human.id)
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(observable.isEditedHuman == human.id ? .gray: .white)
+            }
+            .padding(.horizontal, 10)
+            .onTapGesture {
+                if observable.isEditedHuman != human.id {
                     print("선수 선택")
                     observable.selectPlayer(human)
+                    observable.isEditedHuman = nil
+                }
+            }
+            .task(id: human.name) {
+                observable.lineup.trigger = Int.random(in: 0...10)
+            }
+            if observable.isEditedHuman != human.id {
+                if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
+                    Text("등록 완료")
+                        .font(.Pretendard.subhead.font)
+                        .padding(.horizontal, 11)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray)
+                                .foregroundStyle(.white)
+                        )
                 }
             }
             Image(systemName: "square.and.pencil")
+                .foregroundStyle(Color.gray)
                 .onTapGesture {
-                    editPlayer.toggle()
+                    if observable.isEditedHuman == human.id {
+                        observable.isEditedHuman = nil
+                    } else {
+                        observable.isEditedHuman = human.id
+                    }
                 }
         }
         .padding(.horizontal, 10)
+    }
+}
+
+extension View {
+    func endTextEditing() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil, from: nil, for: nil)
     }
 }
