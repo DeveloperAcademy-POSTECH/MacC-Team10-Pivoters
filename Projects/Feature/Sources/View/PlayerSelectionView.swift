@@ -82,6 +82,9 @@ struct PlayerCell: View {
                     observable.isEditedHuman = nil
                 }
             }
+            .task(id: human.name) {
+                observable.lineup.trigger = Int.random(in: 0...10)
+            }
             if observable.isEditedHuman != human.id {
                 if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
                     Text("등록 완료")

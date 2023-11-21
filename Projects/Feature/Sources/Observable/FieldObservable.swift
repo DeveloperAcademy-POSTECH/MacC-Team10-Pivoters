@@ -11,12 +11,9 @@ import Foundation
 
 @Observable
 class FieldObservable {
-
     var lineup: Lineup
-//    var players: [Player] = [Player]()
 
     init(lineup: Lineup) {
         self.lineup = lineup
-//        self.players = lineup.players.sorted { $0.number < $1.number }
     }
 }
