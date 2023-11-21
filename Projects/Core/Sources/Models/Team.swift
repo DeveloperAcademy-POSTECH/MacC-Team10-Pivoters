@@ -18,7 +18,7 @@ public final class Team {
     public let createdAt: Date
     public var updatedAt: Date
     public var lineup: [Lineup]
-    public var addedPlayers: [Player]
+    public var teamMembers: [Human]
 
     public init(id: UUID,
                 teamName: String,
@@ -26,14 +26,14 @@ public final class Team {
                 createdAt: Date,
                 updatedAt: Date,
                 lineup: [Lineup],
-                addedPlayers: [Player]) {
+                addedPlayers: [Human]) {
         self.id = id
         self.teamName = teamName
         self.isSelected = isSelected
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.lineup = lineup
-        self.addedPlayers = addedPlayers
+        self.teamMembers = addedPlayers
     }
 
 }
