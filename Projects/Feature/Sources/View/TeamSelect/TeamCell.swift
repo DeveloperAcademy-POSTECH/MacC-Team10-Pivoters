@@ -24,10 +24,22 @@ struct TeamCell: View {
 
     var body: some View {
         HStack(alignment: .center) {
-            Image(asset: CommonAsset.uniform)
-                .resizable()
-                .frame(width: 36, height: 36)
-                .padding(.leading, 34)
+            if let team = team {
+                let lineup = team.lineup.filter { $0.index == 0 }.first
+                if let lineup = lineup {
+                    OverlapUniform(uniform: lineup.uniform,
+                                   uniformSize: 36,
+                                   primaryColor: lineup.primaryColor,
+                                   secondaryColor: lineup.secondaryColor,
+                                   isSelected: false)
+                        .padding(.leading, 34)
+                }
+            } else {
+                Image(asset: CommonAsset.uniform)
+                    .resizable()
+                    .frame(width: 36, height: 36)
+                    .padding(.leading, 34)
+            }
             Spacer()
             Text(cellType == .select ? team!.teamName : "+ 새로운 팀 추가")
                 .foregroundStyle(cellType == .select ? Color.colorBlack : Color.colorLightGray)
@@ -39,7 +51,7 @@ struct TeamCell: View {
         .overlay {
             if isSelected {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.colorLightGray, lineWidth: 1.5)
+                    .stroke(Color.colorBlue, lineWidth: 1.5)
                     .padding(1)
             }
         }

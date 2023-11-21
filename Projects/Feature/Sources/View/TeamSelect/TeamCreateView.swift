@@ -11,13 +11,17 @@ import SwiftUI
 struct TeamCreateView: View {
 
     @Environment(\.dismiss) var dismiss
-    @State var observable: TeamCreateObservable
+    @StateObject var observable: TeamCreateObservable
 
     let limitTeamName: Int = 15
 
     var body: some View {
         VStack(spacing: 0) {
             HStack {
+                Text("팀 추가")
+                    .font(.Pretendard.title.font)
+                    .foregroundColor(.colorBlack)
+                    .padding(.top, 8)
                 Spacer()
                 Button {
                     dismiss()
@@ -30,21 +34,25 @@ struct TeamCreateView: View {
                 }
             }
             .padding(.top, 16)
-            .padding(.trailing, 16)
+            .padding(.horizontal, 16)
 
             TextField("팀명", text: $observable.teamName)
                 .frame(height: 55)
                 .foregroundStyle(Color.colorBlack)
                 .font(.Pretendard.headerNormal.font)
                 .textFieldStyle(PlainTextFieldStyle())
-                .padding(.horizontal, 24)
-                .onReceive(observable.teamName.publisher.collect(), perform: { newText in
-                    if newText.count > limitTeamName {
-                        observable.teamName = String(newText.prefix(limitTeamName))
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                .onReceive(observable.teamName.publisher.collect()) {
+                    if $0.count > limitTeamName {
+                        observable.teamName = String($0.prefix(limitTeamName))
                     }
-                })
+                }
+                .onAppear {
+                    UITextField.appearance().clearButtonMode = .whileEditing
+                }
             Divider()
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 16)
             Spacer()
             Button {
                 // MARK: createTeam
@@ -52,14 +60,23 @@ struct TeamCreateView: View {
                 dismiss()
             } label: {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundStyle(Color.indigo)
+                    .foregroundStyle(observable.isButtonEnabled ? Color.colorBlue : Color.colorLightGray)
                     .frame(height: 60)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 16)
                     .overlay {
                         Text("추가")
+                            .font(.Pretendard.headerNormal.font)
+                            .foregroundColor(Color.white)
                     }
             }
             .padding(.bottom, 20)
+            .disabled(!observable.isButtonEnabled)
+        }
+        .submitLabel(.done)
+        .onSubmit {
+            guard observable.isButtonEnabled else { return }
+            observable.createTeam()
+            dismiss()
         }
 
     }

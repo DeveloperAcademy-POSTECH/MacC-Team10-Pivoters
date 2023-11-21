@@ -46,6 +46,7 @@ public struct ShareImage: View {
     var team: Team?
     var isSharing: Bool
     var lineup: Lineup
+    let deviceHeight = UIScreen.main.bounds.height
 
     public var body: some View {
         if isSharing {
@@ -54,7 +55,7 @@ public struct ShareImage: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: UIScreen.main.bounds.width)
-                    .offset(y: -20)
+                    .ignoresSafeArea()
                 VStack {
                     if let team = team {
                         Text("\(team.teamName)")
@@ -62,22 +63,22 @@ public struct ShareImage: View {
                             .multilineTextAlignment(.center)
                             .foregroundStyle(lineup.theme.textColor)
                             .padding(.bottom, 1)
-
                     }
                     Text("\(lineup.lineupName)")
                         .font(.Pretendard.subhead.font)
                         .foregroundStyle(lineup.theme.textColor)
                     Spacer()
                 }
-                .padding(.top, 30)
+                .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.04 : deviceHeight * 0.022)
                 ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
                     PlayerView(theme: lineup.theme,
                                player: lineup.players[index],
                                lineup: lineup,
                                index: 100)
-                    .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth, height: lineup.players[index].offset.draggedOffsetHeight))
+                    .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
+                                   height: lineup.players[index].offset.draggedOffsetHeight))
                 }
-                .offset(y: 40) // 추후 반응형으로 위치 조정
+                .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.17 : deviceHeight * 0.08)
             }
         }
     }
