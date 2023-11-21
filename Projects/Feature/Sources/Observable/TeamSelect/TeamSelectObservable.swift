@@ -55,6 +55,9 @@ class TeamSelectObservable {
 
     func selectTeam(selectedTeam: Team) {
         for team in teams {
+            if team == selectedTeam {
+                team.updatedAt = Date()
+            }
             team.isSelected = selectedTeam == team
         }
         teams.sort { pre, _ in
