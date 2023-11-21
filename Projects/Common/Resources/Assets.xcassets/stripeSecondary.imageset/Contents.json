@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "stripeSecondary.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "stripeSecondary.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

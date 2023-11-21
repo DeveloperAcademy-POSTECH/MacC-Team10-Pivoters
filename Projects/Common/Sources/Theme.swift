@@ -81,4 +81,30 @@ extension Theme {
             Image(asset: CommonAsset.shareBlack)
         }
     }
+
+    public var goalkeeperPrimaryColor: UniformColor {
+        switch self {
+        case .blueGray:
+            UniformColor(red: 136 / 255, green: 240 / 255, blue: 136 / 255)
+        case .whiteGreen:
+            UniformColor(red: 255 / 255, green: 247 / 255, blue: 68 / 255)
+        case .blackBlue:
+            UniformColor(red: 68 / 255, green: 68 / 255, blue: 68 / 255)
+        case .grayBlack:
+            UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
+        }
+    }
+
+    public var goalkeeperSecondaryColor: UniformColor {
+        switch self {
+        case .blueGray:
+            UniformColor(red: 0.6, green: 0.6, blue: 0.6)
+        case .whiteGreen:
+            UniformColor(red: 0.6, green: 0.6, blue: 0.6)
+        case .blackBlue:
+            UniformColor(red: 0.6, green: 0.6, blue: 0.6)
+        case .grayBlack:
+            UniformColor(red: 0.6, green: 0.6, blue: 0.6)
+        }
+    }
 }

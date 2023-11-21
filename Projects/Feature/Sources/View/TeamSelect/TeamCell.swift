@@ -31,8 +31,9 @@ struct TeamCell: View {
                                    uniformSize: 36,
                                    primaryColor: lineup.primaryColor,
                                    secondaryColor: lineup.secondaryColor,
-                                   isSelected: false)
-                        .padding(.leading, 34)
+                                   isSelected: false,
+                                   isGoalkeeper: false)
+                    .padding(.leading, 34)
                 }
             } else {
                 Image(asset: CommonAsset.uniform)

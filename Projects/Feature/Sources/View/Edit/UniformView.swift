@@ -42,7 +42,8 @@ struct UniformView: View {
                             .overlay {
                                 overlapUniform(uniform: uniform,
                                                uniformSize: 80,
-                                               isSelected: observable.lineup.uniform == uniform ? true : false)
+                                               isSelected: observable.lineup.uniform == uniform ? true : false,
+                                               isGoalkeeper: false)
 
                             }
                     }
@@ -91,12 +92,16 @@ struct UniformView: View {
         }
     }
 
-    func overlapUniform(uniform: Uniform, uniformSize: CGFloat, isSelected: Bool) -> some View {
+    func overlapUniform(uniform: Uniform,
+                        uniformSize: CGFloat,
+                        isSelected: Bool,
+                        isGoalkeeper: Bool) -> some View {
         return OverlapUniform(uniform: uniform,
                               uniformSize: 80,
                               primaryColor: observable.lineup.primaryColor,
                               secondaryColor: observable.lineup.secondaryColor,
-                              isSelected: isSelected)
+                              isSelected: isSelected,
+                              isGoalkeeper: isGoalkeeper)
         .opacity(isSelected ? 0.7 : 1)
         .onTapGesture {
             observable.lineup.uniform = uniform

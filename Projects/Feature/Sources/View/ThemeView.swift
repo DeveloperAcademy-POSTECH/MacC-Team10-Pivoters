@@ -34,6 +34,7 @@ struct ThemeView: View {
                 }
             }
         }
+        .scrollIndicators(.hidden)
         .padding(.horizontal, 20)
     }
 
@@ -46,7 +47,7 @@ struct ThemeView: View {
             .overlay {
                 if isSelected {
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(.tint, lineWidth: 1.5)
+                        .stroke(Color.colorBlue, lineWidth: 1.5)
                         .padding(1)
                 }
             }
