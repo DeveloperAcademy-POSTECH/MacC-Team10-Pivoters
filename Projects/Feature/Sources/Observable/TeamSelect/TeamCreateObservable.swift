@@ -6,19 +6,37 @@
 //  Copyright © 2023 com.pivoters. All rights reserved.
 //
 
+import Combine
 import Foundation
 import SwiftData
 
 import Core
 
-@Observable
-class TeamCreateObservable {
+class TeamCreateObservable: ObservableObject {
+
     private let modelContext: ModelContext
-    var teamName: String = ""
+    @Published var teamName: String = ""
+    @Published var isButtonEnabled = false
+
+    var cancellables = Set<AnyCancellable>()
+
+    private var validTextfieldPublisher: AnyPublisher<Bool, Never> {
+        $teamName
+            .map {
+                $0.count > 0
+            }
+            .eraseToAnyPublisher()
+    }
 
     @MainActor
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
+
+        validTextfieldPublisher
+            .receive(on: RunLoop.main)
+            .map { $0 ? true : false }
+            .assign(to: \.isButtonEnabled, on: self)
+            .store(in: &cancellables)
     }
 
     func createTeam() {
