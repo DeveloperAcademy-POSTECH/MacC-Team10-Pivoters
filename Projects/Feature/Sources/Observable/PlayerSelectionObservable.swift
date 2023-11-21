@@ -29,9 +29,21 @@ class PlayerSelectionObservable {
     func addPlayer() {
         team.teamMembers.append(InitTeamContainer.makeHuman(name: "새로운 선수", backNumber: 1))
     }
-    func selectPlayer(_ registerPlayer: Human) {
+    func selectPlayer(_ registerHuman: Human) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        players[index].human = registerPlayer
+        if players[index].human == nil {
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = nil
+            }
+            players[index].human = registerHuman
+        } else {
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = players[index].human
+                players[index].human = registerHuman
+            } else {
+                players[index].human = registerHuman
+            }
+        }
     }
 
 //    func selectPlayer(_ registerPlayer: Player) {
