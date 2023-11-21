@@ -256,6 +256,23 @@
         }
       }
     },
+    "Player name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Player name"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선수 이름"
+          }
+        }
+      }
+    },
     "Push To Edit" : {
       "extractionState" : "manual",
       "localizations" : {
