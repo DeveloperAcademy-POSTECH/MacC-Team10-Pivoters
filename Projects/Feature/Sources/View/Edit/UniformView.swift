@@ -16,7 +16,6 @@ struct UniformView: View {
     @State var observable: UniformObservable
     @State var primaryColor: Color
     @State var secondaryColor: Color
-    @State var goalkeeperPrimaryColor: Color
 
     let rows = [GridItem(.fixed(100))]
 
@@ -26,10 +25,6 @@ struct UniformView: View {
                                   red: observable.lineup.primaryColor.red,
                                   green: observable.lineup.primaryColor.green,
                                   blue: observable.lineup.primaryColor.blue)
-        self.goalkeeperPrimaryColor = Color(.sRGB,
-                                            red: observable.lineup.goalkeeperPrimaryColor.red,
-                                            green: observable.lineup.goalkeeperPrimaryColor.green,
-                                            blue: observable.lineup.goalkeeperPrimaryColor.blue)
         self.secondaryColor = Color(.sRGB,
                                     red: observable.lineup.secondaryColor.red,
                                     green: observable.lineup.secondaryColor.green,
@@ -59,7 +54,7 @@ struct UniformView: View {
             RoundedRectangle(cornerSize: CGSize(width: 12, height: 12))
                 .foregroundColor(Color(uiColor: .systemGray5))
                 .opacity(0.4)
-                .frame(height: 180)
+                .frame(height: 90)
                 .overlay {
                     VStack {
                         ColorPicker(String(localized: "Main Color"), selection: $primaryColor, supportsOpacity: false)
@@ -70,13 +65,6 @@ struct UniformView: View {
                             .padding(.horizontal)
                             .font(.Pretendard.semiBold14.font)
                         Divider()
-                        ColorPicker("골키퍼 메인 컬러", selection: $goalkeeperPrimaryColor, supportsOpacity: false)
-                            .padding(.horizontal)
-                            .font(.Pretendard.semiBold14.font)
-                        Divider()
-                        ColorPicker("골키퍼 서브 컬러", selection: $goalkeeperPrimaryColor, supportsOpacity: false)
-                            .padding(.horizontal)
-                            .font(.Pretendard.semiBold14.font)
                     }
                 }
                 .padding(.horizontal)
@@ -92,16 +80,6 @@ struct UniformView: View {
                     String($0)
                 }
             observable.updateUniformColor(colors: colors, colorSequence: .primaryColor)
-        }
-        .onChange(of: goalkeeperPrimaryColor) {
-            let colors: [String] =
-            goalkeeperPrimaryColor
-                .description
-                .split(separator: " ")
-                .map {
-                    String($0)
-                }
-            observable.updateUniformColor(colors: colors, colorSequence: .goalkeeperPrimaryColor)
         }
         .onChange(of: secondaryColor) {
             let colors: [String] =

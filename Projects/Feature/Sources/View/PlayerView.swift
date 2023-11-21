@@ -23,8 +23,8 @@ struct PlayerView: View {
             if player.isGoalkeeper {
                 OverlapUniform(uniform: lineup.uniform,
                                uniformSize: 50,
-                               primaryColor: lineup.goalkeeperPrimaryColor,
-                               secondaryColor: lineup.secondaryColor,
+                               primaryColor: theme.goalkeeperPrimaryColor,
+                               secondaryColor: theme.goalkeeperSecondaryColor,
                                isSelected: false,
                                isGoalkeeper: true)
             } else {

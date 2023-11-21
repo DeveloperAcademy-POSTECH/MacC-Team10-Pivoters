@@ -33,14 +33,6 @@ public final class UniformObservable {
             self.lineup.secondaryColor.red = colorsTypeDouble[0]
             self.lineup.secondaryColor.green = colorsTypeDouble[1]
             self.lineup.secondaryColor.blue = colorsTypeDouble[2]
-        case .goalkeeperPrimaryColor:
-            self.lineup.goalkeeperPrimaryColor.red = colorsTypeDouble[0]
-            self.lineup.goalkeeperPrimaryColor.green = colorsTypeDouble[1]
-            self.lineup.goalkeeperPrimaryColor.blue = colorsTypeDouble[2]
-//        case .goalkeeperSecondaryColor:
-//            self.lineup.goalkeeperSecondaryColor.red = colorsTypeDouble[0]
-//            self.lineup.goalkeeperSecondaryColor.green = colorsTypeDouble[1]
-//            self.lineup.goalkeeperSecondaryColor.blue = colorsTypeDouble[2]
         }
     }
 
@@ -57,6 +49,4 @@ public final class UniformObservable {
 enum ColorSequence {
     case primaryColor
     case secondaryColor
-    case goalkeeperPrimaryColor
-//    case goalkeeperSecondaryColor
 }

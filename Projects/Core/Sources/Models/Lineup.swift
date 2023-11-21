@@ -21,6 +21,7 @@ public final class Lineup {
     public var primaryColor: UniformColor
     public var secondaryColor: UniformColor
     public var goalkeeperPrimaryColor: UniformColor
+    public var goalkeeperSecondaryColor: UniformColor
     public var theme: Theme
     public var selectionPlayerIndex: Int?
     public var players: [Player] = [Player]()
@@ -35,8 +36,9 @@ public final class Lineup {
         selectedTypeOfFormation: TypeOfFormation,
         players: [Player],
         primaryColor: UniformColor,
-        goalkeeperPrimaryColor: UniformColor,
         secondaryColor: UniformColor,
+        goalkeeperPrimaryColor: UniformColor,
+        goalkeeperSecondaryColor: UniformColor,
         theme: Theme) {
             self.id = id
             self.index = index
@@ -46,8 +48,9 @@ public final class Lineup {
             self.selectedTypeOfFormation = selectedTypeOfFormation
             self.players = players
             self.primaryColor = primaryColor
-            self.goalkeeperPrimaryColor = goalkeeperPrimaryColor
             self.secondaryColor = secondaryColor
+            self.goalkeeperPrimaryColor = goalkeeperPrimaryColor
+            self.goalkeeperSecondaryColor = goalkeeperSecondaryColor
             self.theme = theme
         }
 }
