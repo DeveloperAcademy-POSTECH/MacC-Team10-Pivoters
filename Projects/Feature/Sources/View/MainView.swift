@@ -96,7 +96,7 @@ struct EditSheetModalSection: View {
 
     var body: some View {
 
-        ModalSegmentedView(team: team, lineup: lineup)
+        ModalSegmentedView(team: team, lineup: lineup, currentIndex: mainObservable.currentIndex)
             .gesture(
                 DragGesture()
                     .onChanged { value in
@@ -175,9 +175,6 @@ struct EditSheetIndicator: View {
                 }
         )
         .blur(radius: mainObservable.isShowTeamSheet ? 10 : 0)
-        .sheet(isPresented: $mainObservable.isShowEditSheet) {
-            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Sheet Content")/*@END_MENU_TOKEN@*/
-        }
     }
 }
 
@@ -309,7 +306,7 @@ struct TeamInfo: View {
                     .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
-                    .padding(.bottom, 8)
+                    .padding(.bottom, mainObservable.isShowEditSheet ? 1: 8)
                 if mainObservable.isShowEditSheet {
                     Spacer()
                 }

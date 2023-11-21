@@ -15,6 +15,7 @@ struct ModalSegmentedView: View {
     @State var editType: EditType = .theme
     var team: Team
     var lineup: Lineup
+    let currentIndex: Int
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,7 +39,7 @@ struct ModalSegmentedView: View {
                 UniformView(observable: UniformObservable(lineup: lineup))
                     .padding(.top, 24)
             case .player:
-                PlayerSelectionView(observable: PlayerSelectionObservable(team: team, lineup: lineup))
+                PlayerSelectionView(observable: PlayerSelectionObservable(team: team, lineup: lineup, currentIndex: currentIndex))
                     .padding(.top, 24)
             case .management:
                 TeamManagementView(observable: TeamManagementObservable(team: team,

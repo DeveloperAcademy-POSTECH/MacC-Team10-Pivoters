@@ -18,8 +18,8 @@ struct PlayerSelectionView: View {
         List {
             addPlayerCell()
                 .listRowSeparator(.hidden)
-            ForEach(observable.team.addedPlayers.indices, id: \.hashValue) { index in
-                PlayerCell(player: $observable.team.addedPlayers[index], observable: observable)
+            ForEach(observable.team.teamMembers.indices, id: \.hashValue) { index in
+                PlayerCell(human: $observable.team.teamMembers[index], observable: observable)
                     .listRowSeparator(.hidden)
             }
         }
@@ -43,7 +43,7 @@ struct PlayerSelectionView: View {
 }
 
 struct PlayerCell: View {
-    @Binding var player: Player
+    @Binding var human: Human
     @State var editPlayer = false
     var observable: PlayerSelectionObservable
     let limitLength: Int = 10
@@ -53,16 +53,16 @@ struct PlayerCell: View {
             Image(asset: CommonAsset.circleUniform)
                 .onTapGesture {
                     print("선수 선택")
-                    observable.selectPlayer(player)
+                    observable.selectPlayer(human)
                 }
             if editPlayer {
                 VStack {
-                    TextField("\(player.name)", text: $player.name)
+                    TextField("\(human.name)", text: $human.name)
                         .font(.Pretendard.regular12.font)
                         .textFieldStyle(.automatic)
-                        .onReceive(player.name.publisher.collect()) { newText in
+                        .onReceive(human.name.publisher.collect()) { newText in
                                         if newText.count > limitLength {
-                                            player.name = String(newText.prefix(limitLength))
+                                            human.name = String(newText.prefix(limitLength))
                                         }
                                     }
                     Rectangle()
@@ -71,12 +71,12 @@ struct PlayerCell: View {
                 }.padding(.horizontal, 10)
             } else {
                 HStack {
-                    Text(player.name)
+                    Text(human.name)
                         .font(.Pretendard.regular12.font)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 10)
                     Spacer()
-                    if player.id != nil {
+                    if observable.currentIndex == 0 {
                         Text("등록 완료")
                             .font(.Pretendard.subhead.font)
                             .padding(.horizontal, 12)
@@ -89,7 +89,7 @@ struct PlayerCell: View {
                 }
                 .onTapGesture {
                     print("선수 선택")
-                    observable.selectPlayer(player)
+                    observable.selectPlayer(human)
                 }
             }
             Image(systemName: "square.and.pencil")
