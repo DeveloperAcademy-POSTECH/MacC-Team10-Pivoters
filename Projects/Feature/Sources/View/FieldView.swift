@@ -30,7 +30,7 @@ struct FieldView: View {
                 if observable.players[index].isGoalkeeper {
                     PlayerView(theme: observable.lineup.theme,
                                player: observable.players[index],
-                               lineup: observable.lineup)
+                               lineup: observable.lineup, index: index)
                     .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
                                    height: observable.players[index].offset.draggedOffsetHeight))
                     .onTapGesture {
@@ -39,7 +39,8 @@ struct FieldView: View {
                 } else {
                     PlayerView(theme: observable.lineup.theme,
                                player: observable.players[index],
-                               lineup: observable.lineup)
+                               lineup: observable.lineup,
+                               index: index)
                     .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
                                    height: observable.players[index].offset.draggedOffsetHeight))
                     .gesture(
