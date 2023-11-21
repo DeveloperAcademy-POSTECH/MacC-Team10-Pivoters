@@ -234,7 +234,7 @@ struct TeamChangeButton: View {
                     Image(systemName: "flag.2.crossed")
                         .font(.system(size: 20))
                         .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
-                    Text(String(localized: "Change Team"))
+                    Text(String(localized: "Team"))
                         .font(.Pretendard.subhead.font)
                         .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
                 }
