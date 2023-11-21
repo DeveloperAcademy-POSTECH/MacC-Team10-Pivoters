@@ -46,6 +46,7 @@ public struct ShareImage: View {
     var team: Team?
     var isSharing: Bool
     var lineup: Lineup
+    let deviceHeight = UIScreen.main.bounds.height
 
     public var body: some View {
         if isSharing {
@@ -62,14 +63,13 @@ public struct ShareImage: View {
                             .multilineTextAlignment(.center)
                             .foregroundStyle(lineup.theme.textColor)
                             .padding(.bottom, 1)
-
                     }
                     Text("\(lineup.lineupName)")
                         .font(.Pretendard.subhead.font)
                         .foregroundStyle(lineup.theme.textColor)
                     Spacer()
                 }
-                .padding(.top, UIScreen.main.bounds.height * 0.022)
+                .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.04 : deviceHeight * 0.022)
                 ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
                     PlayerView(theme: lineup.theme,
                                player: lineup.players[index],
@@ -77,7 +77,7 @@ public struct ShareImage: View {
                     .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
                                    height: lineup.players[index].offset.draggedOffsetHeight))
                 }
-                .padding(.top, UIScreen.main.bounds.width * 0.22)
+                .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.17 : deviceHeight * 0.08)
             }
         }
     }
