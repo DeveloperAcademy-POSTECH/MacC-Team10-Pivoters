@@ -7,15 +7,27 @@
 //
 
 import Foundation
+import Combine
 
 import Core
 
-@Observable
-final class ChangeTeamInfoObservable {
+
+final class ChangeTeamInfoObservable: ObservableObject {
     let changeTeamInfo: ChangeTeamInfo
-    var name: String
     var team: Team?
     var lineup: Lineup?
+    @Published var name: String = ""
+    @Published var isButtonEnabled = false
+
+    var cancellables = Set<AnyCancellable>()
+
+    private var validTextfieldPublisher: AnyPublisher<Bool, Never> {
+        $name
+            .map {
+                $0.count > 0
+            }
+            .eraseToAnyPublisher()
+    }
 
     init(changeTeamInfo: ChangeTeamInfo,
          name: String,
@@ -25,6 +37,12 @@ final class ChangeTeamInfoObservable {
         self.name = name
         self.team = team
         self.lineup = lineup
+
+        validTextfieldPublisher
+            .receive(on: RunLoop.main)
+            .map { $0 ? true : false }
+            .sink { self.isButtonEnabled = $0 }
+            .store(in: &cancellables)
     }
 
     func changeName() {
