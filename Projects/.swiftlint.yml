@@ -3,7 +3,7 @@
 # 비활성화할 규칙들입니다.
 disabled_rules:
   - multiple_closures_with_trailing_closure # 여러 개의 클로저 인수가 있는 경우 trailing closure 문법을 사용하지 않습니다.
-    - trailing_whitespace # 라인 뒤의 공백을 피합니다.
+  - trailing_whitespace # 라인 뒤의 공백을 피합니다.
 
 # 선택적으로 활성화할 규칙들입니다.
 opt_in_rules:
