@@ -26,6 +26,9 @@ struct FieldView: View {
         ZStack {
             observable.lineup.theme.field
                 .offset(CGSize(width: 0, height: 100))
+                .onTapGesture {
+                    observable.lineup.selectionPlayerIndex = nil
+                }
             ForEach(0..<observable.lineup.formation.rawValue, id: \.hashValue) { index in
                 if observable.players[index].isGoalkeeper {
                     PlayerView(theme: observable.lineup.theme,

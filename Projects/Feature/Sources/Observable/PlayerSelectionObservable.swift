@@ -46,5 +46,6 @@ class PlayerSelectionObservable {
                 players[index].human = registerHuman
             }
         }
+        lineup.selectionPlayerIndex = nil
     }
 }
