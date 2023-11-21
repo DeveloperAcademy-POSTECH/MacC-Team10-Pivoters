@@ -11,6 +11,7 @@ import SwiftUI
 
 public extension Font {
     enum Pretendard {
+        case title
         case headerLarge
         case headerNormal
         case black14
@@ -23,6 +24,8 @@ public extension Font {
 
         public var font: Font {
             switch self {
+            case .title:
+                CommonFontFamily.Pretendard.bold.swiftUIFont(size: 24)
             case .headerLarge:
                 CommonFontFamily.Pretendard.black.swiftUIFont(size: 22)
             case .headerNormal:
