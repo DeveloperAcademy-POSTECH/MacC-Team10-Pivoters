@@ -11,7 +11,6 @@ import SwiftData
 
 import Core
 
-//@Observable - FetchDescriptor에서 Sorted가 먹지 않음.. 이유는 모름
 @Observable
 class TeamObservable {
 

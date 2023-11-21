@@ -35,7 +35,7 @@ public struct InitTeamContainer {
              lineup: makeLineup(),
              addedPlayers: [])
     }
-    
+
     public static func makeTeam(teamName: String) -> Team {
         Team(id: UUID(),
              teamName: teamName,
@@ -45,11 +45,11 @@ public struct InitTeamContainer {
              lineup: makeLineup(),
              addedPlayers: [])
     }
-    
+
     public static func makeHuman(name: String, backNumber: Int) -> Human {
         Human(name: name, backNumber: backNumber)
     }
-    
+
     static func makeLineup() -> [Lineup] {
         [Lineup(id: UUID(),
                 index: 0,
@@ -59,7 +59,7 @@ public struct InitTeamContainer {
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6), 
+                secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
                 goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 goalkeeperSecondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
                 theme: .blueGray),
@@ -89,7 +89,7 @@ public struct InitTeamContainer {
                 theme: .blueGray)
         ]
     }
-    
+
     /// 나중에 formaiton을 파라미터로 받아와서 플레이어의 갯수 리턴을 switch하면 될듯하다.
     static func makePlayers() -> [Player] {
         [
