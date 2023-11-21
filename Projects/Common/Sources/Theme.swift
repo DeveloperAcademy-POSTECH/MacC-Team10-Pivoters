@@ -85,13 +85,13 @@ extension Theme {
     public var goalkeeperPrimaryColor: UniformColor {
         switch self {
         case .blueGray:
-            UniformColor(red: 0.1, green: 0.1, blue: 0.1)
+            UniformColor(red: 136 / 255, green: 240 / 255, blue: 136 / 255)
         case .whiteGreen:
-            UniformColor(red: 0.3, green: 0.3, blue: 0.3)
+            UniformColor(red: 255 / 255, green: 247 / 255, blue: 68 / 255)
         case .blackBlue:
-            UniformColor(red: 0.6, green: 0.6, blue: 0.6)
+            UniformColor(red: 68 / 255, green: 68 / 255, blue: 68 / 255)
         case .grayBlack:
-            UniformColor(red: 1.0, green: 1.0, blue: 1.0)
+            UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
         }
     }
 
