@@ -54,7 +54,7 @@ public struct ShareImage: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: UIScreen.main.bounds.width)
-                    .offset(y: -20)
+                    .ignoresSafeArea()
                 VStack {
                     if let team = team {
                         Text("\(team.teamName)")
@@ -69,7 +69,7 @@ public struct ShareImage: View {
                         .foregroundStyle(lineup.theme.textColor)
                     Spacer()
                 }
-                .padding(.top, 30)
+                .padding(.top, UIScreen.main.bounds.height * 0.022)
                 ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
                     PlayerView(theme: lineup.theme,
                                player: lineup.players[index],
@@ -77,7 +77,7 @@ public struct ShareImage: View {
                     .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
                                    height: lineup.players[index].offset.draggedOffsetHeight))
                 }
-                .offset(y: 40) // 추후 반응형으로 위치 조정
+                .padding(.top, UIScreen.main.bounds.width * 0.22)
             }
         }
     }
