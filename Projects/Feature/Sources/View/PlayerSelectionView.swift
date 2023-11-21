@@ -82,7 +82,21 @@ struct PlayerCell: View {
                     observable.isEditedHuman = nil
                 }
             }
+            if observable.isEditedHuman != human.id {
+                if observable.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
+                    Text("등록 완료")
+                        .font(.Pretendard.subhead.font)
+                        .padding(.horizontal, 11)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray)
+                                .foregroundStyle(.white)
+                        )
+                }
+            }
             Image(systemName: "square.and.pencil")
+                .foregroundStyle(Color.gray)
                 .onTapGesture {
                     if observable.isEditedHuman == human.id {
                         observable.isEditedHuman = nil
