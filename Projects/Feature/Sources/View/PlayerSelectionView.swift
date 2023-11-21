@@ -34,7 +34,7 @@ struct PlayerSelectionView: View {
     func addPlayerCell() -> some View {
         HStack {
             Image(asset: CommonAsset.addButton)
-            Text("선수 추가")
+            Text(String(localized: "Add Player"))
                 .font(.Pretendard.regular12.font)
                 .padding(.horizontal, 10)
             Spacer()
@@ -87,7 +87,7 @@ struct PlayerCell: View {
             }
             if observable.isEditedHuman != human.id {
                 if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
-                    Text("등록 완료")
+                    Text(String(localized: "Registered"))
                         .font(.Pretendard.subhead.font)
                         .padding(.horizontal, 11)
                         .padding(.vertical, 6)

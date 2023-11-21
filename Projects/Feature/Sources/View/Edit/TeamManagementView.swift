@@ -36,7 +36,7 @@ struct TeamManagementView: View {
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
-                            Text("팀 이름")
+                            Text(String(localized: "Team Name"))
                                 .font(.Pretendard.semiBold14.font)
                             Spacer()
                             HStack {
@@ -61,7 +61,7 @@ struct TeamManagementView: View {
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
-                            Text("스쿼드 이름")
+                            Text(String(localized: "Squad Name"))
                                 .font(.Pretendard.semiBold14.font)
                             Spacer()
                             HStack {
@@ -100,11 +100,11 @@ struct TeamManagementView: View {
 
     var formationPicker: some View {
         HStack {
-            Text("포메이션")
+            Text(String(localized: "Formation"))
                 .font(.Pretendard.semiBold14.font)
                 .tint(.colorBlack)
             Spacer()
-            Picker("포메이션", selection: $observable.lineup.selectedTypeOfFormation) {
+            Picker(String(localized: "포메이션"), selection: $observable.lineup.selectedTypeOfFormation) {
                 ForEach(observable.lineup.formation.typeOfFormation, id: \.self) {
                     Text($0.rawValue)
                         .font(.Pretendard.black14.font)

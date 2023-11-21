@@ -56,11 +56,11 @@ struct UniformView: View {
                 .frame(height: 90)
                 .overlay {
                     VStack {
-                        ColorPicker("메인 컬러", selection: $primaryColor, supportsOpacity: false)
+                        ColorPicker(String(localized: "Main Color"), selection: $primaryColor, supportsOpacity: false)
                             .font(.Pretendard.semiBold14.font)
                             .padding(.horizontal)
                         Divider()
-                        ColorPicker("서브 컬러", selection: $secondaryColor, supportsOpacity: false)
+                        ColorPicker(String(localized: "Sub Color"), selection: $secondaryColor, supportsOpacity: false)
                             .padding(.horizontal)
                             .font(.Pretendard.semiBold14.font)
                     }

@@ -16,7 +16,7 @@ let infoPlist: [String: Plist.Value] = [
     "CFBundleDisplayName" : "Linable",
     "UIMainStoryboardFile": "",
     "UILaunchStoryboardName": "LaunchScreen",
-    "NSPhotoLibraryAddUsageDescription" : "이미지를 사진 라이브러리로 내보낼 수 있습니다.",
+    "NSPhotoLibraryAddUsageDescription" : "to let you export images to photo library",
     "CFBundleAllowMixedLocalizations" : "true"
 ]
 

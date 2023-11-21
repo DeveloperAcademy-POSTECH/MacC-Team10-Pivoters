@@ -28,7 +28,7 @@ public let teamContainer: ModelContainer = {
 public struct InitTeamContainer {
     static func makeTheFirstTeam() -> Team {
         Team(id: UUID(),
-             teamName: "나의 팀",
+             teamName: String(localized: "My Team"),
              isSelected: true,
              createdAt: Date(),
              updatedAt: Date(),
@@ -53,7 +53,7 @@ public struct InitTeamContainer {
     static func makeLineup() -> [Lineup] {
         [Lineup(id: UUID(),
                 index: 0,
-                lineupName: "1번 라인업",
+                lineupName: String(localized: "Lineup 1"),
                 uniform: .plain,
                 formation: .eleven,
                 selectedTypeOfFormation: .football433,
@@ -63,7 +63,7 @@ public struct InitTeamContainer {
                 theme: .blackBlue),
          Lineup(id: UUID(),
                 index: 1,
-                lineupName: "2번 라인업",
+                lineupName: String(localized: "Lineup 2"),
                 uniform: .plain,
                 formation: .eleven,
                 selectedTypeOfFormation: .football433,
@@ -73,7 +73,7 @@ public struct InitTeamContainer {
                 theme: .blackBlue),
          Lineup(id: UUID(),
                 index: 2,
-                lineupName: "3번 라인업",
+                lineupName: String(localized: "Lineup 3"),
                 uniform: .plain,
                 formation: .eleven,
                 selectedTypeOfFormation: .football433,

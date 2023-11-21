@@ -39,7 +39,7 @@ class PlayerSelectionObservable {
     }
 
     func addPlayer() {
-        team.teamMembers.append(InitTeamContainer.makeHuman(name: "새로운 선수", backNumber: 1))
+        team.teamMembers.append(InitTeamContainer.makeHuman(name: String(localized: "New Player"), backNumber: 1))
         sortHumans()
     }
 

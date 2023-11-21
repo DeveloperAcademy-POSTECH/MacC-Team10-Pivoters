@@ -77,13 +77,13 @@ enum EditType {
     var title: String {
         switch self {
         case .theme:
-            "테마"
+            String(localized: "Theme")
         case .uniform:
-            "유니폼"
+            String(localized: "Uniform")
         case .player:
-            "선수"
+            String(localized: "Player")
         case .management:
-            "팀 관리"
+            String(localized: "Manage Team")
         }
     }
 }

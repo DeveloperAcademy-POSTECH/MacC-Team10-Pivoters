@@ -159,7 +159,7 @@ struct EditSheetIndicator: View {
                 .foregroundStyle(theme.textColor)
                 .padding(.bottom, 10)
                 .padding(.top, 30)
-            Text("밀어올려서 편집하기")
+            Text(String(localized: "Push To Edit"))
                 .font(.Pretendard.regular14.font)
                 .foregroundStyle(theme.textColor)
                 .padding(.bottom, 15)
@@ -234,7 +234,7 @@ struct TeamChangeButton: View {
                     Image(systemName: "flag.2.crossed")
                         .font(.system(size: 20))
                         .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
-                    Text("팀 변경")
+                    Text(String(localized: "Change Team"))
                         .font(.Pretendard.subhead.font)
                         .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
                 }
@@ -280,7 +280,7 @@ struct ShareButton: View {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 20))
                     .foregroundStyle(lineup.theme.textColor)
-                Text("공유하기")
+                Text(String(localized: "Share"))
                     .font(.Pretendard.subhead.font)
                     .foregroundStyle(lineup.theme.textColor)
             }
