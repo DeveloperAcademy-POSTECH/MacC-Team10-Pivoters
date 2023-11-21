@@ -29,7 +29,7 @@ struct TeamCell: View {
                 .frame(width: 36, height: 36)
                 .padding(.leading, 34)
             Spacer()
-            Text(cellType == .select ? team!.teamName : "+ 새로운 팀 추가")
+            Text(cellType == .select ? team!.teamName : String(localized: "+ add new team"))
                 .foregroundStyle(cellType == .select ? Color.colorBlack : Color.colorLightGray)
                 .font(.Pretendard.black14.font)
                 .fontWeight(.bold)

@@ -44,7 +44,7 @@ struct TeamSelectView: View {
                     Button {
                         observable.moreButtonClicked()
                     } label: {
-                        Text("더 보기")
+                        Text(String(localized: "Show More"))
                             .font(.Pretendard.semiBold14.font)
                             .foregroundStyle(Color.colorBlack)
                     }

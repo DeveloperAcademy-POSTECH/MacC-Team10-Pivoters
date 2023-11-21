@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Common
 
 enum ChangeTeamInfo {
     case team
@@ -43,7 +44,7 @@ struct ChangeTeamInfoView: View {
             .padding(.top, 16)
             .padding(.trailing, 16)
 
-            TextField(changeTeamInfo == .team ? "팀 이름" : "스쿼드 이름", text: $observable.name)
+            TextField(changeTeamInfo == .team ? String(localized: "Team Name") : String(localized: "Squad Name"), text: $observable.name)
                 .frame(height: 55)
                 .foregroundStyle(Color.colorBlack)
                 .font(.Pretendard.headerNormal.font)
@@ -62,7 +63,7 @@ struct ChangeTeamInfoView: View {
                     .frame(height: 60)
                     .padding(.horizontal, 20)
                     .overlay {
-                        Text("변경")
+                        Text(String(localized: "Change"))
                             .font(.Pretendard.headerNormal.font)
                             .foregroundColor(.colorWhite)
                     }

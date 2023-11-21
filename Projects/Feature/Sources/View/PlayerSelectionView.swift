@@ -30,7 +30,7 @@ struct PlayerSelectionView: View {
     func addPlayerCell() -> some View {
         HStack {
             Image(asset: CommonAsset.addButton)
-            Text("선수 추가")
+            Text(String(localized: "Add Player"))
                 .font(.Pretendard.regular12.font)
                 .padding(.horizontal, 10)
             Spacer()
@@ -77,7 +77,7 @@ struct PlayerCell: View {
                         .padding(.horizontal, 10)
                     Spacer()
                     if observable.currentIndex == 0 {
-                        Text("등록 완료")
+                        Text(String(localized: "Registered"))
                             .font(.Pretendard.subhead.font)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)

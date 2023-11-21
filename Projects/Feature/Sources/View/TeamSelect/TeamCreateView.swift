@@ -32,7 +32,7 @@ struct TeamCreateView: View {
             .padding(.top, 16)
             .padding(.trailing, 16)
 
-            TextField("팀명", text: $observable.teamName)
+            TextField(String(localized: "Team Name"), text: $observable.teamName)
                 .frame(height: 55)
                 .foregroundStyle(Color.colorBlack)
                 .font(.Pretendard.headerNormal.font)
@@ -56,7 +56,7 @@ struct TeamCreateView: View {
                     .frame(height: 60)
                     .padding(.horizontal, 20)
                     .overlay {
-                        Text("추가")
+                        Text(String(localized: "Add"))
                     }
             }
             .padding(.bottom, 20)

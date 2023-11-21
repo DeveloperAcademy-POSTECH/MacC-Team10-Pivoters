@@ -12,9 +12,9 @@ import SwiftUI
 
 public struct LineupCRUDView: View {
     var team: RefactoredTeam
-    
+
     @Environment(\.modelContext) var context
-    
+
     public var body: some View {
         VStack {
             List {
@@ -23,17 +23,17 @@ public struct LineupCRUDView: View {
                 }
                 .onDelete(perform: deleteLineup)
             }
-            
+
             HStack {
                 Button(action: {
                 }, label: {
-                    Text("라인업 추가")
+                    Text(String(localized: "Add Lineup"))
                 })
                 .padding(.top, 10)
             }
         }
     }
-    
+
     func deleteLineup(at offsets: IndexSet) {
         do {
             for index in offsets {
@@ -41,7 +41,7 @@ public struct LineupCRUDView: View {
                 //            context.delete(teamToDelete)
             }
             team.lineups.remove(atOffsets: offsets)
-            
+
             try context.save()
         } catch {
             print("error")
