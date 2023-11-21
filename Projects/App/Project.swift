@@ -17,7 +17,7 @@ let infoPlist: [String: Plist.Value] = [
     "UIMainStoryboardFile": "",
     "UILaunchStoryboardName": "LaunchScreen",
     "NSPhotoLibraryAddUsageDescription" : "to let you export images to photo library",
-    "CFBundleAllowMixedLocalizations" : "true"
+    "CFBundleAllowMixedLocalizations" : "true",
     "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
     "LSApplicationCategoryType": "public.app-category.sports"
 ]
