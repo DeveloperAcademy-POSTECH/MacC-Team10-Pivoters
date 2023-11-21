@@ -23,6 +23,7 @@ class TeamObservable {
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
         fetchTeam()
+        team?.lineup.map { $0.selectionPlayerIndex = nil }
     }
 
     func fetchTeam() {

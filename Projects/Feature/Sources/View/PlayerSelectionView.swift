@@ -83,7 +83,7 @@ struct PlayerCell: View {
                 }
             }
             if observable.isEditedHuman != human.id {
-                if observable.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
+                if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
                     Text("등록 완료")
                         .font(.Pretendard.subhead.font)
                         .padding(.horizontal, 11)

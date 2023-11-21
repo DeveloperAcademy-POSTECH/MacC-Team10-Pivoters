@@ -83,6 +83,11 @@ public struct MainView: View {
                     }
                 })
             }
+            .task(id: mainObservable.isShowEditSheet) {
+                observable.team?.lineup.map({ lineup in
+                    lineup.selectionPlayerIndex = nil
+                })
+            }
         }
     }
 }
