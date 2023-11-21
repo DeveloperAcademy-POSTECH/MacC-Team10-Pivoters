@@ -64,7 +64,6 @@ struct UniformView: View {
                         ColorPicker(String(localized: "Sub Color"), selection: $secondaryColor, supportsOpacity: false)
                             .padding(.horizontal)
                             .font(.Pretendard.semiBold14.font)
-                        Divider()
                     }
                 }
                 .padding(.horizontal)
