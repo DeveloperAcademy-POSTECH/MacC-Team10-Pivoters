@@ -32,7 +32,8 @@ public struct InitTeamContainer {
              isSelected: true,
              createdAt: Date(),
              updatedAt: Date(),
-             lineup: makeLineup())
+             lineup: makeLineup(),
+             addedPlayers: [])
     }
 
     public static func makeTeam(teamName: String) -> Team {
@@ -41,7 +42,12 @@ public struct InitTeamContainer {
              isSelected: false,
              createdAt: Date(),
              updatedAt: Date(),
-             lineup: makeLineup())
+             lineup: makeLineup(),
+             addedPlayers: [])
+    }
+
+    public static func makeHuman(name: String, backNumber: Int) -> Human {
+        Human(name: name, backNumber: backNumber)
     }
 
     static func makeLineup() -> [Lineup] {
@@ -82,7 +88,6 @@ public struct InitTeamContainer {
     static func makePlayers() -> [Player] {
         [
             Player(id: UUID(),
-                   name: " ",
                    number: 1,
                    isGoalkeeper: true,
                    offset: OffsetValue(draggedOffsetWidth: 0,
@@ -90,7 +95,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 0,
                                        accumulatedOffsetHeight: 100)),
             Player(id: UUID(),
-                   name: " ",
                    number: 2,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: -75,
@@ -98,7 +102,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: -75,
                                        accumulatedOffsetHeight: 50)),
             Player(id: UUID(),
-                   name: " ",
                    number: 3,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: 75,
@@ -106,7 +109,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 75,
                                        accumulatedOffsetHeight: 50)),
             Player(id: UUID(),
-                   name: " ",
                    number: 4,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: 140,
@@ -114,7 +116,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 140,
                                        accumulatedOffsetHeight: 30)),
             Player(id: UUID(),
-                   name: " ",
                    number: 5,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: -140,
@@ -122,7 +123,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: -140,
                                        accumulatedOffsetHeight: 30)),
             Player(id: UUID(),
-                   name: " ",
                    number: 6,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: 0,
@@ -130,7 +130,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 0,
                                        accumulatedOffsetHeight: 20)),
             Player(id: UUID(),
-                   name: " ",
                    number: 7,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: -70,
@@ -138,7 +137,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: -70,
                                        accumulatedOffsetHeight: -20)),
             Player(id: UUID(),
-                   name: " ",
                    number: 8,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: 70,
@@ -146,7 +144,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 70,
                                        accumulatedOffsetHeight: -20)),
             Player(id: UUID(),
-                   name: " ",
                    number: 9,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: 0,
@@ -154,7 +151,6 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 0,
                                        accumulatedOffsetHeight: -80)),
             Player(id: UUID(),
-                   name: " ",
                    number: 10,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: 130,
@@ -162,13 +158,12 @@ public struct InitTeamContainer {
                                        accumulatedOffsetWidth: 130,
                                        accumulatedOffsetHeight: -80)),
             Player(id: UUID(),
-                   name: " ",
                    number: 11,
                    isGoalkeeper: false,
                    offset: OffsetValue(draggedOffsetWidth: -130,
                                        draggedOffsetHeight: -80,
                                        accumulatedOffsetWidth: -130,
-                                       accumulatedOffsetHeight: -80)),
+                                       accumulatedOffsetHeight: -80))
         ]
     }
 }

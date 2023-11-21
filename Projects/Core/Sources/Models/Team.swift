@@ -18,19 +18,21 @@ public final class Team {
     public let createdAt: Date
     public var updatedAt: Date
     public var lineup: [Lineup]
+    public var teamMembers: [Human]
 
     public init(id: UUID,
                 teamName: String,
                 isSelected: Bool,
                 createdAt: Date,
                 updatedAt: Date,
-                lineup: [Lineup]) {
+                lineup: [Lineup],
+                addedPlayers: [Human]) {
         self.id = id
         self.teamName = teamName
         self.isSelected = isSelected
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.lineup = lineup
+        self.teamMembers = addedPlayers
     }
-
 }
