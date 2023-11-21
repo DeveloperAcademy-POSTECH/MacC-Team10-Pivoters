@@ -21,9 +21,6 @@ struct OverlapUniform: View {
 
     var body: some View {
         ZStack {
-            uniform.border
-                .resizable()
-                .frame(width: uniformSize, height: uniformSize)
             let primaryColor = Color(.sRGB,
                                      red: self.primaryColor.red,
                                      green: self.primaryColor.green,
@@ -45,6 +42,9 @@ struct OverlapUniform: View {
                     .foregroundColor(secondaryColor)
                     .frame(width: uniformSize, height: uniformSize)
             }
+            uniform.border
+                .resizable()
+                .frame(width: uniformSize, height: uniformSize)
 
             if isSelected {
                 Image(systemName: "checkmark.circle")
