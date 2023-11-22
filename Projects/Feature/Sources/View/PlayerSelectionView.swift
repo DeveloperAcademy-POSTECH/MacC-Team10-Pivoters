@@ -65,7 +65,6 @@ struct PlayerCell: View {
             }
             .onTapGesture {
                 if observable.isEditedHuman != human.id {
-                    print("선수 선택")
                     observable.selectPlayer(human)
                     observable.isEditedHuman = nil
                 }
@@ -92,7 +91,6 @@ struct PlayerCell: View {
             .padding(.horizontal, 10)
             .onTapGesture {
                 if observable.isEditedHuman != human.id {
-                    print("선수 선택")
                     observable.selectPlayer(human)
                     observable.isEditedHuman = nil
                 }
