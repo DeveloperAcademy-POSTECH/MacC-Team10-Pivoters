@@ -11,7 +11,7 @@ import ProjectDescriptionHelpers
 private let moduleName = "App"
 
 let infoPlist: [String: Plist.Value] = [
-    "CFBundleShortVersionString": "1.0.0",
+    "CFBundleShortVersionString": "1.0.1",
     "CFBundleVersion": "1",
     "CFBundleDisplayName": "Linable",
     "UIMainStoryboardFile": "",
@@ -19,7 +19,8 @@ let infoPlist: [String: Plist.Value] = [
     "NSPhotoLibraryAddUsageDescription" : "to let you export images to photo library",
     "CFBundleAllowMixedLocalizations" : "true",
     "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
-    "LSApplicationCategoryType": "public.app-category.sports"
+    "LSApplicationCategoryType": "public.app-category.sports",
+    "UIUserInterfaceStyle": "Light"
 ]
 
 let project = Project.makeModule(name: moduleName,
