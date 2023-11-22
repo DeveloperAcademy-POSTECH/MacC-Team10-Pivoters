@@ -59,6 +59,7 @@ struct ModalSegmentedView: View {
     func segmentedControl(buttonType: EditType) -> some View {
         Button {
             self.editType = buttonType
+            lineup.selectionPlayerIndex = nil
         } label: {
             Text(buttonType.title)
                 .foregroundColor(editType == buttonType ? .colorBlack : .colorLightGray)
