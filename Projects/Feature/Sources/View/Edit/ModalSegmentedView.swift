@@ -12,7 +12,7 @@ import Core
 import Common
 
 struct ModalSegmentedView: View {
-    @State var editType: EditType = .theme
+    @Binding var editType: EditType
     var team: Team
     var lineup: Lineup
     let currentIndex: Int
@@ -58,8 +58,8 @@ struct ModalSegmentedView: View {
 
     func segmentedControl(buttonType: EditType) -> some View {
         Button {
-            self.editType = buttonType
             lineup.selectionPlayerIndex = nil
+            editType = buttonType
         } label: {
             Text(buttonType.title)
                 .foregroundColor(editType == buttonType ? .colorBlack : .colorLightGray)
