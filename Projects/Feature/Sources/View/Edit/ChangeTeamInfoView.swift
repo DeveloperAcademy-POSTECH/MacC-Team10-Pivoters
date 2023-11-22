@@ -30,7 +30,7 @@ struct ChangeTeamInfoView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(changeTeamInfo == .team ? "팀명 변경" : "스쿼드명 변경")
+                Text(changeTeamInfo == .team ? "팀 이름 변경" : "라인업 이름 변경")
                     .font(.Pretendard.title.font)
                     .foregroundColor(.colorBlack)
                     .padding(.top, 8)
@@ -48,7 +48,7 @@ struct ChangeTeamInfoView: View {
             .padding(.top, 16)
             .padding(.horizontal, 16)
 
-            TextField(changeTeamInfo == .team ? String(localized: "Team Name") : String(localized: "Squad Name"), text: $observable.name)
+            TextField(changeTeamInfo == .team ? String(localized: "Team Name") : String(localized: "Lineup Name"), text: $observable.name)
                 .frame(height: 55)
                 .foregroundStyle(Color.colorBlack)
                 .font(.Pretendard.headerNormal.font)
@@ -56,8 +56,8 @@ struct ChangeTeamInfoView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
                 .onReceive(observable.name.publisher.collect()) {
-                    if $0.count > 15 {
-                        observable.name = String($0.prefix(15))
+                    if $0.count > 20 {
+                        observable.name = String($0.prefix(20))
                     }
                 }
                 .onAppear {

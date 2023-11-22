@@ -61,7 +61,7 @@ struct TeamManagementView: View {
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
-                            Text(String(localized: "Squad Name"))
+                            Text(String(localized: "Lineup Name"))
                                 .font(.Pretendard.semiBold14.font)
                             Spacer()
                             HStack {

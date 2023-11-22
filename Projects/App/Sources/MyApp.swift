@@ -14,8 +14,6 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-//            TeamCRUDView(modelcontext: teamContainer.mainContext)
-//                .modelContainer(teamContainer)
             MainView(modelContext: teamContainer.mainContext)
                 .modelContainer(teamContainer)
         }

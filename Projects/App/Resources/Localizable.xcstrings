@@ -171,6 +171,23 @@
         }
       }
     },
+    "Lineup Name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lineup Name"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라인업 이름"
+          }
+        }
+      }
+    },
     "Main Color" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -337,23 +354,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "더 보기"
-          }
-        }
-      }
-    },
-    "Squad Name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Squad Name"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스쿼드 이름"
           }
         }
       }
