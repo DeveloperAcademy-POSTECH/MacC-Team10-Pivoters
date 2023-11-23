@@ -30,7 +30,7 @@ struct ChangeTeamInfoView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(changeTeamInfo == .team ? "팀 이름 변경" : "라인업 이름 변경")
+                Text(changeTeamInfo == .team ? String(localized: "Change Team Name") : String(localized: "Change Lineup Name"))
                     .font(.Pretendard.title.font)
                     .foregroundColor(.colorBlack)
                     .padding(.top, 8)

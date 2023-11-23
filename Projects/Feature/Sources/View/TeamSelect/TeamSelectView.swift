@@ -20,7 +20,7 @@ struct TeamSelectView: View {
         VStack(spacing: 0) {
             // MARK: 상단 X Button
             HStack {
-                Text("팀 변경")
+                Text(String(localized: "Team"))
                     .font(.Pretendard.title.font)
                     .foregroundColor(.colorBlack)
                     .padding(.top, 8)
