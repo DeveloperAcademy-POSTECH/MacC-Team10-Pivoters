@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct Carousel<Content: View>: View {
+struct Carousel<Content: View>: View {
     public typealias PageIndex = Int
 
     let pageCount: Int
@@ -19,7 +19,7 @@ public struct Carousel<Content: View>: View {
     @GestureState var dragOffset: CGFloat = 0
     var mainObservable: MainObservable
 
-    public init(
+    init(
         pageCount: Int,
         visibleEdgeSpace: CGFloat,
         spacing: CGFloat,

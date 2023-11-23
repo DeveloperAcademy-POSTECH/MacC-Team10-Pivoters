@@ -101,7 +101,7 @@ struct EditSheetModalSection: View {
 
     var body: some View {
 
-        ModalSegmentedView(team: team,
+        ModalSegmentedView(editType: $mainObservable.editType, team: team,
                            lineup: lineup,
                            currentIndex: mainObservable.currentIndex)
             .gesture(
@@ -136,7 +136,7 @@ struct FieldCarousel: View {
                  spacing: -30,
                  mainObservable: mainObservable) { index in
             FieldView(observable: FieldObservable(lineup: lineup[index]),
-                      isShowEditSheet: mainObservable.isShowEditSheet)
+                      isShowEditSheet: mainObservable.isShowEditSheet, editType: mainObservable.editType)
                 .offset(y: mainObservable.isShowEditSheet ?
                         mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset
                         + UIScreen.main.bounds.height / 7)
