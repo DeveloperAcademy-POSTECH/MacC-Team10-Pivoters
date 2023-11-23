@@ -5,10 +5,10 @@
     하나뿐인 당신만의 라인업을 만들어보세요.
     <br>
     <h2>📝Introduce📝</h2>
-    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/541c8b93-65f8-4243-af69-19d0c5cfbe21" alt="intro" width=495>
-    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/c9c2d6aa-7998-4b51-947a-e0f5c57cc961" alt="intro" width=495>
+    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/d6e911d4-7cac-453f-8212-3782f9f469b9" alt="intro" width=1000>
     <br>
     <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/bd6f9f5a-a701-43eb-8c3a-438825e50651" alt="intro" width=1000>
+    <br>
     <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/4ed9d1ac-90a9-4e4b-9d4b-b424bd72ab0c" alt="intro" width=1000>
     <br>
     <h2>🛠Develop Framework🛠</h2>
