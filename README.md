@@ -1,15 +1,37 @@
-# MacC-Team10-Pivoters
-
-### 커밋 메세지
-Example) feat: 삭제 기능 구현(#30)
-- feat: 기능 추가
-- fix: 기능상의 변경을 이유로 코드가 수정될 때
-- style: 코드 스타일 변경(코드 포매팅, 세미콜론 누락 등), 기능 수정이 없는 경우
-- docs: 문서 수정
-- bug: 기능이 동작하지 않을 때 해결한 후
-- refactor: 기능의 변경이 없으나 코드의 효율이 올라갔을 때
-- chore: 프로젝트 세팅에 변경이 생길 경우
-- test: 테스트 코드 작성시
-- remove: 파일을 삭제만 한 경우
-- rename: 파일 혹은 폴더명을 수정했을 때
-
+<div align="center">
+    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/5d9bce23-b352-4d3f-9f83-7f667be39543" alt="logo" width="200">
+    <br>
+    <h2>🥅Linable</h2>
+    하나뿐인 당신만의 라인업을 만들어보세요.
+    <br>
+    <h2>📝Introduce📝</h2>
+    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/541c8b93-65f8-4243-af69-19d0c5cfbe21" alt="intro" width=500>
+    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/c9c2d6aa-7998-4b51-947a-e0f5c57cc961" alt="intro" width=500>
+    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/bd6f9f5a-a701-43eb-8c3a-438825e50651" alt="intro" width=1000>
+    <img src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team10-Pivoters/assets/87136217/4ed9d1ac-90a9-4e4b-9d4b-b424bd72ab0c" alt="intro" width=1000>
+    <br>
+    <h2>🛠Develop Framework🛠</h2>
+    <h3>iOS: SwiftUI, Tuist, SwiftData, Swift Macros<br>Design: Figma</h3>
+    <br>
+    <h2>Collaborators</h2>
+    <table>
+      <tr>
+        <td><img src="https://avatars.githubusercontent.com/u/49385546?v=4" width="130"></td>
+        <td><img src="https://avatars.githubusercontent.com/u/87136217?v=4" width="130"></td>
+        <td><img src="https://avatars.githubusercontent.com/u/36729917?v=4" width="130"></td>
+        <td><img src="https://avatars.githubusercontent.com/u/6462456?v=4" width="130"></td>
+      </tr>
+      <tr align=center>
+        <td><a href='https://github.com/sozohoy'>@sozohoy(코지)</a></td>
+        <td><a href='https://github.com/eemdeeks'>@eemdeeks(딴)</a></td>
+        <td><a href='https://github.com/hhajime'>@hhajime(하지메)</a></td>
+        <td><a href='https://github.com/poodlepoodle'>@poodlepoodle(푸들)</a></td>
+      </tr>
+        <tr align=center>
+        <td>iOS</td>
+        <td>iOS</td>
+        <td>iOS</td>
+        <td>Design, iOS</td>
+      </tr>
+    </table>
+</div>
