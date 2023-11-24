@@ -5,13 +5,13 @@
 //  Created by 한지석 on 11/6/23.
 //
 
-import ProjectDescription
+import ProjectDescriptio
 import ProjectDescriptionHelpers
 
 private let moduleName = "App"
 
 let infoPlist: [String: Plist.Value] = [
-    "CFBundleShortVersionString": "1.0.2",
+    "CFBundleShortVersionString": "1.0.3",
     "CFBundleVersion": "1",
     "CFBundleDisplayName": "Linable",
     "UIMainStoryboardFile": "",
