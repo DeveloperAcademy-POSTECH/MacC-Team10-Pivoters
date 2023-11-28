@@ -12,7 +12,8 @@ import Core
 import Common
 
 struct ModalSegmentedView: View {
-    @Binding var editType: EditType
+    @AppStorage("editType") var editType: EditType = .management
+
     var team: Team
     var lineup: Lineup
     let currentIndex: Int
@@ -69,7 +70,7 @@ struct ModalSegmentedView: View {
 
 }
 
-enum EditType {
+enum EditType: String {
     case management
     case player
     case uniform

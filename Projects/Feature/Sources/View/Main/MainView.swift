@@ -101,7 +101,7 @@ struct EditSheetModalSection: View {
 
     var body: some View {
 
-        ModalSegmentedView(editType: $mainObservable.editType, team: team,
+        ModalSegmentedView(team: team,
                            lineup: lineup,
                            currentIndex: mainObservable.currentIndex)
             .gesture(
