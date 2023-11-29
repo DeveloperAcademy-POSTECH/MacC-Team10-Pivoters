@@ -26,6 +26,14 @@ struct PlayerSelectionView: View {
             .task(id: observable.lineup.selectionPlayerIndex, {
                 observable.isEditedHuman = nil
             })
+            .onChange(of: observable.team.teamMembers) {
+                observable.sortHumans()
+            }
+        }
+        .sheet(isPresented: $observable.isChangeAddPlayerPresented) {
+            AddPlayerView(observable: AddPlayerObservable(team: observable.team))
+                .presentationDetents([.fraction(0.5)])
+                .presentationBackground(.regularMaterial)
         }
     }
 
@@ -44,7 +52,7 @@ struct PlayerSelectionView: View {
             Text("추가")
         }
         .onTapGesture {
-            observable.addPlayer()
+            observable.isChangeAddPlayerPresented.toggle()
         }
     }
 }
