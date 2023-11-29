@@ -79,7 +79,7 @@ enum EditType: String {
     var title: String {
         switch self {
         case .management:
-            String(localized: "Manage Team")
+            String(localized: "Team Info")
         case .player:
             String(localized: "Player")
         case .uniform:
