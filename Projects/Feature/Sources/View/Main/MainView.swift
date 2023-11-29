@@ -119,7 +119,7 @@ struct EditSheetModalSection: View {
                         mainObservable.editSheetOffset = 0
                     }
             )
-            .onAppear {
+            .onChange(of: editType) {
                 mainObservable.editType = editType
             }
 
