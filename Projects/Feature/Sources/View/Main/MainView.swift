@@ -331,7 +331,7 @@ struct TeamInfo: View {
                 }
             }
         }
-        .padding(.top, mainObservable.isShowEditSheet ? -50 : 0)
+        .padding(.top, mainObservable.isShowEditSheet ? -65 : 0)
         .padding(.leading, mainObservable.isShowEditSheet ? 24 : 0)
         .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
         .animation(.easeInOut(duration: 0.3), value: mainObservable.isShowEditSheet)
