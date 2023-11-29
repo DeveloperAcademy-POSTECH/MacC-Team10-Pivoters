@@ -40,8 +40,8 @@ struct PlayerView: View {
                 .coordinateSpace(name: lineup.trigger)
                 .font(.Pretendard.semiBold10.font)
                 .foregroundStyle(lineup.selectionPlayerIndex == index ? .white: theme.textColor)
-                .padding(.vertical, 2)
-                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .padding(.horizontal, 9)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundStyle(lineup.selectionPlayerIndex == index ? Color(asset: CommonAsset.tintColor): theme.nameField)
