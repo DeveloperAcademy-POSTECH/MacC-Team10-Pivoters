@@ -13,6 +13,7 @@ import Common
 
 struct ModalSegmentedView: View {
     @Binding var editType: EditType
+
     var team: Team
     var lineup: Lineup
     let currentIndex: Int
@@ -23,21 +24,19 @@ struct ModalSegmentedView: View {
                 .foregroundColor(.clear)
                 .frame(height: 25)
             HStack(spacing: 24) {
-                segmentedControl(buttonType: .theme)
-                segmentedControl(buttonType: .uniform)
-                segmentedControl(buttonType: .player)
                 segmentedControl(buttonType: .management)
+                segmentedControl(buttonType: .player)
+                segmentedControl(buttonType: .uniform)
+                segmentedControl(buttonType: .theme)
                 Spacer()
             }
             .padding(.horizontal, 20)
 
             switch editType {
-            case .theme:
-                ThemeView(observable: ThemeObservable(lineup: lineup))
-                    .padding(.top, 24)
-            case .uniform:
-                UniformView(observable: UniformObservable(lineup: lineup))
-                    .padding(.top, 24)
+            case .management:
+                TeamManagementView(observable: TeamManagementObservable(team: team,
+                                                                        lineup: lineup))
+                .padding(.top, 24)
             case .player:
                 PlayerSelectionView(observable:
                                         PlayerSelectionObservable(
@@ -45,10 +44,12 @@ struct ModalSegmentedView: View {
                                             lineup: lineup,
                                             currentIndex: currentIndex))
                     .padding(.top, 24)
-            case .management:
-                TeamManagementView(observable: TeamManagementObservable(team: team,
-                                                                        lineup: lineup))
-                .padding(.top, 24)
+            case .uniform:
+                UniformView(observable: UniformObservable(lineup: lineup))
+                    .padding(.top, 24)
+            case .theme:
+                ThemeView(observable: ThemeObservable(lineup: lineup))
+                    .padding(.top, 24)
             }
             Spacer()
         }
@@ -69,22 +70,22 @@ struct ModalSegmentedView: View {
 
 }
 
-enum EditType {
-    case theme
-    case uniform
-    case player
+enum EditType: String {
     case management
+    case player
+    case uniform
+    case theme
 
     var title: String {
         switch self {
-        case .theme:
-            String(localized: "Theme")
-        case .uniform:
-            String(localized: "Uniform")
+        case .management:
+            String(localized: "Team Info")
         case .player:
             String(localized: "Player")
-        case .management:
-            String(localized: "Manage Team")
+        case .uniform:
+            String(localized: "Uniform")
+        case .theme:
+            String(localized: "Theme")
         }
     }
 }

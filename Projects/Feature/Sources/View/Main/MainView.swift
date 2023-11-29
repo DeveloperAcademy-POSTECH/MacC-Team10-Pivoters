@@ -95,13 +95,14 @@ public struct MainView: View {
 // 편집 시트 모달 섹션
 struct EditSheetModalSection: View {
     @Binding var mainObservable: MainObservable
+    @AppStorage("editType") var editType: EditType = .management
 
     var team: Team
     var lineup: Lineup
 
     var body: some View {
 
-        ModalSegmentedView(editType: $mainObservable.editType, team: team,
+        ModalSegmentedView(editType: $editType, team: team,
                            lineup: lineup,
                            currentIndex: mainObservable.currentIndex)
             .gesture(
@@ -118,6 +119,9 @@ struct EditSheetModalSection: View {
                         mainObservable.editSheetOffset = 0
                     }
             )
+            .onChange(of: editType) {
+                mainObservable.editType = editType
+            }
 
         .frame(height: UIScreen.main.bounds.height * 3 / 7)
         .offset(y: mainObservable.editSheetOffset)

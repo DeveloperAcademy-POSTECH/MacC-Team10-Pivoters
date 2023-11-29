@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Formation: Int, Codable {
+public enum Formation: Int, Codable, CaseIterable {
     case five = 5
     case six = 6
     case eleven = 11

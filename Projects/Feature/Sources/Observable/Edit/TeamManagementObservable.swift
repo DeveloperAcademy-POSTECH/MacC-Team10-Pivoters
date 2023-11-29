@@ -35,4 +35,21 @@ final class TeamManagementObservable {
             players[index].offset.draggedOffsetHeight = formationOffsets[index].height
         }
     }
+
+    func changePlayerNumber(_ playerCount: Int) {
+        switch playerCount {
+        case 5:
+            lineup.formation = .five
+            changeFormation(.futsal22)
+        case 6:
+            lineup.formation = .six
+            changeFormation(.futsal131)
+        case 11:
+            lineup.formation = .eleven
+            changeFormation(.football343)
+        default:
+            lineup.formation = .eleven
+            changeFormation(.football343)
+        }
+    }
 }

@@ -31,50 +31,51 @@ struct FieldView: View {
                     observable.lineup.selectionPlayerIndex = nil
                 }
             ForEach(0..<observable.lineup.formation.rawValue, id: \.hashValue) { index in
-                if observable.lineup.players[index].isGoalkeeper {
+                if observable.players[index].isGoalkeeper {
                     PlayerView(theme: observable.lineup.theme,
-                               player: observable.lineup.players[index],
+                               player: observable.players[index],
                                lineup: observable.lineup, index: index)
-                    .offset(CGSize(width: observable.lineup.players[index].offset.draggedOffsetWidth,
-                                   height: observable.lineup.players[index].offset.draggedOffsetHeight))
+                    .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
+                                   height: observable.players[index].offset.draggedOffsetHeight))
                     .onTapGesture {
                         if isShowEditSheet && editType == .player {
                             observable.lineup.selectionPlayerIndex = index
+                            print(index)
                         }
                     }
                 } else {
                     PlayerView(theme: observable.lineup.theme,
-                               player: observable.lineup.players[index],
+                               player: observable.players[index],
                                lineup: observable.lineup,
                                index: index)
-                    .offset(CGSize(width: observable.lineup.players[index].offset.draggedOffsetWidth,
-                                   height: observable.lineup.players[index].offset.draggedOffsetHeight))
+                    .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
+                                   height: observable.players[index].offset.draggedOffsetHeight))
                     .gesture(
                         isShowEditSheet ?
                         DragGesture()
                             .onChanged { gesture in
                                 let draggedOffsetWidth =
                                 gesture.translation.width +
-                                observable.lineup.players[index].offset.accumulatedOffsetWidth
+                                observable.players[index].offset.accumulatedOffsetWidth
                                 let draggedOffsetHeight =
                                 gesture.translation.height +
-                                observable.lineup.players[index].offset.accumulatedOffsetHeight
-                                observable.lineup.players[index].offset.draggedOffsetWidth =
+                                observable.players[index].offset.accumulatedOffsetHeight
+                                observable.players[index].offset.draggedOffsetWidth =
                                 draggedOffsetWidth > 0 ? min(draggedOffsetWidth, 180): max(draggedOffsetWidth, -180)
-                                observable.lineup.players[index].offset.draggedOffsetHeight =
+                                observable.players[index].offset.draggedOffsetHeight =
                                 draggedOffsetHeight > 0 ? min(draggedOffsetHeight, 120): max(draggedOffsetHeight, -110)
                             }
                             .onEnded { gesture in
                                 let accumulatedOffsetWidth =
                                 gesture.translation.width +
-                                observable.lineup.players[index].offset.accumulatedOffsetWidth
+                                observable.players[index].offset.accumulatedOffsetWidth
                                 let accumulatedOffsetHeight =
                                 gesture.translation.height +
-                                observable.lineup.players[index].offset.accumulatedOffsetHeight
-                                observable.lineup.players[index].offset.accumulatedOffsetWidth =
+                                observable.players[index].offset.accumulatedOffsetHeight
+                                observable.players[index].offset.accumulatedOffsetWidth =
                                 accumulatedOffsetWidth > 0 ?
                                 min(accumulatedOffsetWidth, 180): max(accumulatedOffsetWidth, -180)
-                                observable.lineup.players[index].offset.accumulatedOffsetHeight =
+                                observable.players[index].offset.accumulatedOffsetHeight =
                                 accumulatedOffsetHeight > 0 ?
                                 min(accumulatedOffsetHeight, 120): max(accumulatedOffsetHeight, -110)
                             }:
@@ -84,6 +85,7 @@ struct FieldView: View {
                     .onTapGesture {
                         if isShowEditSheet && editType == .player {
                             observable.lineup.selectionPlayerIndex = index
+                            print(index)
                         }
                     }
                 }
