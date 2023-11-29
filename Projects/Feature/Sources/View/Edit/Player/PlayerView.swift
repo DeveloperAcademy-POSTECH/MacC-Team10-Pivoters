@@ -38,10 +38,11 @@ struct PlayerView: View {
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                 }
             } else {
-                Image(asset: lineup.selectionPlayerIndex == index ? CommonAsset.selectedEmptyUniform : CommonAsset.emptyUniform)
+                Image(asset: lineup.selectionPlayerIndex == index ?
+                      CommonAsset.selectedEmptyUniform : CommonAsset.emptyUniform)
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
             }
-            Text(player.human?.name ?? "빈 선수")
+            Text(player.human?.name ?? String(localized: "Empty"))
                 .coordinateSpace(name: lineup.trigger)
                 .font(.Pretendard.semiBold10.font)
                 .foregroundStyle(lineup.selectionPlayerIndex == index ? .white: theme.textColor)
