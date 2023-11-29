@@ -13,8 +13,9 @@ import SwiftData
 
 public struct MainView: View {
     @State var mainObservable = MainObservable()
-
     @State var observable: TeamObservable
+
+    @AppStorage("editType") var editType: EditType = .management
 
     @MainActor
     public init(modelContext: ModelContext) {
@@ -47,7 +48,7 @@ public struct MainView: View {
                          observable: observable)
                 Spacer()
                 ZStack {
-                    FieldCarousel(mainObservable: mainObservable, lineup: observable.lineup)
+                    FieldCarousel(mainObservable: mainObservable, lineup: observable.lineup, editType: $editType)
                     if !mainObservable.isShowEditSheet {
                         FieldCarouselButton(mainObservable: $mainObservable,
                                             theme: observable.lineup[mainObservable.currentIndex].theme)
@@ -55,6 +56,7 @@ public struct MainView: View {
                 }
                 if mainObservable.isShowEditSheet {
                     EditSheetModalSection(mainObservable: $mainObservable,
+                                          editType: $editType,
                                           team: observable.team!,
                                           lineup: observable.lineup[mainObservable.currentIndex])
                 } else {
@@ -95,8 +97,7 @@ public struct MainView: View {
 // 편집 시트 모달 섹션
 struct EditSheetModalSection: View {
     @Binding var mainObservable: MainObservable
-    @AppStorage("editType") var editType: EditType = .management
-
+    @Binding var editType: EditType
     var team: Team
     var lineup: Lineup
 
@@ -119,9 +120,6 @@ struct EditSheetModalSection: View {
                         mainObservable.editSheetOffset = 0
                     }
             )
-            .onChange(of: mainObservable.editType) {
-                editType = mainObservable.editType
-            }
 
         .frame(height: UIScreen.main.bounds.height * 3 / 7)
         .offset(y: mainObservable.editSheetOffset)
@@ -133,6 +131,7 @@ struct EditSheetModalSection: View {
 struct FieldCarousel: View {
     var mainObservable: MainObservable
     var lineup: [Lineup]
+    @Binding var editType: EditType
 
     var body: some View {
         Carousel(pageCount: 3,
@@ -140,7 +139,7 @@ struct FieldCarousel: View {
                  spacing: -30,
                  mainObservable: mainObservable) { index in
             FieldView(observable: FieldObservable(lineup: lineup[index]),
-                      isShowEditSheet: mainObservable.isShowEditSheet, editType: Bindable(mainObservable).editType)
+                      isShowEditSheet: mainObservable.isShowEditSheet, editType: $editType)
                 .offset(y: mainObservable.isShowEditSheet ?
                         mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset
                         + UIScreen.main.bounds.height / 7)

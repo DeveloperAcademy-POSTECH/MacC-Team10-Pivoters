@@ -20,6 +20,7 @@ class PlayerSelectionObservable {
     var isEditedHuman: UUID?
     var humans: [Human] = [Human]()
     var players: [Player] = [Player]()
+    var isChangeAddPlayerPresented: Bool = false
 
     init(team: Team, lineup: Lineup, currentIndex: Int) {
         self.team = team
