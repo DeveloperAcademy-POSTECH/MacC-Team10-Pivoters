@@ -12,7 +12,7 @@ import Core
 import Common
 
 struct ModalSegmentedView: View {
-    @AppStorage("editType") var editType: EditType = .management
+    @Binding var editType: EditType
 
     var team: Team
     var lineup: Lineup
