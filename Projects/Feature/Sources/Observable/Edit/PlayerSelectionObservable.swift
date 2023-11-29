@@ -19,12 +19,14 @@ class PlayerSelectionObservable {
     let currentIndex: Int
     var isEditedHuman: UUID?
     var humans: [Human] = [Human]()
+    var players: [Player] = [Player]()
 
     init(team: Team, lineup: Lineup, currentIndex: Int) {
         self.team = team
         self.lineup = lineup
         self.currentIndex = currentIndex
         self.humans = team.teamMembers
+        self.players = lineup.players.sorted { $0.number < $1.number }
         sortHumans()
     }
 
@@ -47,21 +49,21 @@ class PlayerSelectionObservable {
 
     func selectPlayer(_ registerHuman: Human) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if lineup.players[index].human == nil {
-            if let registerdIndex = lineup.players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                lineup.players[registerdIndex].human = nil
+        if players[index].human == nil {
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = nil
             }
-            lineup.players[index].human = registerHuman
+            players[index].human = registerHuman
         } else {
-            if let registerdIndex = lineup.players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                if lineup.players[index].human?.id == registerHuman.id {
-                    lineup.players[index].human = nil
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                if players[index].human?.id == registerHuman.id {
+                    players[index].human = nil
                 } else {
-                    lineup.players[registerdIndex].human = lineup.players[index].human
-                    lineup.players[index].human = registerHuman
+                    players[registerdIndex].human = players[index].human
+                    players[index].human = registerHuman
                 }
             } else {
-                lineup.players[index].human = registerHuman
+                players[index].human = registerHuman
             }
         }
         lineup.selectionPlayerIndex = nil
