@@ -14,7 +14,7 @@ import Core
 struct FieldView: View {
     var observable: FieldObservable
     var isShowEditSheet: Bool
-    var editType: EditType
+    @Binding var editType: EditType
     let noneGesture = DragGesture()
         .onChanged { _ in
             print("onChange")
@@ -38,9 +38,11 @@ struct FieldView: View {
                     .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
                                    height: observable.players[index].offset.draggedOffsetHeight))
                     .onTapGesture {
-                        if isShowEditSheet && editType == .player {
+                        if observable.lineup.selectionPlayerIndex == index {
+                            observable.lineup.selectionPlayerIndex = nil
+                        } else {
                             observable.lineup.selectionPlayerIndex = index
-                            print(index)
+                            editType = .player
                         }
                     }
                 } else {
@@ -83,9 +85,11 @@ struct FieldView: View {
 
                     )
                     .onTapGesture {
-                        if isShowEditSheet && editType == .player {
+                        if observable.lineup.selectionPlayerIndex == index {
+                            observable.lineup.selectionPlayerIndex = nil
+                        } else {
                             observable.lineup.selectionPlayerIndex = index
-                            print(index)
+                            editType = .player
                         }
                     }
                 }

@@ -119,8 +119,8 @@ struct EditSheetModalSection: View {
                         mainObservable.editSheetOffset = 0
                     }
             )
-            .onChange(of: editType) {
-                mainObservable.editType = editType
+            .onChange(of: mainObservable.editType) {
+                editType = mainObservable.editType
             }
 
         .frame(height: UIScreen.main.bounds.height * 3 / 7)
@@ -140,7 +140,7 @@ struct FieldCarousel: View {
                  spacing: -30,
                  mainObservable: mainObservable) { index in
             FieldView(observable: FieldObservable(lineup: lineup[index]),
-                      isShowEditSheet: mainObservable.isShowEditSheet, editType: mainObservable.editType)
+                      isShowEditSheet: mainObservable.isShowEditSheet, editType: Bindable(mainObservable).editType)
                 .offset(y: mainObservable.isShowEditSheet ?
                         mainObservable.editSheetOffset: mainObservable.editSheetIndicatorOffset
                         + UIScreen.main.bounds.height / 7)

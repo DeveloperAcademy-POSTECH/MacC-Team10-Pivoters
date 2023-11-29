@@ -28,6 +28,6 @@ final class MainObservable {
         self.currentIndex = 0
         self.editSheetOffset = CGFloat.zero
         self.editSheetIndicatorOffset = CGFloat.zero
-        self.editType = .theme
+        self.editType = .management
     }
 }
