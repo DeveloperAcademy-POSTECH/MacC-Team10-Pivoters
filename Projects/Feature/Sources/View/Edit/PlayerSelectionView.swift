@@ -63,8 +63,15 @@ struct PlayerCell: View {
                 } else {
                     Image(asset: CommonAsset.playerButton)
                 }
-                Text("\(human.name.first?.description ?? "")")
-                    .font(.Pretendard.headerNormal.font)
+                if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
+                    Text("\(human.name.first?.description ?? "")")
+                        .font(.Pretendard.headerNormal.font)
+                        .foregroundStyle(Color.white)
+                } else {
+                    Text("\(human.name.first?.description ?? "")")
+                        .font(.Pretendard.headerNormal.font)
+                        .foregroundStyle(Color.black)
+                }
             }
             Text("\(human.name)")
                 .font(.Pretendard.regular12.font)
