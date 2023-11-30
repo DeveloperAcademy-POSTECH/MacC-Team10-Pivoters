@@ -26,7 +26,6 @@ struct PlayerView: View {
                                secondaryColor: theme.goalkeeperSecondaryColor,
                                isSelected: false,
                                isGoalkeeper: true)
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
             } else {
                 OverlapUniform(uniform: lineup.uniform,
                                uniformSize: 50,
@@ -34,7 +33,6 @@ struct PlayerView: View {
                                secondaryColor: lineup.secondaryColor,
                                isSelected: false,
                                isGoalkeeper: false)
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
             }
             Text(player.human?.name ?? " ")
                 .coordinateSpace(name: lineup.trigger)
