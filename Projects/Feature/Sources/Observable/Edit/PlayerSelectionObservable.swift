@@ -33,12 +33,19 @@ class PlayerSelectionObservable {
 
     func sortHumans() {
         self.humans = []
-        for human in team.teamMembers where lineup.players.firstIndex(where: { $0.human?.id == human.id}) == nil {
-            humans.append(human)
+        var selectHumans: [Human] = []
+        for human in team.teamMembers {
+            if let index = players.firstIndex(where: { $0.human?.id == human.id}) {
+                if index < lineup.formation.rawValue {
+                    selectHumans.append(human)
+                } else {
+                    humans.append(human)
+                }
+            } else {
+                humans.append(human)
+            }
         }
-        for human in team.teamMembers where lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
-            humans.append(human)
-        }
+        humans += selectHumans
     }
 
     func addPlayer() {

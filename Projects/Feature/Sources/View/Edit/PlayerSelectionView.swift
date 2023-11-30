@@ -58,16 +58,20 @@ struct PlayerCell: View {
     var body: some View {
         VStack {
             ZStack {
-                if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
-                    Image(asset: CommonAsset.clickedPlayerButton)
+                if let index = observable.players.firstIndex(where: { $0.human?.id == human.id}) {
+                    if index < observable.lineup.formation.rawValue {
+                        Image(asset: CommonAsset.clickedPlayerButton)
+                        Text("\(human.name.first?.description ?? "")")
+                            .font(.Pretendard.headerNormal.font)
+                            .foregroundStyle(Color.white)
+                    } else {
+                        Image(asset: CommonAsset.playerButton)
+                        Text("\(human.name.first?.description ?? "")")
+                            .font(.Pretendard.headerNormal.font)
+                            .foregroundStyle(Color.black)
+                    }
                 } else {
                     Image(asset: CommonAsset.playerButton)
-                }
-                if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
-                    Text("\(human.name.first?.description ?? "")")
-                        .font(.Pretendard.headerNormal.font)
-                        .foregroundStyle(Color.white)
-                } else {
                     Text("\(human.name.first?.description ?? "")")
                         .font(.Pretendard.headerNormal.font)
                         .foregroundStyle(Color.black)
