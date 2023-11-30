@@ -299,6 +299,7 @@ struct ShareButton: View {
 struct TeamInfo: View {
     @Binding var mainObservable: MainObservable
     var observable: TeamObservable
+    let deviceHeight = UIScreen.main.bounds.height
 
     var body: some View {
         VStack {
@@ -332,7 +333,7 @@ struct TeamInfo: View {
                 }
             }
         }
-        .padding(.top, mainObservable.isShowEditSheet ? -65 : 0)
+        .padding(.top, mainObservable.isShowEditSheet ? ((deviceHeight <= 800) ? -75 : -65) : 0)
         .padding(.leading, mainObservable.isShowEditSheet ? 24 : 0)
         .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
         .animation(.easeInOut(duration: 0.3), value: mainObservable.isShowEditSheet)
