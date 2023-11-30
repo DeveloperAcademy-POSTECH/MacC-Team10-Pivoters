@@ -159,9 +159,9 @@ struct EditSheetIndicator: View {
 
     var body: some View {
         VStack {
-            Image(systemName: "arrowshape.up")
+            Image(asset: CommonAsset.upperArrow)
                 .foregroundStyle(theme.textColor)
-                .padding(.bottom, 10)
+                .padding(.bottom, 4)
                 .padding(.top, 30)
             Text(String(localized: "Push To Edit"))
                 .font(.Pretendard.regular14.font)
