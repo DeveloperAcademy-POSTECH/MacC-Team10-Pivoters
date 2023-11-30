@@ -17,12 +17,13 @@ struct PlayerSelectionView: View {
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns) {
+            LazyVGrid(columns: columns, spacing: 28) {
                 addPlayerCell()
                 ForEach(observable.humans.indices, id: \.hashValue) { index in
                     PlayerCell(observable: observable, human: observable.humans[index])
                 }
             }
+            .padding()
             .task(id: observable.lineup.selectionPlayerIndex, {
                 observable.isEditedHuman = nil
             })
@@ -40,16 +41,10 @@ struct PlayerSelectionView: View {
     func addPlayerCell() -> some View {
         VStack {
             ZStack {
-                OverlapUniform(uniform: observable.lineup.uniform,
-                               uniformSize: 50,
-                               primaryColor: observable.lineup.primaryColor,
-                               secondaryColor: observable.lineup.secondaryColor,
-                               isSelected: false,
-                               isGoalkeeper: false)
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
-                Image(systemName: "plus")
+                Image(asset: CommonAsset.playerAddButton)
             }
-            Text("추가")
+            Text(String(localized: "Add Player"))
+                .font(.Pretendard.regular12.font)
         }
         .onTapGesture {
             observable.isChangeAddPlayerPresented.toggle()
@@ -63,14 +58,17 @@ struct PlayerCell: View {
 
     var body: some View {
         VStack {
-            OverlapUniform(uniform: observable.lineup.uniform,
-                           uniformSize: 50,
-                           primaryColor: observable.lineup.primaryColor,
-                           secondaryColor: observable.lineup.secondaryColor,
-                           isSelected: false,
-                           isGoalkeeper: false)
-            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
+            ZStack {
+                if observable.lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
+                    Image(asset: CommonAsset.clickedPlayerButton)
+                } else {
+                    Image(asset: CommonAsset.playerButton)
+                }
+                Text("\(human.name.first?.description ?? "")")
+                    .font(.Pretendard.headerNormal.font)
+            }
             Text("\(human.name)")
+                .font(.Pretendard.regular12.font)
         }
         .onTapGesture {
             observable.selectPlayer(human)
