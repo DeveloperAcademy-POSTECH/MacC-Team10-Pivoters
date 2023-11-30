@@ -137,6 +137,17 @@
         }
       }
     },
+    "Edit Player" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선수 편집"
+          }
+        }
+      }
+    },
     "Empty" : {
       "extractionState" : "manual",
       "localizations" : {

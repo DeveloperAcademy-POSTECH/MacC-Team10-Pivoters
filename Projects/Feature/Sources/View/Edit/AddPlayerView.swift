@@ -8,14 +8,20 @@
 
 import SwiftUI
 
+enum AddPlayerInfo {
+    case add
+    case edit
+}
+
 struct AddPlayerView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var observable: AddPlayerObservable
+    let addPlayerInfo: AddPlayerInfo
 
     var body: some View {
         VStack {
             HStack {
-                Text(String(localized: "Add Player"))
+                Text(addPlayerInfo == .add ? String(localized: "Add Player"): String(localized: "Edit Player"))
                     .font(.Pretendard.title.font)
                     .foregroundColor(.colorBlack)
                     .padding(.top, 8)
@@ -60,7 +66,7 @@ struct AddPlayerView: View {
                     .frame(height: 60)
                     .padding(.horizontal, 20)
                     .overlay {
-                        Text(String(localized: "Add Player"))
+                        Text(addPlayerInfo == .add ? String(localized: "Add Player"): String(localized: "Change"))
                             .font(.Pretendard.headerNormal.font)
                             .foregroundColor(.colorWhite)
                     }
@@ -69,5 +75,10 @@ struct AddPlayerView: View {
             .disabled(!observable.isButtonEnabled)
         }
         .submitLabel(.done)
+        .onSubmit {
+            guard observable.isButtonEnabled else { return }
+            observable.addPlayer()
+            dismiss()
+        }
     }
 }
