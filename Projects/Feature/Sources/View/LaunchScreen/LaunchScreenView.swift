@@ -10,11 +10,13 @@ import SwiftUI
 
 import Common
 
-struct LaunchScreenView: View {
-    @Binding var isLoading: Bool
+public struct LaunchScreenView: View {
+//    @Binding var isLoading: Bool
 
-    var body: some View {
-        if isLoading {
+    public init() { }
+
+    public var body: some View {
+//        if isLoading {
             ZStack {
                 Image(asset: CommonAsset.splash)
                     .resizable()
@@ -26,6 +28,6 @@ struct LaunchScreenView: View {
                 }
             }
             .ignoresSafeArea()
-        }
+//        }
     }
 }
