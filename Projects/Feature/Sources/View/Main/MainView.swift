@@ -284,6 +284,7 @@ struct ShareButton: View {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 20))
                     .foregroundStyle(lineup.theme.textColor)
+                    .padding(.bottom, 0.05)
                 Text(String(localized: "Share"))
                     .font(.Pretendard.subhead.font)
                     .foregroundStyle(lineup.theme.textColor)
