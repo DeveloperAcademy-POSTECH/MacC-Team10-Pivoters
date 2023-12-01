@@ -12,6 +12,7 @@ public extension View {
     /// 공유 시트를 표시하기 위한 메소드
     func showShareSheet(with activityItems: [Any], onDismiss: @escaping () -> Void) {
         let activityVC = CustomActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityVC.isModalInPresentation = true
 
         // 시트 비활성화 시, 콜백 실행
         activityVC.onDismiss = onDismiss
@@ -19,7 +20,7 @@ public extension View {
         // 현재 활성화된 UIWindowScene을 가져와 activityVC를 모달로 표시
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             if let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
-                rootViewController.present(activityVC, animated: true)
+                rootViewController.presentedViewController?.present(activityVC, animated: true)
             }
         }
     }
@@ -44,5 +45,13 @@ public extension View {
 
     func teamCellViewModifier() -> some View {
         modifier(TeamCellModifier())
+    }
+
+    func sheetModifier(isEdit: Bool,
+                       presentationDetents: Set<PresentationDetent>,
+                       selection: Binding<PresentationDetent>) -> some View {
+        modifier(SheetModifier(isEdit: isEdit,
+                               presentationDetents: presentationDetents,
+                               selection: selection))
     }
 }
