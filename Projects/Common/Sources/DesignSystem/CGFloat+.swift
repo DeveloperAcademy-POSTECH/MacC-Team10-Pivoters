@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import UIKit
+
+extension CGFloat {
+    public static let defaultHeight = UIScreen.main.bounds.size.height * 0.16
+    public static let editHeight = UIScreen.main.bounds.size.height * 0.46
+}
