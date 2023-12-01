@@ -27,7 +27,6 @@ struct PlayerView: View {
                                    secondaryColor: theme.goalkeeperSecondaryColor,
                                    isSelected: false,
                                    isGoalkeeper: true)
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                 } else {
                     OverlapUniform(uniform: lineup.uniform,
                                    uniformSize: 50,
@@ -35,7 +34,6 @@ struct PlayerView: View {
                                    secondaryColor: lineup.secondaryColor,
                                    isSelected: false,
                                    isGoalkeeper: false)
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                 }
             } else {
                 Image(asset: lineup.selectionPlayerIndex == index ?
@@ -46,8 +44,8 @@ struct PlayerView: View {
                 .coordinateSpace(name: lineup.trigger)
                 .font(.Pretendard.semiBold10.font)
                 .foregroundStyle(lineup.selectionPlayerIndex == index ? .white: theme.textColor)
-                .padding(.vertical, 2)
-                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .padding(.horizontal, 9)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundStyle(lineup.selectionPlayerIndex == index ? Color(asset: CommonAsset.tintColor): theme.nameField)
