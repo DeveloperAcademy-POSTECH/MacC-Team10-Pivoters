@@ -41,7 +41,7 @@ public extension Font {
             case .regular12:
                 CommonFontFamily.Pretendard.regular.swiftUIFont(size: 12)
             case .subhead:
-                CommonFontFamily.Pretendard.regular.swiftUIFont(size: 10)
+                CommonFontFamily.Pretendard.regular.swiftUIFont(size: 12)
             case .black16:
                 CommonFontFamily.Pretendard.black.swiftUIFont(size: 16)
             }
