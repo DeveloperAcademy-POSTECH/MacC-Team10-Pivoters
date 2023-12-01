@@ -27,6 +27,20 @@ struct PlayerSelectionView: View {
             .onChange(of: observable.team.teamMembers) {
                 observable.sortHumans()
             }
+            .onChange(of: observable.isChangeEditPlayerPresented) {
+                observable.lineup.trigger = Int.random(in: 0...100)
+            }
+            .sheet(isPresented: $observable.isChangeEditPlayerPresented) {
+                if let editHuman = observable.editHuman {
+                AddPlayerView(observable: AddPlayerObservable(playerName: editHuman.name,
+                                                                  team: observable.team,
+                                                              human: editHuman,
+                                                                  addPlayerInfo: .edit),
+                                  addPlayerInfo: .edit)
+                        .presentationDetents([.fraction(0.5)])
+                        .presentationBackground(.regularMaterial)
+                }
+            }
         }
     }
 
@@ -82,19 +96,11 @@ struct PlayerCell: View {
         }
         .onTapGesture {
             if observable.lineup.selectionPlayerIndex == nil {
+                observable.editHuman = human
                 observable.isChangeEditPlayerPresented.toggle()
             } else {
                 observable.selectPlayer(human)
             }
-        }
-        .sheet(isPresented: $observable.isChangeEditPlayerPresented) {
-            AddPlayerView(observable: AddPlayerObservable(playerName: human.name,
-                                                          team: observable.team,
-                                                          human: human,
-                                                          addPlayerInfo: .edit),
-                          addPlayerInfo: .edit)
-                .presentationDetents([.fraction(0.5)])
-                .presentationBackground(.regularMaterial)
         }
     }
 }
