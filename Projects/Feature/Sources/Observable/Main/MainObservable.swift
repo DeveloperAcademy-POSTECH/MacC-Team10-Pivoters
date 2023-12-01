@@ -18,7 +18,6 @@ final class MainObservable {
     var currentIndex: Int // 현재 인덱스 값: carousel
     var editSheetOffset: CGFloat // 편집 시트 오프셋
     var editSheetIndicatorOffset: CGFloat // "밀어서 편집하기" 섹션 오프셋
-    var editType: EditType
 
     init() {
         self.isSharing = false
@@ -28,6 +27,5 @@ final class MainObservable {
         self.currentIndex = 0
         self.editSheetOffset = CGFloat.zero
         self.editSheetIndicatorOffset = CGFloat.zero
-        self.editType = .theme
     }
 }

@@ -137,6 +137,34 @@
         }
       }
     },
+    "Edit Player" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선수 편집"
+          }
+        }
+      }
+    },
+    "Empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empty"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빈 선수"
+          }
+        }
+      }
+    },
     "Formation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -438,7 +466,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "팀 관리"
+            "value" : "팀 정보"
           }
         }
       }

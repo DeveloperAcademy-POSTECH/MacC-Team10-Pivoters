@@ -41,15 +41,19 @@ final class TeamManagementObservable {
         case 5:
             lineup.formation = .five
             changeFormation(.futsal22)
+            lineup.selectedTypeOfFormation = .futsal22
         case 6:
             lineup.formation = .six
-            changeFormation(.futsal131)
+            changeFormation(.futsal212)
+            lineup.selectedTypeOfFormation = .futsal212
         case 11:
             lineup.formation = .eleven
-            changeFormation(.football343)
+            changeFormation(.football433)
+            lineup.selectedTypeOfFormation = .football433
         default:
             lineup.formation = .eleven
-            changeFormation(.football343)
+            changeFormation(.football433)
+            lineup.selectedTypeOfFormation = .football433
         }
     }
 }
