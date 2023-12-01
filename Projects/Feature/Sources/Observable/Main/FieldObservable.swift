@@ -11,9 +11,12 @@ import Foundation
 
 @Observable
 class FieldObservable {
+
+    var team: Team
     var lineup: Lineup
 
-    init(lineup: Lineup) {
+    init(team: Team, lineup: Lineup) {
+        self.team = team
         self.lineup = lineup
     }
 }
