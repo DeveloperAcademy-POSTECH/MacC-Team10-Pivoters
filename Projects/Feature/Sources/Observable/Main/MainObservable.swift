@@ -9,6 +9,9 @@
 import Foundation
 import SwiftUI
 
+import Common
+
+
 @Observable
 final class MainObservable {
 
@@ -20,12 +23,10 @@ final class MainObservable {
     var editSheetOffset: CGFloat // 편집 시트 오프셋
     var editSheetIndicatorOffset: CGFloat // "밀어서 편집하기" 섹션 오프셋
     var editType: EditType
-    var currentPresentationDetent: PresentationDetent = .fraction(0.16)
-    let presentationDetents: Set<PresentationDetent> = [.fraction(0.16), .fraction(0.48)]
-    let editHeight = UIScreen.main.bounds.size.height * 0.43
-    let defaultHeight = UIScreen.main.bounds.size.height * 0.11
+    var currentPresentationDetent: PresentationDetent = .height(CGFloat.defaultHeight)
+    let presentationDetents: Set<PresentationDetent> = [.height(CGFloat.defaultHeight),
+                                                        .height(CGFloat.editHeight)]
     let maxDragHeight = UIScreen.main.bounds.height / 3
-
 
     init() {
         self.isSharing = false
