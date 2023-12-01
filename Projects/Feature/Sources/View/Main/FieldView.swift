@@ -50,6 +50,8 @@ struct FieldView: View {
                                player: observable.players[index],
                                lineup: observable.lineup,
                                index: index)
+                    .animation(.easeInOut, value: observable.players[index].offset.draggedOffsetHeight)
+                    .animation(.easeInOut, value: observable.players[index].offset.draggedOffsetWidth)
                     .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
                                    height: observable.players[index].offset.draggedOffsetHeight))
                     .gesture(
