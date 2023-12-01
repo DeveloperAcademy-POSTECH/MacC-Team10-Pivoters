@@ -319,7 +319,7 @@ struct TeamInfo: View {
                     .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
-                    .padding(.bottom, mainObservable.isShowEditSheet ? 1: 8)
+                    .padding(.bottom, mainObservable.isShowEditSheet ? 1: 2)
                 if mainObservable.isShowEditSheet {
                     Spacer()
                 }
