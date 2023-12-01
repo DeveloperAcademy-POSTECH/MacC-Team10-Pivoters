@@ -54,10 +54,11 @@ struct Carousel<Content: View>: View {
                     .contentShape(Rectangle())
                 }
             }
+            .frame(height: UIScreen.main.bounds.size.height * 0.4)
             .offset(x: offsetX)
             .gesture(
-                //MARK: 1129 변경
-                mainObservable.currentPresentationDetent == .fraction(0.48)
+                // MARK: 1129 변경
+                mainObservable.currentPresentationDetent == .height(CGFloat.editHeight)
                 ? DragGesture()
                     .updating($dragOffset) { _, _, _ in
                         print("update gesture.")
