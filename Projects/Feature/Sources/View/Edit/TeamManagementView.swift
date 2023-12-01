@@ -21,7 +21,7 @@ struct TeamManagementView: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(Color(uiColor: .systemGray6))
+                .foregroundColor(Color(uiColor: .systemGray5))
                 .frame(height: 54)
                 .overlay {
                     formationPicker
@@ -35,7 +35,7 @@ struct TeamManagementView: View {
                                    changeTeamInfo: .team)
             } label: {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(Color(uiColor: .systemGray6))
+                    .foregroundColor(Color(uiColor: .systemGray5))
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
@@ -63,7 +63,7 @@ struct TeamManagementView: View {
                                    changeTeamInfo: .squad)
             } label: {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(Color(uiColor: .systemGray6))
+                    .foregroundColor(Color(uiColor: .systemGray5))
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
