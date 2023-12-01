@@ -159,6 +159,7 @@ struct EditSheetIndicator: View {
 
     var body: some View {
         VStack {
+            // 1.1.0
             Image(asset: CommonAsset.upperArrow)
                 .foregroundStyle(theme.textColor)
                 .padding(.bottom, 4)
@@ -284,6 +285,7 @@ struct ShareButton: View {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 20))
                     .foregroundStyle(lineup.theme.textColor)
+                // 1.1.0
                     .padding(.bottom, 0.05)
                 Text(String(localized: "Share"))
                     .font(.Pretendard.subhead.font)
@@ -299,6 +301,7 @@ struct ShareButton: View {
 struct TeamInfo: View {
     @Binding var mainObservable: MainObservable
     var observable: TeamObservable
+    // 1.1.0
     let deviceHeight = UIScreen.main.bounds.height
 
     var body: some View {
@@ -319,6 +322,7 @@ struct TeamInfo: View {
                     .font(mainObservable.isShowEditSheet ? .Pretendard.headerLarge.font: .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
+                // 1.1.0
                     .padding(.bottom, mainObservable.isShowEditSheet ? 1: 2)
                 if mainObservable.isShowEditSheet {
                     Spacer()
@@ -333,6 +337,7 @@ struct TeamInfo: View {
                 }
             }
         }
+        // 1.1.0
         .padding(.top, mainObservable.isShowEditSheet ? ((deviceHeight <= 800) ? -75 : -65) : 0)
         .padding(.leading, mainObservable.isShowEditSheet ? 24 : 0)
         .blur(radius: (mainObservable.isSharing || mainObservable.isShowTeamSheet) ? 10 : 0)
