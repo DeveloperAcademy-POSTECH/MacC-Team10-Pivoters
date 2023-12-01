@@ -7,10 +7,13 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
+
+import Common
 
 @Observable
 final class MainObservable {
+
     var isSharing: Bool // 공유 상태 여뷰
     var isLoading: Bool // 초기 로딩 상태 여뷰
     var isShowTeamSheet: Bool // 팀 교체 시트 표시 여뷰
@@ -18,6 +21,10 @@ final class MainObservable {
     var currentIndex: Int // 현재 인덱스 값: carousel
     var editSheetOffset: CGFloat // 편집 시트 오프셋
     var editSheetIndicatorOffset: CGFloat // "밀어서 편집하기" 섹션 오프셋
+    var currentPresentationDetent: PresentationDetent = .height(CGFloat.defaultHeight)
+    let presentationDetents: Set<PresentationDetent> = [.height(CGFloat.defaultHeight),
+                                                        .height(CGFloat.editHeight)]
+    let maxDragHeight = UIScreen.main.bounds.height / 3
 
     init() {
         self.isSharing = false

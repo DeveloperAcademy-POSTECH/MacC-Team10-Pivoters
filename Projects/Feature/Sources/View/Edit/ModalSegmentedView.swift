@@ -12,6 +12,7 @@ import Core
 import Common
 
 struct ModalSegmentedView: View {
+    
     @Binding var editType: EditType
 
     var team: Team
@@ -19,42 +20,44 @@ struct ModalSegmentedView: View {
     let currentIndex: Int
 
     var body: some View {
-        VStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(height: 25)
-            HStack(spacing: 24) {
-                segmentedControl(buttonType: .management)
-                segmentedControl(buttonType: .player)
-                segmentedControl(buttonType: .uniform)
-                segmentedControl(buttonType: .theme)
+        NavigationView {
+            VStack(spacing: 0) {
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(height: 28)
+                HStack(spacing: 24) {
+                    segmentedControl(buttonType: .management)
+                    segmentedControl(buttonType: .player)
+                    segmentedControl(buttonType: .uniform)
+                    segmentedControl(buttonType: .theme)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+
+                switch editType {
+                case .management:
+                    TeamManagementView(observable: TeamManagementObservable(team: team,
+                                                                            lineup: lineup))
+                    .padding(.top, 24)
+                case .player:
+                    PlayerSelectionView(observable:
+                                            PlayerSelectionObservable(
+                                                team: team,
+                                                lineup: lineup,
+                                                currentIndex: currentIndex))
+                    .padding(.top, 24)
+                case .uniform:
+                    UniformView(observable: UniformObservable(lineup: lineup))
+                        .padding(.top, 24)
+                case .theme:
+                    ThemeView(observable: ThemeObservable(lineup: lineup))
+                        .padding(.top, 24)
+                }
                 Spacer()
             }
-            .padding(.horizontal, 20)
-
-            switch editType {
-            case .management:
-                TeamManagementView(observable: TeamManagementObservable(team: team,
-                                                                        lineup: lineup))
-                .padding(.top, 24)
-            case .player:
-                PlayerSelectionView(observable:
-                                        PlayerSelectionObservable(
-                                            team: team,
-                                            lineup: lineup,
-                                            currentIndex: currentIndex))
-                    .padding(.top, 24)
-            case .uniform:
-                UniformView(observable: UniformObservable(lineup: lineup))
-                    .padding(.top, 24)
-            case .theme:
-                ThemeView(observable: ThemeObservable(lineup: lineup))
-                    .padding(.top, 24)
-            }
-            Spacer()
+            .background(.regularMaterial)
+            .tint(Color.black)
         }
-        .background(Color.white)
-        .tint(Color.black)
     }
 
     func segmentedControl(buttonType: EditType) -> some View {

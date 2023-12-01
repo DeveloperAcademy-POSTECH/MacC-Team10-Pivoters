@@ -41,26 +41,31 @@ struct Carousel<Content: View>: View {
             + CGFloat(mainObservable.currentIndex) * -pageWidth
             + CGFloat(mainObservable.currentIndex) * -spacing
             + dragOffset
-
-            HStack(spacing: spacing) {
-                ForEach(0..<pageCount, id: \.self) { pageIndex in
-                    self.content(pageIndex)
-                        .frame(
-                            width: pageWidth,
-                            height: proxy.size.height
-                        )
+            VStack {
+                Spacer()
+                HStack(spacing: spacing) {
+                    ForEach(0..<pageCount, id: \.self) { pageIndex in
+                        self.content(pageIndex)
+                            .frame(
+                                width: pageWidth,
+                                height: UIScreen.main.bounds.size.height * 0.4
+                            )
+                    }
+                    .contentShape(Rectangle())
                 }
-                .contentShape(Rectangle())
             }
+            .frame(height: UIScreen.main.bounds.size.height * 0.4)
             .offset(x: offsetX)
             .gesture(
-                mainObservable.isShowEditSheet ? DragGesture()
+                // MARK: 1129 변경
+                mainObservable.currentPresentationDetent == .height(CGFloat.editHeight)
+                ? DragGesture()
                     .updating($dragOffset) { _, _, _ in
                         print("update gesture.")
                     }
                     .onEnded { _ in
                         print("ended gesture.")
-                    }:
+                    } :
                     DragGesture()
                     .updating($dragOffset) { value, out, _ in
                         out = value.translation.width

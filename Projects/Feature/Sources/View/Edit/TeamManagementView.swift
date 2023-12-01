@@ -22,7 +22,7 @@ struct TeamManagementView: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(Color(uiColor: .systemGray6))
+                .foregroundColor(Color(uiColor: .systemGray5))
                 .frame(height: 54)
                 .overlay {
                     playerPicker
@@ -30,7 +30,7 @@ struct TeamManagementView: View {
                 .padding(.horizontal, 20)
 
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(Color(uiColor: .systemGray6))
+                .foregroundColor(Color(uiColor: .systemGray5))
                 .frame(height: 54)
                 .overlay {
                     formationPicker
@@ -38,11 +38,14 @@ struct TeamManagementView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
 
-            Button {
-                observable.isChangeTeamInfoPresented.toggle()
+            NavigationLink {
+                ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .team,
+                                                                        name: observable.team.teamName,
+                                                                        team: observable.team),
+                                   changeTeamInfo: .team)
             } label: {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(Color(uiColor: .systemGray6))
+                    .foregroundColor(Color(uiColor: .systemGray5))
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
@@ -63,11 +66,14 @@ struct TeamManagementView: View {
             .padding(.horizontal, 20)
             .padding(.top, 12)
 
-            Button {
-                observable.isChangeLineupInfoPresented.toggle()
+            NavigationLink {
+                ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .squad,
+                                                                        name: observable.lineup.lineupName,
+                                                                        lineup: observable.lineup),
+                                   changeTeamInfo: .squad)
             } label: {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(Color(uiColor: .systemGray6))
+                    .foregroundColor(Color(uiColor: .systemGray5))
                     .frame(height: 54)
                     .overlay {
                         HStack(spacing: 0) {
@@ -89,22 +95,6 @@ struct TeamManagementView: View {
             .padding(.top, 12)
 
             Spacer()
-        }
-        .sheet(isPresented: $observable.isChangeTeamInfoPresented) {
-            ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .team,
-                                                                    name: observable.team.teamName,
-                                                                    team: observable.team),
-                               changeTeamInfo: .team)
-            .presentationDetents([.fraction(0.5)])
-            .presentationBackground(.regularMaterial)
-        }
-        .sheet(isPresented: $observable.isChangeLineupInfoPresented) {
-            ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .squad,
-                                                                    name: observable.lineup.lineupName,
-                                                                    lineup: observable.lineup),
-                               changeTeamInfo: .squad)
-            .presentationDetents([.fraction(0.5)])
-            .presentationBackground(.regularMaterial)
         }
     }
 
