@@ -12,13 +12,13 @@ import Core
 import Common
 
 public struct ShareView: View {
-    var mainObservable: MainObservable
+    @Binding var isSharing: Bool
     var team: Team?
     var lineup: Lineup
     @State private var snapshotImage: UIImage?
 
     public var body: some View {
-        if mainObservable.isSharing {
+        if isSharing {
             VStack {
                 HStack {
                     if let image = snapshotImage {
@@ -30,7 +30,7 @@ public struct ShareView: View {
                     }
                 }
                 .onAppear {
-                    self.snapshotImage = ShareImage(mainObservable: mainObservable, team: team,
+                    self.snapshotImage = ShareImage(team: team,
                                                     isSharing: true,
                                                     lineup: lineup).snapshot()
                 }
@@ -42,7 +42,6 @@ public struct ShareView: View {
 }
 
 public struct ShareImage: View {
-    var mainObservable: MainObservable
     var team: Team?
     var isSharing: Bool
     var lineup: Lineup
