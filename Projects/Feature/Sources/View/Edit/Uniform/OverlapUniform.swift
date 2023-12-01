@@ -40,6 +40,7 @@ struct OverlapUniform: View {
             .resizable()
             .renderingMode(.template)
             .foregroundColor(primaryColor)
+            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
             .frame(width: uniformSize, height: uniformSize)
 
         if let secondary = uniform.goalkeeperSecondary {
@@ -68,6 +69,7 @@ struct OverlapUniform: View {
             .resizable()
             .renderingMode(.template)
             .foregroundColor(primaryColor)
+            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
             .frame(width: uniformSize, height: uniformSize)
 
         if let secondary = uniform.secondary {

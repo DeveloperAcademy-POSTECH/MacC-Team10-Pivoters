@@ -27,7 +27,7 @@ public enum TypeOfFormation: String, Codable {
         switch self {
         case .football343:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: 0, height: 45), CGSize(width: -80, height: 45),
                 CGSize(width: 80, height: 45), CGSize(width: -40, height: -15),
                 CGSize(width: 40, height: -15), CGSize(width: -130, height: -15),
@@ -36,7 +36,7 @@ public enum TypeOfFormation: String, Codable {
             ]
         case .football442:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: -50, height: 50), CGSize(width: 50, height: 50),
                 CGSize(width: -140, height: 40), CGSize(width: 140, height: 40),
                 CGSize(width: -50, height: -20), CGSize(width: 50, height: -20),
@@ -45,7 +45,7 @@ public enum TypeOfFormation: String, Codable {
             ]
         case .football433:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: -50, height: 50), CGSize(width: 50, height: 50),
                 CGSize(width: -140, height: 30), CGSize(width: 140, height: 30),
                 CGSize(width: 0, height: 10), CGSize(width: -70, height: -20),
@@ -54,7 +54,7 @@ public enum TypeOfFormation: String, Codable {
             ]
         case .football4231:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: -50, height: 60), CGSize(width: 50, height: 60),
                 CGSize(width: -140, height: 40), CGSize(width: 140, height: 40),
                 CGSize(width: -50, height: 0), CGSize(width: 50, height: 0),
@@ -63,7 +63,7 @@ public enum TypeOfFormation: String, Codable {
             ]
         case .football4141:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: -50, height: 50), CGSize(width: 50, height: 50),
                 CGSize(width: -130, height: 30), CGSize(width: 130, height: 30),
                 CGSize(width: 0, height: 10), CGSize(width: -50, height: -20),
@@ -72,7 +72,7 @@ public enum TypeOfFormation: String, Codable {
             ]
         case .football523:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: 0, height: 50), CGSize(width: -75, height: 50),
                 CGSize(width: 75, height: 50), CGSize(width: -140, height: 5),
                 CGSize(width: 140, height: 5), CGSize(width: 50, height: -20),
@@ -81,31 +81,31 @@ public enum TypeOfFormation: String, Codable {
             ]
         case .futsal121:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: 0, height: 40), CGSize(width: -130, height: -15),
                 CGSize(width: 130, height: -15), CGSize(width: 0, height: -80)
             ]
         case .futsal22:
             return [
-                CGSize(width: 0, height: 100),
+                CGSize(width: 0, height: 107),
                 CGSize(width: -130, height: 40), CGSize(width: 130, height: 40),
                 CGSize(width: -130, height: -80), CGSize(width: 130, height: -80)
             ]
         case .futsal32:
             return [
-                CGSize(width: 0, height: 100), CGSize(width: 0, height: 40),
+                CGSize(width: 0, height: 107), CGSize(width: 0, height: 40),
                 CGSize(width: -130, height: 40), CGSize(width: 130, height: 40),
                 CGSize(width: -80, height: -80), CGSize(width: 80, height: -80)
             ]
         case .futsal212:
             return [
-                CGSize(width: 0, height: 100), CGSize(width: -130, height: 40),
+                CGSize(width: 0, height: 107), CGSize(width: -130, height: 40),
                 CGSize(width: 130, height: 40), CGSize(width: 0, height: -15),
                 CGSize(width: -130, height: -80), CGSize(width: 130, height: -80)
             ]
         case .futsal131:
             return [
-                CGSize(width: 0, height: 100), CGSize(width: 0, height: 40),
+                CGSize(width: 0, height: 107), CGSize(width: 0, height: 40),
                 CGSize(width: 0, height: -15), CGSize(width: -130, height: -15),
                 CGSize(width: 130, height: -15), CGSize(width: 0, height: -80)
             ]
