@@ -17,25 +17,35 @@ class PlayerSelectionObservable {
     var team: Team
     var lineup: Lineup
     let currentIndex: Int
-    var isEditedHuman: UUID?
     var humans: [Human] = [Human]()
+    var players: [Player] = [Player]()
+    var isChangeAddPlayerPresented: Bool = false
+    var isChangeEditPlayerPresented: Bool = false
 
     init(team: Team, lineup: Lineup, currentIndex: Int) {
         self.team = team
         self.lineup = lineup
         self.currentIndex = currentIndex
         self.humans = team.teamMembers
+        self.players = lineup.players.sorted { $0.number < $1.number }
         sortHumans()
     }
 
     func sortHumans() {
         self.humans = []
-        for human in team.teamMembers where lineup.players.firstIndex(where: { $0.human?.id == human.id}) == nil {
-            humans.append(human)
+        var selectHumans: [Human] = []
+        for human in team.teamMembers {
+            if let index = players.firstIndex(where: { $0.human?.id == human.id}) {
+                if index < lineup.formation.rawValue {
+                    selectHumans.append(human)
+                } else {
+                    humans.append(human)
+                }
+            } else {
+                humans.append(human)
+            }
         }
-        for human in team.teamMembers where lineup.players.firstIndex(where: { $0.human?.id == human.id}) != nil {
-            humans.append(human)
-        }
+        humans += selectHumans
     }
 
     func addPlayer() {
@@ -47,21 +57,21 @@ class PlayerSelectionObservable {
 
     func selectPlayer(_ registerHuman: Human) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if lineup.players[index].human == nil {
-            if let registerdIndex = lineup.players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                lineup.players[registerdIndex].human = nil
+        if players[index].human == nil {
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                players[registerdIndex].human = nil
             }
-            lineup.players[index].human = registerHuman
+            players[index].human = registerHuman
         } else {
-            if let registerdIndex = lineup.players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                if lineup.players[index].human?.id == registerHuman.id {
-                    lineup.players[index].human = nil
+            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
+                if players[index].human?.id == registerHuman.id {
+                    players[index].human = nil
                 } else {
-                    lineup.players[registerdIndex].human = lineup.players[index].human
-                    lineup.players[index].human = registerHuman
+                    players[registerdIndex].human = players[index].human
+                    players[index].human = registerHuman
                 }
             } else {
-                lineup.players[index].human = registerHuman
+                players[index].human = registerHuman
             }
         }
         lineup.selectionPlayerIndex = nil

@@ -13,8 +13,9 @@ import SwiftData
 
 public struct MainView: View {
     @State var mainObservable = MainObservable()
-
     @State var observable: TeamObservable
+
+    @AppStorage("editType") var editType: EditType = .management
 
     @MainActor
     public init(modelContext: ModelContext) {
@@ -42,7 +43,7 @@ public struct MainView: View {
                 ZStack {
                     FieldCarousel(mainObservable: $mainObservable,
                                   lineup: observable.lineup,
-                                  team: observable.team!)
+                                  team: observable.team!, editType: $editType)
                     .padding(.bottom,
                              mainObservable.currentPresentationDetent == .height(CGFloat.defaultHeight) ?
                              CGFloat.defaultHeight : CGFloat.editHeight)
@@ -88,7 +89,7 @@ public struct MainView: View {
                     .interactiveDismissDisabled()
                     .presentationBackground(.clear)
             } else {
-                ModalSegmentedView(editType: $mainObservable.editType,
+                ModalSegmentedView(editType: $editType,
                                    team: observable.team!,
                                    lineup: observable.lineup[mainObservable.currentIndex],
                                    currentIndex: mainObservable.currentIndex)
@@ -113,11 +114,6 @@ public struct MainView: View {
                 }
             }
         }
-        .task(id: mainObservable.isShowEditSheet) {
-            observable.team?.lineup.map({ lineup in
-                lineup.selectionPlayerIndex = nil
-            })
-        }
     }
 }
 
@@ -129,7 +125,7 @@ struct ModalDefaultView: View {
 
     var body: some View {
         VStack {
-            Image(systemName: "arrowshape.up")
+            Image(asset: CommonAsset.upperArrow)
                 .foregroundStyle(teamObservable.lineup[mainObservable.currentIndex].theme.textColor)
                 .padding(.top, 24)
             Text(String(localized: "Push To Edit"))
@@ -145,6 +141,7 @@ struct FieldCarousel: View {
     @Binding var mainObservable: MainObservable
     var lineup: [Lineup]
     var team: Team
+    @Binding var editType: EditType
 
     var body: some View {
         VStack {
@@ -154,7 +151,7 @@ struct FieldCarousel: View {
                      mainObservable: mainObservable) { index in
                 FieldView(observable: FieldObservable(team: team, lineup: lineup[index]),
                           isShowEditSheet: mainObservable.currentPresentationDetent == .height(CGFloat.editHeight),
-                          editType: mainObservable.editType)
+                          editType: $editType)
             }
                      .frame(height: UIScreen.main.bounds.size.height * 0.4)
                      .animation(.spring, value: mainObservable.currentPresentationDetent)
@@ -278,12 +275,15 @@ struct TeamChangeAndShareButton: View {
             })
         }
     }
+
 }
 
 // MARK: TeamInfo
 struct TeamInfo: View {
     @Binding var mainObservable: MainObservable
     var observable: TeamObservable
+    // 1.1.0
+    let deviceHeight = UIScreen.main.bounds.height
 
     var body: some View {
         VStack(spacing: 0) {

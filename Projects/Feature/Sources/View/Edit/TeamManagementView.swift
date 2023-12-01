@@ -9,6 +9,7 @@
 import SwiftUI
 
 import Common
+import Core
 
 struct TeamManagementView: View {
 
@@ -24,9 +25,18 @@ struct TeamManagementView: View {
                 .foregroundColor(Color(uiColor: .systemGray5))
                 .frame(height: 54)
                 .overlay {
+                    playerPicker
+                }
+                .padding(.horizontal, 20)
+
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(Color(uiColor: .systemGray5))
+                .frame(height: 54)
+                .overlay {
                     formationPicker
                 }
                 .padding(.horizontal, 20)
+                .padding(.top, 12)
 
             NavigationLink {
                 ChangeTeamInfoView(observable: ChangeTeamInfoObservable(changeTeamInfo: .team,
@@ -86,6 +96,27 @@ struct TeamManagementView: View {
 
             Spacer()
         }
+    }
+
+    var playerPicker: some View {
+        HStack {
+            Text(String(localized: "Number of Players"))
+                .font(.Pretendard.semiBold14.font)
+                .tint(.colorBlack)
+            Spacer()
+            Picker(String(localized: "Number of Players"), selection: $observable.lineup.formation) {
+                ForEach(Formation.allCases, id: \.self) {
+                    Text("\($0.rawValue)")
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            .foregroundColor(.colorBlack)
+            .onChange(of: observable.lineup.formation.rawValue) { _, newPlayerNumber in
+                observable.changePlayerNumber(newPlayerNumber)
+            }
+            .tint(.gray)
+        }
+        .padding(.leading, 12)
     }
 
     var formationPicker: some View {

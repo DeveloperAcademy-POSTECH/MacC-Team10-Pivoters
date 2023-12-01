@@ -137,6 +137,34 @@
         }
       }
     },
+    "Edit Player" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선수 편집"
+          }
+        }
+      }
+    },
+    "Empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empty"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빈 선수"
+          }
+        }
+      }
+    },
     "Formation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -239,23 +267,6 @@
         }
       }
     },
-    "Manage Team" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Team"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "팀 관리"
-          }
-        }
-      }
-    },
     "My Team" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -286,6 +297,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "새로운 선수"
+          }
+        }
+      }
+    },
+    "Number of Players" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number of Players"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인원"
           }
         }
       }
@@ -422,6 +450,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "팀 변경"
+          }
+        }
+      }
+    },
+    "Team Info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Team Info"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팀 정보"
           }
         }
       }

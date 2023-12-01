@@ -97,7 +97,7 @@ public struct InitTeamContainer {
                    number: 1,
                    isGoalkeeper: true,
                    offset: OffsetValue(draggedOffsetWidth: 0,
-                                       draggedOffsetHeight: 100,
+                                       draggedOffsetHeight: 107,
                                        accumulatedOffsetWidth: 0,
                                        accumulatedOffsetHeight: 100)),
             Player(id: UUID(),
