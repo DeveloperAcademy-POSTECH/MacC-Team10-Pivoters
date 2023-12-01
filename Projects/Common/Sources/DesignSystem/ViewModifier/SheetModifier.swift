@@ -8,12 +8,18 @@
 
 import SwiftUI
 
-struct SheetModifier: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+struct SheetModifier: ViewModifier {
 
-#Preview {
-    SheetModifier()
+    let isEdit: Bool
+    let presentationDetents: Set<PresentationDetent>
+    @Binding var selection: PresentationDetent
+
+    func body(content: Content) -> some View {
+        content
+            .presentationDragIndicator(isEdit ? .visible : .hidden)
+            .presentationDetents(presentationDetents,
+                                 selection: $selection)
+            .presentationBackgroundInteraction(.enabled)
+            .interactiveDismissDisabled()
+    }
 }
