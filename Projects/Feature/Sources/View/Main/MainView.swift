@@ -106,7 +106,7 @@ public struct MainView: View {
                 observable.fetchTeam()
             }
         }
-        .onChange(of: mainObservable.currentPresentationDetent, { oldValue, newValue in
+        .onChange(of: mainObservable.currentPresentationDetent, { _, newValue in
             if newValue == .height(.defaultHeight) {
                 observable.lineup.map { $0.selectionPlayerIndex = nil }
             }
@@ -131,6 +131,7 @@ struct ModalDefaultView: View {
     var body: some View {
         VStack {
             Image(asset: CommonAsset.upperArrow)
+                .renderingMode(.template)
                 .foregroundStyle(teamObservable.lineup[mainObservable.currentIndex].theme.textColor)
                 .padding(.top, 24)
             Text(String(localized: "Push To Edit"))

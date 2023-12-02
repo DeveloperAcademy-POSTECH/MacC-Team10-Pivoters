@@ -6,12 +6,12 @@
 //  Copyright © 2023 com.pivoters. All rights reserved.
 //
 
-import Core
 import Foundation
+
+import Core
 
 @Observable
 class FieldObservable {
-
     var team: Team
     var lineup: Lineup
     var players: [Player] = [Player]()
