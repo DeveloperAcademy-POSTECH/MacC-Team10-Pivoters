@@ -106,6 +106,11 @@ public struct MainView: View {
                 observable.fetchTeam()
             }
         }
+        .onChange(of: mainObservable.currentPresentationDetent, { _, newValue in
+            if newValue == .height(.defaultHeight) {
+                observable.lineup.map { $0.selectionPlayerIndex = nil }
+            }
+        })
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 withAnimation {
@@ -126,6 +131,7 @@ struct ModalDefaultView: View {
     var body: some View {
         VStack {
             Image(asset: CommonAsset.upperArrow)
+                .renderingMode(.template)
                 .foregroundStyle(teamObservable.lineup[mainObservable.currentIndex].theme.textColor)
                 .padding(.top, 24)
             Text(String(localized: "Push To Edit"))
@@ -149,9 +155,11 @@ struct FieldCarousel: View {
                      visibleEdgeSpace: -120,
                      spacing: -30,
                      mainObservable: mainObservable) { index in
-                FieldView(observable: FieldObservable(team: team, lineup: lineup[index]),
+                FieldView(observable: FieldObservable(team: team,
+                                                      lineup: lineup[index]),
                           isShowEditSheet: mainObservable.currentPresentationDetent == .height(CGFloat.editHeight),
-                          editType: $editType)
+                          editType: $editType,
+                          currentPresentationDetent: $mainObservable.currentPresentationDetent)
             }
                      .frame(height: UIScreen.main.bounds.size.height * 0.4)
                      .animation(.spring, value: mainObservable.currentPresentationDetent)

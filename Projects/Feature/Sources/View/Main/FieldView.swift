@@ -15,6 +15,8 @@ struct FieldView: View {
     var observable: FieldObservable
     var isShowEditSheet: Bool
     @Binding var editType: EditType
+    @Binding var currentPresentationDetent: PresentationDetent
+
     let noneGesture = DragGesture()
         .onChanged { _ in
             print("onChange")
@@ -41,6 +43,7 @@ struct FieldView: View {
                         if observable.lineup.selectionPlayerIndex == index {
                             observable.lineup.selectionPlayerIndex = nil
                         } else {
+                            currentPresentationDetent = .height(CGFloat.editHeight)
                             observable.lineup.selectionPlayerIndex = index
                             editType = .player
                         }
@@ -90,6 +93,7 @@ struct FieldView: View {
                         if observable.lineup.selectionPlayerIndex == index {
                             observable.lineup.selectionPlayerIndex = nil
                         } else {
+                            currentPresentationDetent = .height(CGFloat.editHeight)
                             observable.lineup.selectionPlayerIndex = index
                             editType = .player
                         }
