@@ -19,24 +19,17 @@ struct AddPlayerView: View {
     let addPlayerInfo: AddPlayerInfo
 
     var body: some View {
+        ZStack {
+            Color(uiColor: .systemGray5)
+                .ignoresSafeArea()
         VStack {
             HStack {
                 Text(addPlayerInfo == .add ? String(localized: "Add Player"): String(localized: "Edit Player"))
                     .font(.Pretendard.title.font)
                     .foregroundColor(.colorBlack)
-                    .padding(.top, 8)
                 Spacer()
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "x.circle.fill")
-                        .resizable()
-                        .renderingMode(.template)
-                        .foregroundStyle(Color.colorLightGray)
-                        .frame(width: 25, height: 25)
-                }
             }
-            .padding(.top, 16)
+            .padding(.top, 0)
             .padding(.horizontal, 16)
 
             TextField(String(localized: "Player name"), text: $observable.playerName)
@@ -73,6 +66,7 @@ struct AddPlayerView: View {
             }
             .padding(.bottom, 20)
             .disabled(!observable.isButtonEnabled)
+        }
         }
         .submitLabel(.done)
         .onSubmit {

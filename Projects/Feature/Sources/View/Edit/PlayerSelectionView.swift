@@ -20,7 +20,7 @@ struct PlayerSelectionView: View {
             LazyVGrid(columns: columns, spacing: 28) {
                 addPlayerCell()
                 ForEach(observable.humans.indices, id: \.hashValue) { index in
-                    PlayerCell(observable: $observable, human: observable.humans[index])
+                    PlayerCell(observable: $observable, human: $observable.humans[index])
                 }
             }
             .padding()
@@ -32,44 +32,71 @@ struct PlayerSelectionView: View {
             }
             .sheet(isPresented: $observable.isChangeEditPlayerPresented) {
                 if let editHuman = observable.editHuman {
-                AddPlayerView(observable: AddPlayerObservable(playerName: editHuman.name,
+                    AddPlayerView(observable: AddPlayerObservable(playerName: editHuman.name,
                                                                   team: observable.team,
-                                                              human: editHuman,
+                                                                  human: editHuman,
                                                                   addPlayerInfo: .edit),
                                   addPlayerInfo: .edit)
-                        .presentationDetents([.fraction(0.5)])
-                        .presentationBackground(.regularMaterial)
+                    .presentationDetents([.fraction(0.5)])
+                    .presentationBackground(.regularMaterial)
                 }
             }
         }
     }
 
     func addPlayerCell() -> some View {
-        VStack {
-            ZStack {
-                Image(asset: CommonAsset.playerAddButton)
-            }
-            Text(String(localized: "Add Player"))
-                .font(.Pretendard.regular12.font)
-        }
-        .onTapGesture {
-            observable.isChangeAddPlayerPresented.toggle()
-        }
-        .sheet(isPresented: $observable.isChangeAddPlayerPresented) {
+        NavigationLink {
             AddPlayerView(observable: AddPlayerObservable(team: observable.team,
                                                           addPlayerInfo: .add),
                           addPlayerInfo: .add)
-                .presentationDetents([.fraction(0.5)])
-                .presentationBackground(.regularMaterial)
+        } label: {
+            VStack {
+                ZStack {
+                    Image(asset: CommonAsset.playerAddButton)
+                }
+                Text(String(localized: "Add Player"))
+                    .font(.Pretendard.regular12.font)
+            }
         }
+
+        //        .onTapGesture {
+        //            observable.isChangeAddPlayerPresented.toggle()
+        //            print("Hi")
+        //        }
+        //        .sheet(isPresented: $observable.isChangeAddPlayerPresented) {
+        //            AddPlayerView(observable: AddPlayerObservable(team: observable.team,
+        //                                                          addPlayerInfo: .add),
+        //                          addPlayerInfo: .add)
+        //                .presentationDetents([.fraction(0.5)])
+        //                .presentationBackground(.regularMaterial)
+        //        }
     }
 }
 
 struct PlayerCell: View {
     @Binding var observable: PlayerSelectionObservable
-    var human: Human
+    @Binding var human: Human
 
     var body: some View {
+        if observable.lineup.selectionPlayerIndex == nil {
+            NavigationLink {
+                AddPlayerView(observable: AddPlayerObservable(playerName: human.name,
+                                                              team: observable.team,
+                                                              human: human,
+                                                              addPlayerInfo: .edit),
+                              addPlayerInfo: .edit)
+            } label: {
+                playerName()
+            }
+        } else {
+            playerName()
+                .onTapGesture {
+                    observable.selectPlayer(human)
+                }
+        }
+    }
+
+    func playerName() -> some View {
         VStack {
             ZStack {
                 if let index = observable.players.firstIndex(where: { $0.human?.id == human.id}) {
@@ -94,15 +121,8 @@ struct PlayerCell: View {
             Text("\(human.name)")
                 .font(.Pretendard.regular12.font)
         }
-        .onTapGesture {
-            if observable.lineup.selectionPlayerIndex == nil {
-                observable.editHuman = human
-                observable.isChangeEditPlayerPresented.toggle()
-            } else {
-                observable.selectPlayer(human)
-            }
-        }
     }
+
 }
 
 extension View {
