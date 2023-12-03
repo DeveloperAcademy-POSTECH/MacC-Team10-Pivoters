@@ -46,6 +46,14 @@ public struct ShareImage: View {
     var isSharing: Bool
     var lineup: Lineup
     let deviceHeight = UIScreen.main.bounds.height
+    var players: [Player]
+
+    init(team: Team? = nil, isSharing: Bool, lineup: Lineup) {
+        self.team = team
+        self.isSharing = isSharing
+        self.lineup = lineup
+        self.players = self.lineup.players.sorted { $0.number < $1.number }
+    }
 
     public var body: some View {
         if isSharing {
@@ -71,11 +79,11 @@ public struct ShareImage: View {
                 .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.04 : deviceHeight * 0.022)
                 ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
                     PlayerView(theme: lineup.theme,
-                               player: lineup.players[index],
+                               player: players[index],
                                lineup: lineup,
                                index: 100)
-                    .offset(CGSize(width: lineup.players[index].offset.draggedOffsetWidth,
-                                   height: lineup.players[index].offset.draggedOffsetHeight))
+                    .offset(CGSize(width: players[index].offset.draggedOffsetWidth,
+                                   height: players[index].offset.draggedOffsetHeight))
                 }
                 .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.17 : deviceHeight * 0.08)
             }
