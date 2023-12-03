@@ -67,14 +67,9 @@ public struct UniformColor: Codable {
     }
 }
 
-public enum Uniform: Codable {
-    case plain
-    case stripe
-}
+//public enum Uniform: Codable {
+//    case plain
+//    case stripe
+////    case centerStripe
+//}
 
-public enum Theme: Codable {
-    case blueGray
-    case whiteGreen
-    case blackBlue
-    case grayBlack
-}

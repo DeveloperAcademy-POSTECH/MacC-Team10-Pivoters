@@ -288,10 +288,9 @@ struct TeamChangeAndShareButton: View {
 
 // MARK: TeamInfo
 struct TeamInfo: View {
+
     @Binding var mainObservable: MainObservable
     var observable: TeamObservable
-    // 1.1.0
-    let deviceHeight = UIScreen.main.bounds.height
 
     var body: some View {
         VStack(spacing: 0) {
@@ -315,7 +314,7 @@ struct TeamInfo: View {
                     .multilineTextAlignment(.center)
                     .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
                     .padding(.top,
-                             mainObservable.currentPresentationDetent == .height(CGFloat.editHeight) ? 26 : 40)
+                             mainObservable.currentPresentationDetent == .height(CGFloat.editHeight) ? 36 : 40)
                 if mainObservable.currentPresentationDetent == .height(CGFloat.editHeight) {
                     Spacer()
                 }
