@@ -16,7 +16,8 @@ import Common
 public final class UniformObservable {
 
     var lineup: Lineup
-    var uniforms: [Uniform] = [.plain1, .stripe1, .plain2, .stripe2, .stripe3, .seperate1, .seperate2]
+    var uniforms: [Uniform] = [.plain, .stripe]
+//    var uniforms: [Uniform] = [.plain1, .stripe1, .plain2, .stripe2, .stripe3, .seperate1, .seperate2]
 
     init(lineup: Lineup) {
         self.lineup = lineup

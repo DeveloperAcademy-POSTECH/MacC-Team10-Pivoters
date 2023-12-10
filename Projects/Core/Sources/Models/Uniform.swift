@@ -9,11 +9,23 @@
 import Foundation
 
 public enum Uniform: Codable {
-    case plain1
-    case plain2
-    case stripe1
-    case stripe2
-    case stripe3
-    case seperate1
-    case seperate2
+    case plain
+    case stripe
 }
+
+public enum Theme: Codable {
+    case blueGray
+    case whiteGreen
+    case blackBlue
+    case grayBlack
+}
+
+//public enum Uniform: Codable {
+//    case plain1
+//    case plain2
+//    case stripe1
+//    case stripe2
+//    case stripe3
+//    case seperate1
+//    case seperate2
+//}

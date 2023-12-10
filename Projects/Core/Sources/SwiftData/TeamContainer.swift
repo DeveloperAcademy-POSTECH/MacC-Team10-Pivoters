@@ -9,11 +9,33 @@
 import Foundation
 import SwiftData
 
+public enum TeamMigrationPlan: SchemaMigrationPlan {
+
+    public static var schemas: [VersionedSchema.Type] {
+        [TeamSchemaV1.self, TeamSchemaV2.self]
+    }
+
+    public static var stages: [MigrationStage] {
+        [migrateV1toV2]
+    }
+
+    public static let migrateV1toV2 = MigrationStage.custom(fromVersion: TeamSchemaV1.self,
+                                                            toVersion: TeamSchemaV2.self,
+                                                            willMigrate: nil,
+                                                            didMigrate: nil)
+
+}
+
+public typealias Team = TeamSchemaV1.Team
+public typealias Lineup = TeamSchemaV1.Lineup
+
 @MainActor
 public let teamContainer: ModelContainer = {
     do {
+        // MARK: 컨테이너 호출 시 Cannot use staged migration with an unknown model version 에러 발생
         let schema = Schema([Team.self])
-        let container = try ModelContainer(for: schema)
+        let configuration = ModelConfiguration()
+        let container = try ModelContainer(for: schema, configurations: [configuration])
         let context = container.mainContext
         if try context.fetch(FetchDescriptor<Team>()).isEmpty {
             let team = InitTeamContainer.makeTheFirstTeam()
@@ -54,7 +76,7 @@ public struct InitTeamContainer {
         [Lineup(id: UUID(),
                 index: 0,
                 lineupName: String(localized: "Lineup 1"),
-                uniform: .plain1,
+                uniform: .plain,
                 formation: .eleven,
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
@@ -66,7 +88,7 @@ public struct InitTeamContainer {
          Lineup(id: UUID(),
                 index: 1,
                 lineupName: String(localized: "Lineup 2"),
-                uniform: .plain1,
+                uniform: .plain,
                 formation: .eleven,
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
@@ -78,7 +100,7 @@ public struct InitTeamContainer {
          Lineup(id: UUID(),
                 index: 2,
                 lineupName: String(localized: "Lineup 3"),
-                uniform: .plain1,
+                uniform: .plain,
                 formation: .eleven,
                 selectedTypeOfFormation: .football433,
                 players: makePlayers(),
@@ -173,3 +195,6 @@ public struct InitTeamContainer {
         ]
     }
 }
+
+
+//public typealias Team = TeamSchemaV2.Team
