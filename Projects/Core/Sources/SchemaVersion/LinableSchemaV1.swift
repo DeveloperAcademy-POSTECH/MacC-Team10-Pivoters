@@ -9,10 +9,13 @@
 import Foundation
 import SwiftData
 
-public enum TeamSchemaV1: VersionedSchema {
+public enum LinableSchemaV1: VersionedSchema {
     public static var versionIdentifier: Schema.Version = .init(1, 0, 0)
     public static var models: [any PersistentModel.Type] {
-        [Team.self, Lineup.self]
+        [TeamSchemaV1.Team.self,
+         TeamSchemaV1.Lineup.self,
+         TeamSchemaV1.Player.self,
+         TeamSchemaV1.TeamPlayer.self]
     }
 
     @Model
@@ -23,7 +26,7 @@ public enum TeamSchemaV1: VersionedSchema {
         public let createdAt: Date
         public var updatedAt: Date
         public var lineup: [Lineup]
-        public var teamMembers: [Human]
+        public var teamPlayers: [TeamPlayer]
 
         public init(id: UUID,
                     teamName: String,
@@ -31,14 +34,14 @@ public enum TeamSchemaV1: VersionedSchema {
                     createdAt: Date,
                     updatedAt: Date,
                     lineup: [Lineup],
-                    addedPlayers: [Human]) {
+                    addedPlayers: [TeamPlayer]) {
             self.id = id
             self.teamName = teamName
             self.isSelected = isSelected
             self.createdAt = createdAt
             self.updatedAt = updatedAt
             self.lineup = lineup
-            self.teamMembers = addedPlayers
+            self.teamPlayers = addedPlayers
         }
     }
 
@@ -87,4 +90,39 @@ public enum TeamSchemaV1: VersionedSchema {
                 self.theme = theme
             }
     }
+
+    @Model
+    public final class Player {
+        public var id: UUID?
+        public var number: Int
+        public var isGoalkeeper: Bool
+        public var offset: OffsetValue
+        public var human: TeamPlayer?
+
+        public init(id: UUID? = nil,
+                    number: Int,
+                    isGoalkeeper: Bool,
+                    offset: OffsetValue,
+                    human: TeamPlayer? = nil) {
+            self.id = id
+            self.number = number
+            self.isGoalkeeper = isGoalkeeper
+            self.offset = offset
+            self.human = human
+        }
+    }
+
+    @Model
+    public final class TeamPlayer {
+        public var id: UUID
+        public var name: String
+        public var backNumber: Int
+
+        public init(id: UUID = UUID(), name: String, backNumber: Int) {
+            self.id = id
+            self.name = name
+            self.backNumber = backNumber
+        }
+    }
+
 }
