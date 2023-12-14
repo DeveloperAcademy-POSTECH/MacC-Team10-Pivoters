@@ -115,9 +115,6 @@ public struct MainView: View {
             }
         }
         .onAppear {
-            if Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme) == nil {
-                observable.lineup[mainObservable.currentIndex].selectedTheme = 0
-            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 withAnimation {
                     mainObservable.isLoading.toggle()
