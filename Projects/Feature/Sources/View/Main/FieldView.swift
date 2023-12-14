@@ -12,6 +12,7 @@ import Common
 import Core
 
 struct FieldView: View {
+
     var observable: FieldObservable
     var isShowEditSheet: Bool
     @Binding var editType: EditType
@@ -27,14 +28,23 @@ struct FieldView: View {
 
     var body: some View {
         ZStack {
-            observable.lineup.theme.field
-                .offset(CGSize(width: 0, height: 100))
-                .onTapGesture {
-                    observable.lineup.selectionPlayerIndex = nil
-                }
-            ForEach(0..<observable.lineup.formation.rawValue, id: \.hashValue) { index in
+            if Theme(rawValue: observable.lineup.selectedTheme) != nil {
+                Theme(rawValue: observable.lineup.selectedTheme)?.field
+                    .offset(CGSize(width: 0, height: 100))
+                    .onTapGesture {
+                        observable.lineup.selectionPlayerIndex = nil
+                    }
+            } else {
+                Theme.blueGray.field
+                    .offset(CGSize(width: 0, height: 100))
+                    .onTapGesture {
+                        observable.lineup.selectionPlayerIndex = nil
+                    }
+            }
+
+            ForEach(0..<observable.lineup.selectedPlayType, id: \.self) { index in
                 if observable.players[index].isGoalkeeper {
-                    PlayerView(theme: observable.lineup.theme,
+                    PlayerView(theme: Theme(rawValue: observable.lineup.selectedTheme) ?? .blueGray,
                                player: observable.players[index],
                                lineup: observable.lineup, index: index)
                     .offset(CGSize(width: observable.players[index].offset.draggedOffsetWidth,
@@ -49,7 +59,7 @@ struct FieldView: View {
                         }
                     }
                 } else {
-                    PlayerView(theme: observable.lineup.theme,
+                    PlayerView(theme: Theme(rawValue: observable.lineup.selectedTheme) ?? .blueGray,
                                player: observable.players[index],
                                lineup: observable.lineup,
                                index: index)

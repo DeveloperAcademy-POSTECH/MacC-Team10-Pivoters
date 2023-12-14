@@ -58,7 +58,7 @@ public struct ShareImage: View {
     public var body: some View {
         if isSharing {
             ZStack {
-                lineup.theme.share
+                Theme(rawValue: lineup.selectedTheme)?.share
                     .resizable()
                     .scaledToFit()
                     .frame(height: UIScreen.main.bounds.width)
@@ -68,17 +68,17 @@ public struct ShareImage: View {
                         Text("\(team.teamName)")
                             .font(.Pretendard.black16.font)
                             .multilineTextAlignment(.center)
-                            .foregroundStyle(lineup.theme.textColor)
+                            .foregroundStyle(Theme(rawValue: lineup.selectedTheme)?.textColor ?? .black)
                             .padding(.bottom, 1)
                     }
                     Text("\(lineup.lineupName)")
                         .font(.Pretendard.subhead.font)
-                        .foregroundStyle(lineup.theme.textColor)
+                        .foregroundStyle(Theme(rawValue: lineup.selectedTheme)?.textColor ?? .black)
                     Spacer()
                 }
                 .padding(.top, (deviceHeight <= 800) ? deviceHeight * 0.04 : deviceHeight * 0.022)
-                ForEach(0..<lineup.formation.rawValue, id: \.hashValue) { index in
-                    PlayerView(theme: lineup.theme,
+                ForEach(0..<lineup.selectedPlayType, id: \.hashValue) { index in
+                    PlayerView(theme: Theme(rawValue: lineup.selectedTheme) ?? .blueGray,
                                player: players[index],
                                lineup: lineup,
                                index: 100)

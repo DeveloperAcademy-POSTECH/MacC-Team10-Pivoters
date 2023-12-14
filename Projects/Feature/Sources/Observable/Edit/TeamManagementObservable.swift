@@ -25,7 +25,7 @@ final class TeamManagementObservable {
         self.players = lineup.players.sorted { $0.number < $1.number }
     }
 
-    func changeFormation(_ formationType: TypeOfFormation) {
+    func changeFormation(_ formationType: Formation) {
         let formationOffsets: [CGSize] = formationType.returnPosition()
 
         for index in 0..<formationOffsets.count {
@@ -39,21 +39,21 @@ final class TeamManagementObservable {
     func changePlayerNumber(_ playerCount: Int) {
         switch playerCount {
         case 5:
-            lineup.formation = .five
+            lineup.selectedPlayType = 5
             changeFormation(.futsal22)
-            lineup.selectedTypeOfFormation = .futsal22
+            lineup.selectedFormation = "2-2"
         case 6:
-            lineup.formation = .six
+            lineup.selectedPlayType = 6
             changeFormation(.futsal212)
-            lineup.selectedTypeOfFormation = .futsal212
+            lineup.selectedFormation = "2-1-2"
         case 11:
-            lineup.formation = .eleven
+            lineup.selectedPlayType = 11
             changeFormation(.football433)
-            lineup.selectedTypeOfFormation = .football433
+            lineup.selectedFormation = "4-3-3"
         default:
-            lineup.formation = .eleven
+            lineup.selectedPlayType = 11
             changeFormation(.football433)
-            lineup.selectedTypeOfFormation = .football433
+            lineup.selectedFormation = "4-3-3"
         }
     }
 }

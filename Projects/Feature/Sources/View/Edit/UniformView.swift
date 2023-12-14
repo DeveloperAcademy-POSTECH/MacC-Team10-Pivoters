@@ -42,7 +42,7 @@ struct UniformView: View {
                             .overlay {
                                 overlapUniform(uniform: uniform,
                                                uniformSize: 80,
-                                               isSelected: observable.lineup.uniform == uniform ? true : false,
+                                               isSelected: observable.lineup.selectedUniform == uniform.rawValue ? true : false,
                                                isGoalkeeper: false)
 
                             }
@@ -57,11 +57,15 @@ struct UniformView: View {
                 .frame(height: 90)
                 .overlay {
                     VStack {
-                        ColorPicker(String(localized: "Main Color"), selection: $primaryColor, supportsOpacity: false)
+                        ColorPicker(String(localized: "Main Color"), 
+                                    selection: $primaryColor,
+                                    supportsOpacity: false)
                             .font(.Pretendard.semiBold14.font)
                             .padding(.horizontal)
                         Divider()
-                        ColorPicker(String(localized: "Sub Color"), selection: $secondaryColor, supportsOpacity: false)
+                        ColorPicker(String(localized: "Sub Color"), 
+                                    selection: $secondaryColor,
+                                    supportsOpacity: false)
                             .padding(.horizontal)
                             .font(.Pretendard.semiBold14.font)
                     }
@@ -104,7 +108,7 @@ struct UniformView: View {
                               isGoalkeeper: isGoalkeeper)
         .opacity(isSelected ? 0.7 : 1)
         .onTapGesture {
-            observable.lineup.uniform = uniform
+            observable.lineup.selectedUniform = uniform.rawValue
         }
     }
 }

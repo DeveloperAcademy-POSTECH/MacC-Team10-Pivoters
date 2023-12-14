@@ -88,7 +88,7 @@ struct TeamSelectView: View {
             TeamCreateView(observable: TeamCreateObservable(modelContext: observable.modelContext))
                 .presentationDetents([.fraction(0.5)])
                 .presentationBackground(.regularMaterial)
-                .modelContainer(teamContainer)
+                .modelContainer(linableContainer)
         }
     }
 

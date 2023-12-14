@@ -15,7 +15,7 @@ class AddPlayerObservable: ObservableObject {
     @Published var playerName: String
     @Published var isButtonEnabled: Bool
     var team: Team
-    var human: Human?
+    var teamPlayer: TeamPlayer?
     let addPlayerInfo: AddPlayerInfo
 
     var cancellables = Set<AnyCancellable>()
@@ -31,12 +31,12 @@ class AddPlayerObservable: ObservableObject {
     init(playerName: String = "",
          isButtonEnabled: Bool = false,
          team: Team,
-         human: Human? = nil,
+         teamPlayer: TeamPlayer? = nil,
          addPlayerInfo: AddPlayerInfo) {
         self.playerName = playerName
         self.isButtonEnabled = isButtonEnabled
         self.team = team
-        self.human = human
+        self.teamPlayer = teamPlayer
         self.addPlayerInfo = addPlayerInfo
 
         validTextfieldPublisher
@@ -49,11 +49,11 @@ class AddPlayerObservable: ObservableObject {
     func addPlayer() {
         switch addPlayerInfo {
         case .add:
-            team.teamMembers.insert(InitTeamContainer.makeHuman(name: playerName,
-                                                                backNumber: 1),
+            team.teamPlayers.insert(InitLinable.makeTeamPlayer(name: playerName,
+                                                                     backNumber: 1),
                                     at: 0)
         case .edit:
-            self.human?.name = self.playerName
+            self.teamPlayer?.name = self.playerName
         }
     }
 }

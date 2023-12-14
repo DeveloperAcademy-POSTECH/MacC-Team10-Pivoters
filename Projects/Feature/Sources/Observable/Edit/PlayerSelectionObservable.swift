@@ -17,62 +17,66 @@ class PlayerSelectionObservable {
     var team: Team
     var lineup: Lineup
     let currentIndex: Int
-    var humans: [Human] = [Human]()
+    var teamPlayers: [TeamPlayer] = [TeamPlayer]()
     var players: [Player] = [Player]()
     var isChangeAddPlayerPresented: Bool = false
     var isChangeEditPlayerPresented: Bool = false
-    var editHuman: Human?
+    var editTeamPlayer: TeamPlayer?
 
-    init(team: Team, lineup: Lineup, currentIndex: Int) {
+    init(team: Team, 
+         lineup: Lineup,
+         currentIndex: Int) {
         self.team = team
         self.lineup = lineup
         self.currentIndex = currentIndex
-        self.humans = team.teamMembers
+        self.teamPlayers = team.teamPlayers
         self.players = lineup.players.sorted { $0.number < $1.number }
         sortHumans()
     }
 
+    // MARK: 제대로 작동하는지 확인해야 함.
+
     func sortHumans() {
-        self.humans = []
-        var selectHumans: [Human] = []
-        for human in team.teamMembers {
-            if let index = players.firstIndex(where: { $0.human?.id == human.id}) {
-                if index < lineup.formation.rawValue {
-                    selectHumans.append(human)
+        self.teamPlayers = []
+        var selectedTeamPlayers: [TeamPlayer] = []
+        for teamPlayer in team.teamPlayers {
+            if let index = players.firstIndex(where: { $0.teamPlayer?.id == teamPlayer.id}) {
+                if index < lineup.selectedPlayType {
+                    selectedTeamPlayers.append(teamPlayer)
                 } else {
-                    humans.append(human)
+                    teamPlayers.append(teamPlayer)
                 }
             } else {
-                humans.append(human)
+                teamPlayers.append(teamPlayer)
             }
         }
-        humans += selectHumans
+        teamPlayers += selectedTeamPlayers
     }
 
     func addPlayer() {
-        team.teamMembers.insert(InitTeamContainer.makeHuman(name: String(localized: "New Player"),
+        team.teamPlayers.insert(InitLinable.makeTeamPlayer(name: String(localized: "New Player"),
                                                             backNumber: 1),
                                 at: 0)
         sortHumans()
     }
 
-    func selectPlayer(_ registerHuman: Human) {
+    func selectPlayer(_ registerTeamPlayer: TeamPlayer) {
         guard let index = lineup.selectionPlayerIndex else { return }
-        if players[index].human == nil {
-            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                players[registerdIndex].human = nil
+        if players[index].teamPlayer == nil {
+            if let registerdIndex = players.firstIndex(where: { $0.teamPlayer?.id == registerTeamPlayer.id}) {
+                players[registerdIndex].teamPlayer = nil
             }
-            players[index].human = registerHuman
+            players[index].teamPlayer = registerTeamPlayer
         } else {
-            if let registerdIndex = players.firstIndex(where: { $0.human?.id == registerHuman.id}) {
-                if players[index].human?.id == registerHuman.id {
-                    players[index].human = nil
+            if let registerdIndex = players.firstIndex(where: { $0.teamPlayer?.id == registerTeamPlayer.id}) {
+                if players[index].teamPlayer?.id == registerTeamPlayer.id {
+                    players[index].teamPlayer = nil
                 } else {
-                    players[registerdIndex].human = players[index].human
-                    players[index].human = registerHuman
+                    players[registerdIndex].teamPlayer = players[index].teamPlayer
+                    players[index].teamPlayer = registerTeamPlayer
                 }
             } else {
-                players[index].human = registerHuman
+                players[index].teamPlayer = registerTeamPlayer
             }
         }
         lineup.selectionPlayerIndex = nil
