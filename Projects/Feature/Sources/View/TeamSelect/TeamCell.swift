@@ -27,7 +27,7 @@ struct TeamCell: View {
             if let team = team {
                 let lineup = team.lineup.filter { $0.index == 0 }.first
                 if let lineup = lineup {
-                    OverlapUniform(uniform: lineup.uniform,
+                    OverlapUniform(uniform: Uniform(rawValue: team.lineup[0].selectedUniform) ?? .plain1,
                                    uniformSize: 36,
                                    primaryColor: lineup.primaryColor,
                                    secondaryColor: lineup.secondaryColor,
