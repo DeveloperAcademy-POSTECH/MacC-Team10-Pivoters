@@ -8,14 +8,13 @@
 
 import Foundation
 
-//public enum Theme: Codable {
-//    case blueGray
-//    case whiteGreen
-//    case blackBlue
-//    case grayBlack
-//    case blueBlack
-//    case blackGray
-//    case purpleClear
-//    case blueClear
-//    case neonPurple
-//}
+public enum Theme: Int, Codable {
+    case blueGray
+    case whiteGreen
+    case blackBlue
+    case grayBlack
+    case blueBlack
+    case blackGray
+    case purpleClear
+    case blueClear
+}
