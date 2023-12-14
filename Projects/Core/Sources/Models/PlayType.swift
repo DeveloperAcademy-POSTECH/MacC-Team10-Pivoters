@@ -13,22 +13,28 @@ public enum PlayType: Int, Codable, CaseIterable {
     case six = 6
     case eleven = 11
 
-    public var typeOfFormation: [TypeOfFormation] {
+    public var typeOfFormation: [Formation] {
         switch self {
         case .five:
-            [TypeOfFormation.futsal22,
-             TypeOfFormation.futsal121]
+            [
+                Formation.futsal22,
+                Formation.futsal121
+            ]
         case .six:
-            [TypeOfFormation.futsal32,
-             TypeOfFormation.futsal131,
-             TypeOfFormation.futsal212]
+            [
+                Formation.futsal32,
+                Formation.futsal131,
+                Formation.futsal212
+            ]
         case .eleven:
-            [TypeOfFormation.football343,
-             TypeOfFormation.football442,
-             TypeOfFormation.football433,
-             TypeOfFormation.football4231,
-             TypeOfFormation.football4141,
-             TypeOfFormation.football523]
+            [
+                Formation.football343,
+                Formation.football442,
+                Formation.football433,
+                Formation.football4231,
+                Formation.football4141,
+                Formation.football523
+            ]
         }
     }
 }
