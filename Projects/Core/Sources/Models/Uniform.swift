@@ -8,24 +8,26 @@
 
 import Foundation
 
-public enum Uniform: Codable {
-    case plain
-    case stripe
+public enum Uniform: Int, Codable {
+    case plain1
+    case stripe1
+    case plain2
+    case stripe2
+    case stripe3
+    case seperate1
+    case seperate2
+
+    public static let uniformArray: [Uniform] = [.plain1, .stripe1, .plain2, .stripe2, .stripe3, .seperate1, .seperate2]
 }
 
-public enum Theme: Codable {
-    case blueGray
-    case whiteGreen
-    case blackBlue
-    case grayBlack
-}
+public struct UniformColor: Codable {
+    public var red: Double
+    public var green: Double
+    public var blue: Double
 
-//public enum Uniform: Codable {
-//    case plain1
-//    case plain2
-//    case stripe1
-//    case stripe2
-//    case stripe3
-//    case seperate1
-//    case seperate2
-//}
+    public init(red: Double, green: Double, blue: Double) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+    }
+}
