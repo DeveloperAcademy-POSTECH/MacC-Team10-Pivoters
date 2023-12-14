@@ -9,23 +9,27 @@
 import Foundation
 import SwiftData
 
-@Model
-public final class Player {
-    public var id: UUID?
-    public var number: Int
-    public var isGoalkeeper: Bool
-    public var offset: OffsetValue
-    public var human: Human?
+extension LinableSchemaV1 {
 
-    public init(id: UUID? = nil,
-                number: Int,
-                isGoalkeeper: Bool,
-                offset: OffsetValue,
-                human: Human? = nil) {
-        self.id = id
-        self.number = number
-        self.isGoalkeeper = isGoalkeeper
-        self.offset = offset
-        self.human = human
+    @Model
+    public final class Player {
+        public var id: UUID?
+        public var number: Int
+        public var isGoalkeeper: Bool
+        public var offset: OffsetValue
+        public var teamPlayer: TeamPlayer?
+
+        public init(id: UUID? = nil,
+                    number: Int,
+                    isGoalkeeper: Bool,
+                    offset: OffsetValue,
+                    teamPlayer: TeamPlayer? = nil) {
+            self.id = id
+            self.number = number
+            self.isGoalkeeper = isGoalkeeper
+            self.offset = offset
+            self.teamPlayer = teamPlayer
+        }
     }
+
 }
