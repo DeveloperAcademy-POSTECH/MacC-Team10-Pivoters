@@ -14,8 +14,8 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView(modelContext: teamContainer.mainContext)
-                .modelContainer(teamContainer)
+            MainView(modelContext: linableContainer.mainContext)
+                .modelContainer(linableContainer)
         }
     }
 }
