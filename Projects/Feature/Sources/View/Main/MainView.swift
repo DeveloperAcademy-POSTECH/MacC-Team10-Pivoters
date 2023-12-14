@@ -56,8 +56,7 @@ public struct MainView: View {
                                      mainObservable: $mainObservable,
                                      isEditing: mainObservable.currentPresentationDetent == .height(CGFloat.editHeight),
                                      team: observable.team!,
-                                     lineup: observable.lineup[mainObservable.currentIndex],
-                                     theme: observable.lineup[mainObservable.currentIndex].theme)
+                                     lineup: observable.lineup[mainObservable.currentIndex])
 
             // MARK: 팀 정보
             TeamInfo(mainObservable: $mainObservable,
@@ -66,16 +65,20 @@ public struct MainView: View {
             // MARK: 기본 화면에서 캐러셀 버튼 출력
             if mainObservable.currentPresentationDetent == .height(CGFloat.defaultHeight) {
                 FieldCarouselButton(mainObservable: $mainObservable,
-                                    theme: observable.lineup[mainObservable.currentIndex].theme)
+                                    theme: Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme) ?? Theme.blueGray)
             }
         }
         .animation(.linear, value: mainObservable.isShowTeamSheet)
         .background(
-            observable.lineup[mainObservable.currentIndex].theme.background
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                .animation(.easeInOut, value: mainObservable.currentIndex)
+            (
+                Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme) != nil ?
+                Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme)!.background :
+                    Theme.blueGray.background
+            )
+            .resizable()
+            .scaledToFill()
+            .ignoresSafeArea()
+            .animation(.easeInOut, value: mainObservable.currentIndex)
         )
         .sheet(isPresented: $mainObservable.isShowEditSheet, onDismiss: {
             mainObservable.isShowTeamSheet.toggle()
@@ -106,12 +109,15 @@ public struct MainView: View {
                 observable.fetchTeam()
             }
         }
-        .onChange(of: mainObservable.currentPresentationDetent, { _, newValue in
+        .onChange(of: mainObservable.currentPresentationDetent) { _, newValue in
             if newValue == .height(.defaultHeight) {
                 observable.lineup.map { $0.selectionPlayerIndex = nil }
             }
-        })
+        }
         .onAppear {
+            if Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme) == nil {
+                observable.lineup[mainObservable.currentIndex].selectedTheme = 0
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 withAnimation {
                     mainObservable.isLoading.toggle()
@@ -132,11 +138,13 @@ struct ModalDefaultView: View {
         VStack {
             Image(asset: CommonAsset.upperArrow)
                 .renderingMode(.template)
-                .foregroundStyle(teamObservable.lineup[mainObservable.currentIndex].theme.textColor)
+                .foregroundStyle(Theme(rawValue: teamObservable.lineup[mainObservable.currentIndex].selectedTheme)?.textColor
+                                 ?? Theme.blueGray.textColor)
                 .padding(.top, 24)
             Text(String(localized: "Push To Edit"))
                 .font(.Pretendard.regular14.font)
-                .foregroundStyle(teamObservable.lineup[mainObservable.currentIndex].theme.textColor)
+                .foregroundStyle(Theme(rawValue: teamObservable.lineup[mainObservable.currentIndex].selectedTheme)?.textColor
+                                 ?? Theme.blueGray.textColor)
                 .padding(.top, 10)
         }
     }
@@ -214,7 +222,6 @@ struct TeamChangeAndShareButton: View {
     var isEditing: Bool
     var team: Team
     var lineup: Lineup
-    var theme: Theme
 
     var body: some View {
         VStack {
@@ -226,10 +233,16 @@ struct TeamChangeAndShareButton: View {
                         VStack {
                             Image(systemName: "flag.2.crossed")
                                 .font(.system(size: 20))
-                                .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
+                                .foregroundColor(
+                                    mainObservable.isShowTeamSheet ?
+                                    Color.black : Theme(rawValue: lineup.selectedTheme)?.textColor ?? Theme.blueGray.textColor
+                                )
                             Text(String(localized: "Team"))
                                 .font(.Pretendard.subhead.font)
-                                .foregroundColor(mainObservable.isShowTeamSheet ? Color.black : theme.textColor)
+                                .foregroundColor(
+                                    mainObservable.isShowTeamSheet ?
+                                    Color.black : Theme(rawValue: lineup.selectedTheme)?.textColor ?? Theme.blueGray.textColor
+                                )
                         }
                         .padding(5)
                         .background(mainObservable.isShowTeamSheet ? Color.white : Color.clear)
@@ -242,8 +255,8 @@ struct TeamChangeAndShareButton: View {
                                onDismiss: {
                             mainObservable.isShowEditSheet.toggle()
                         }, content: {
-                            TeamSelectView(observable: TeamSelectObservable(modelContext: teamContainer.mainContext))
-                                .modelContainer(teamContainer)
+                            TeamSelectView(observable: TeamSelectObservable(modelContext: linableContainer.mainContext))
+                                .modelContainer(linableContainer)
                                 .background(.clear)
                         })
                 } else {
@@ -255,10 +268,10 @@ struct TeamChangeAndShareButton: View {
                         VStack {
                             Image(systemName: "square.and.arrow.up")
                                 .font(.system(size: 20))
-                                .foregroundStyle(lineup.theme.textColor)
+                                .foregroundStyle(Theme(rawValue: lineup.selectedTheme)?.textColor ?? .colorBlack)
                             Text(String(localized: "Share"))
                                 .font(.Pretendard.subhead.font)
-                                .foregroundStyle(lineup.theme.textColor)
+                                .foregroundStyle(Theme(rawValue: lineup.selectedTheme)?.textColor ?? .colorBlack)
                         }
                     }
                     .padding(.horizontal, 25)
@@ -312,7 +325,8 @@ struct TeamInfo: View {
                     .font(mainObservable.currentPresentationDetent == .height(CGFloat.editHeight)
                           ? .Pretendard.headerLarge.font : .Pretendard.headerNormal.font)
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
+                    .foregroundStyle(Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme)?.textColor
+                                     ?? Theme.blueGray.textColor)
                     .padding(.top,
                              mainObservable.currentPresentationDetent == .height(CGFloat.editHeight) ? 36 : 40)
                 if mainObservable.currentPresentationDetent == .height(CGFloat.editHeight) {
@@ -322,7 +336,8 @@ struct TeamInfo: View {
             HStack {
                 Text(observable.lineup[mainObservable.currentIndex].lineupName)
                     .font(.Pretendard.subhead.font)
-                    .foregroundStyle(observable.lineup[mainObservable.currentIndex].theme.textColor)
+                    .foregroundStyle(Theme(rawValue: observable.lineup[mainObservable.currentIndex].selectedTheme)?.textColor
+                                     ?? Theme.blueGray.textColor)
                 if mainObservable.currentPresentationDetent == .height(CGFloat.editHeight) {
                     Spacer()
                 }
