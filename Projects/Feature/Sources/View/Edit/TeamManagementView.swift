@@ -104,14 +104,15 @@ struct TeamManagementView: View {
                 .font(.Pretendard.semiBold14.font)
                 .tint(.colorBlack)
             Spacer()
-            Picker(String(localized: "Number of Players"), selection: $observable.lineup.formation) {
-                ForEach(Formation.allCases, id: \.self) {
+            Picker(String(localized: "Number of Players"), selection: $observable.lineup.selectedPlayType) {
+                ForEach(PlayType.allCases, id: \.self) {
                     Text("\($0.rawValue)")
+                        .tag($0.rawValue)
                 }
             }
             .pickerStyle(MenuPickerStyle())
             .foregroundColor(.colorBlack)
-            .onChange(of: observable.lineup.formation.rawValue) { _, newPlayerNumber in
+            .onChange(of: observable.lineup.selectedPlayType) { _, newPlayerNumber in
                 observable.changePlayerNumber(newPlayerNumber)
             }
             .tint(.gray)
@@ -125,15 +126,17 @@ struct TeamManagementView: View {
                 .font(.Pretendard.semiBold14.font)
                 .tint(.colorBlack)
             Spacer()
-            Picker(String(localized: "포메이션"), selection: $observable.lineup.selectedTypeOfFormation) {
-                ForEach(observable.lineup.formation.typeOfFormation, id: \.self) {
+            Picker(String(localized: "포메이션"), selection: $observable.lineup.selectedFormation) {
+                ForEach(PlayType(rawValue: observable.lineup.selectedPlayType)?.typeOfFormation ?? 
+                        [.football442, .football433],
+                        id: \.self) {
                     Text($0.rawValue)
-                        .font(.Pretendard.black14.font)
+                        .tag($0.rawValue)
                 }
             }
             .foregroundColor(.colorBlack)
-            .onChange(of: observable.lineup.selectedTypeOfFormation) { _, selectedFormation in
-                observable.changeFormation(selectedFormation)
+            .onChange(of: observable.lineup.selectedFormation) { _, selectedFormation in
+                observable.changeFormation(Formation(rawValue: selectedFormation) ?? Formation.football433)
             }
             .tint(.gray)
             .pickerStyle(.menu)
