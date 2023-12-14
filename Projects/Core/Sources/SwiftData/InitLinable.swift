@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct InitTeamContainer {
+public struct InitLinable {
     static func makeTheFirstTeam() -> Team {
         Team(id: UUID(),
              teamName: String(localized: "My Team"),
@@ -18,7 +18,7 @@ public struct InitTeamContainer {
              lineup: makeLineup(),
              teamPlayers: [])
     }
-
+    
     public static func makeTeam(teamName: String) -> Team {
         Team(id: UUID(),
              teamName: teamName,
@@ -28,11 +28,11 @@ public struct InitTeamContainer {
              lineup: makeLineup(),
              teamPlayers: [])
     }
-
+    
     public static func makeTeamPlayer(name: String, backNumber: Int) -> TeamPlayer {
         TeamPlayer(name: name, backNumber: backNumber)
     }
-
+    
     static func makeLineup() -> [Lineup] {
         [Lineup(id: UUID(),
                 index: 0,
@@ -40,33 +40,33 @@ public struct InitTeamContainer {
                 selectedUniform: 0,
                 selectedTheme: 0,
                 selectedPlayType: 11,
-                selectedFormation: "4-4-2",
+                selectedFormation: "4-3-3",
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
                 players: makePlayers()),
          Lineup(id: UUID(),
-                 index: 1,
-                 lineupName: String(localized: "Lineup 2"),
-                 selectedUniform: 0,
-                 selectedTheme: 0,
-                 selectedPlayType: 11,
-                 selectedFormation: "4-4-2",
-                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                 players: makePlayers()),
+                index: 1,
+                lineupName: String(localized: "Lineup 2"),
+                selectedUniform: 0,
+                selectedTheme: 0,
+                selectedPlayType: 11,
+                selectedFormation: "4-3-3",
+                primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
+                secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
+                players: makePlayers()),
          Lineup(id: UUID(),
-                 index: 2,
-                 lineupName: String(localized: "Lineup 3"),
-                 selectedUniform: 0,
-                 selectedTheme: 0,
-                 selectedPlayType: 11,
-                 selectedFormation: "4-4-2",
-                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                 players: makePlayers()),
+                index: 2,
+                lineupName: String(localized: "Lineup 3"),
+                selectedUniform: 0,
+                selectedTheme: 0,
+                selectedPlayType: 11,
+                selectedFormation: "4-3-3",
+                primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
+                secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
+                players: makePlayers()),
         ]
     }
-
+    
     /// 나중에 formaiton을 파라미터로 받아와서 플레이어의 갯수 리턴을 switch하면 될듯하다.
     static func makePlayers() -> [Player] {
         [
