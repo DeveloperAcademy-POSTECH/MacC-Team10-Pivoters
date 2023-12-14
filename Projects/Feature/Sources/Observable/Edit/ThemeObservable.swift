@@ -17,11 +17,10 @@ final class ThemeObservable {
         .whiteGreen,
         .blackBlue,
         .grayBlack,
-//        .blueBlack,
-//        .blackGray,
-//        .purpleClear,
-//        .blueClear,
-//        .neonPurple
+        .blueBlack,
+        .blackGray,
+        .purpleClear,
+        .blueClear
     ]
     var lineup: Lineup
 
