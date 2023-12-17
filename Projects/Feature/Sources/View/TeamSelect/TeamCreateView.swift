@@ -18,7 +18,7 @@ struct TeamCreateView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("팀 추가")
+                Text(String(localized: "Add Team"))
                     .font(.Pretendard.title.font)
                     .foregroundColor(.colorBlack)
                     .padding(.top, 8)
