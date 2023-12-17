@@ -12,16 +12,7 @@ import Core
 
 @Observable
 final class ThemeObservable {
-    let theme: [Theme] = [
-        .blueGray,
-        .whiteGreen,
-        .blackBlue,
-        .grayBlack,
-        .blueBlack,
-        .blackGray,
-        .purpleClear,
-        .blueClear
-    ]
+    let theme: [Theme] = Theme.themeArray
     var lineup: Lineup
 
     init(lineup: Lineup) {
