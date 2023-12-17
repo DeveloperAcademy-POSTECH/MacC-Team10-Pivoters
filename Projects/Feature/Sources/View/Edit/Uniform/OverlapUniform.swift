@@ -17,7 +17,6 @@ struct OverlapUniform: View {
     let uniformSize: CGFloat
     var primaryColor: UniformColor
     var secondaryColor: UniformColor
-    var isSelected: Bool
     var isGoalkeeper: Bool
 
     var body: some View {
@@ -75,12 +74,6 @@ struct OverlapUniform: View {
         uniform.border
             .resizable()
             .frame(width: uniformSize, height: uniformSize)
-
-        if isSelected {
-            Image(systemName: "checkmark.circle")
-                .resizable()
-                .frame(width: uniformSize / 2, height: uniformSize / 2)
-        }
     }
 
 }
