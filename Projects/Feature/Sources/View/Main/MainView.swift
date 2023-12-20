@@ -138,7 +138,7 @@ struct ModalDefaultView: View {
                 .foregroundStyle(Theme(rawValue: teamObservable.lineup[mainObservable.currentIndex].selectedTheme)?.textColor
                                  ?? Theme.blueGray.textColor)
                 .padding(.top, 24)
-            Text(String(localized: "Push To Edit"))
+            Text(String(localized: "Swipe to edit"))
                 .font(.Pretendard.regular14.font)
                 .foregroundStyle(Theme(rawValue: teamObservable.lineup[mainObservable.currentIndex].selectedTheme)?.textColor
                                  ?? Theme.blueGray.textColor)
