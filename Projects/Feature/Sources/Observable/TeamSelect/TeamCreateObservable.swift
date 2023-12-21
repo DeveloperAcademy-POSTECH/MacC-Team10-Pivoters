@@ -43,5 +43,10 @@ class TeamCreateObservable: ObservableObject {
         guard self.teamName != "" else { return }
         let team = InitLinable.makeTeam(teamName: self.teamName)
         modelContext.insert(team)
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
