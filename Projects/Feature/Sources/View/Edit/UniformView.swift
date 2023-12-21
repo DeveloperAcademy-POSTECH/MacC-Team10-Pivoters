@@ -49,10 +49,16 @@ struct UniformView: View {
                                         .padding(1)
                                     VStack {
                                         Spacer()
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .foregroundStyle(Color.colorBlue)
+                                        Image(systemName: "circle.fill")
+                                            .foregroundColor(Color(uiColor: .systemGray5))
                                             .frame(width: 16, height: 16)
                                             .offset(y: 8)
+                                            .overlay {
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .foregroundStyle(Color.colorBlue)
+                                                    .frame(width: 16, height: 16)
+                                                    .offset(y: 8)
+                                            }
                                     }
                                 }
                             }
