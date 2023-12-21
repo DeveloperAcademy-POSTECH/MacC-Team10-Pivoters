@@ -16,8 +16,8 @@ extension LinableSchemaV1 {
         public let id: UUID
         public let index: Int
         public var lineupName: String
-        public var selectedUniform: Int
-        public var selectedTheme: Int
+        public var selectedUniform: String
+        public var selectedTheme: String
         public var selectedPlayType: Int
         public var selectedFormation: String
         public var primaryColor: UniformColor
@@ -29,8 +29,8 @@ extension LinableSchemaV1 {
         public init(id: UUID, 
                     index: Int,
                     lineupName: String, 
-                    selectedUniform: Int, 
-                    selectedTheme: Int,
+                    selectedUniform: String,
+                    selectedTheme: String,
                     selectedPlayType: Int,
                     selectedFormation: String,
                     primaryColor: UniformColor,

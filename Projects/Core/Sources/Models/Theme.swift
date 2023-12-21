@@ -8,17 +8,17 @@
 
 import Foundation
 
-public enum Theme: Int, Codable {
-    case blueGray
-    case blueGreen
-    case blueBlack
-    case blackGray
-    case blackBlue
-    case grayBlack
-    case lightGrayBlue
-    case whiteGreen
-    case purpleClear
-    case blueClear
+public enum Theme: String, Codable {
+    case blueGray = "blueGray"
+    case blueGreen = "blueGreen"
+    case blueBlack = "blueBlack"
+    case blackGray = "blackGray"
+    case blackBlue = "blackBlue"
+    case grayBlack = "grayBlack"
+    case lightGrayBlue = "lightGrayBlue"
+    case whiteGreen = "whiteGreen"
+    case purpleClear = "purpleClear"
+    case blueClear = "blueClear"
 
     public static let themeArray: [Theme] = [
         .blueGray,
