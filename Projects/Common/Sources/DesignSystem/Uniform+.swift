@@ -75,10 +75,6 @@ extension Uniform {
         Image(asset: CommonAsset.gkPlainPrimary)
     }
 
-    public var goalkeeperSecondary: Image? {
-        nil
-    }
-
     public var goalkeeperBorder: Image {
         Image(asset: CommonAsset.gkPlainBorder)
     }

@@ -36,38 +36,58 @@ struct UniformView: View {
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows) {
                     ForEach(observable.uniforms, id: \.self) { uniform in
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: 16)
                             .foregroundColor(Color(uiColor: .systemGray5))
-                            .frame(width: 90, height: 90)
+                            .frame(width: 64, height: 64)
                             .overlay {
                                 overlapUniform(uniform: uniform,
-                                               uniformSize: 80,
-                                               isSelected: observable.lineup.uniform == uniform ? true : false,
+                                               uniformSize: 52,
                                                isGoalkeeper: false)
-
+                                if observable.lineup.selectedUniform == uniform.rawValue {
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color.colorBlue, lineWidth: 1.5)
+                                        .padding(1)
+                                    VStack {
+                                        Spacer()
+                                        Image(systemName: "circle.fill")
+                                            .foregroundColor(Color(uiColor: .systemGray5))
+                                            .frame(width: 16, height: 16)
+                                            .offset(y: 8)
+                                            .overlay {
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .foregroundStyle(Color.colorBlue)
+                                                    .frame(width: 16, height: 16)
+                                                    .offset(y: 8)
+                                            }
+                                    }
+                                }
                             }
                     }
                 }
             }
             .padding(.horizontal, 20)
-            .frame(height: 100)
+            .frame(height: 80)
             RoundedRectangle(cornerSize: CGSize(width: 12, height: 12))
                 .foregroundColor(Color(uiColor: .systemGray5))
                 .opacity(0.4)
                 .frame(height: 90)
                 .overlay {
                     VStack {
-                        ColorPicker(String(localized: "Main Color"), selection: $primaryColor, supportsOpacity: false)
+                        ColorPicker(String(localized: "Main Color"), 
+                                    selection: $primaryColor,
+                                    supportsOpacity: false)
                             .font(.Pretendard.semiBold14.font)
                             .padding(.horizontal)
                         Divider()
-                        ColorPicker(String(localized: "Sub Color"), selection: $secondaryColor, supportsOpacity: false)
+                        ColorPicker(String(localized: "Sub Color"), 
+                                    selection: $secondaryColor,
+                                    supportsOpacity: false)
                             .padding(.horizontal)
                             .font(.Pretendard.semiBold14.font)
                     }
                 }
                 .padding(.horizontal)
-                .padding(.top, 8)
+                .padding(.top, 20)
             Spacer()
         }
         .onChange(of: primaryColor) {
@@ -94,17 +114,14 @@ struct UniformView: View {
 
     func overlapUniform(uniform: Uniform,
                         uniformSize: CGFloat,
-                        isSelected: Bool,
                         isGoalkeeper: Bool) -> some View {
         return OverlapUniform(uniform: uniform,
-                              uniformSize: 80,
+                              uniformSize: uniformSize,
                               primaryColor: observable.lineup.primaryColor,
                               secondaryColor: observable.lineup.secondaryColor,
-                              isSelected: isSelected,
                               isGoalkeeper: isGoalkeeper)
-        .opacity(isSelected ? 0.7 : 1)
         .onTapGesture {
-            observable.lineup.uniform = uniform
+            observable.lineup.selectedUniform = uniform.rawValue
         }
     }
 }

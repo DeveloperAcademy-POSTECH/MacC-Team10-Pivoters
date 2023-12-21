@@ -19,20 +19,18 @@ struct PlayerView: View {
 
     var body: some View {
         VStack {
-            if player.human != nil {
+            if player.teamPlayer != nil {
                 if player.isGoalkeeper {
-                    OverlapUniform(uniform: lineup.uniform,
+                    OverlapUniform(uniform: Uniform(rawValue: lineup.selectedUniform) ?? .plain1,
                                    uniformSize: 50,
                                    primaryColor: theme.goalkeeperPrimaryColor,
                                    secondaryColor: theme.goalkeeperSecondaryColor,
-                                   isSelected: false,
                                    isGoalkeeper: true)
                 } else {
-                    OverlapUniform(uniform: lineup.uniform,
+                    OverlapUniform(uniform: Uniform(rawValue: lineup.selectedUniform) ?? .plain1,
                                    uniformSize: 50,
                                    primaryColor: lineup.primaryColor,
                                    secondaryColor: lineup.secondaryColor,
-                                   isSelected: false,
                                    isGoalkeeper: false)
                 }
             } else {
@@ -40,15 +38,16 @@ struct PlayerView: View {
                       CommonAsset.selectedEmptyUniform : CommonAsset.emptyUniform)
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
             }
-            Text(player.human?.name ?? String(localized: "Empty"))
+            Text(player.teamPlayer?.name ?? String(localized: "Empty"))
                 .coordinateSpace(name: lineup.trigger)
                 .font(.Pretendard.semiBold10.font)
-                .foregroundStyle(lineup.selectionPlayerIndex == index ? .white: theme.textColor)
+                .foregroundStyle(lineup.selectionPlayerIndex == index ? .white: theme.nameFieldTextColor)
                 .padding(.vertical, 3)
                 .padding(.horizontal, 9)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
-                        .foregroundStyle(lineup.selectionPlayerIndex == index ? Color(asset: CommonAsset.tintColor): theme.nameField)
+                        .foregroundStyle(lineup.selectionPlayerIndex == index ?
+                                         Color(asset: CommonAsset.tintColor): theme.nameFieldBackgroundColor)
                         .frame(minWidth: 40)
                 )
                 .offset(y: -20)

@@ -45,10 +45,10 @@ struct ModalSegmentedView: View {
                                                 team: team,
                                                 lineup: lineup,
                                                 currentIndex: currentIndex))
-                    .padding(.top, 24)
+                    .padding(.top, 20)
                 case .uniform:
                     UniformView(observable: UniformObservable(lineup: lineup))
-                        .padding(.top, 24)
+                        .padding(.top, 20)
                 case .theme:
                     ThemeView(observable: ThemeObservable(lineup: lineup))
                         .padding(.top, 24)

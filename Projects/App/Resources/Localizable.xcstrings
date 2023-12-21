@@ -69,6 +69,23 @@
         }
       }
     },
+    "Add Team" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Team"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팀 추가"
+          }
+        }
+      }
+    },
     "Change" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -352,23 +369,6 @@
         }
       }
     },
-    "Push To Edit" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Push to Edit"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "밀어올려서 편집하기"
-          }
-        }
-      }
-    },
     "Registered" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -433,6 +433,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "서브 컬러"
+          }
+        }
+      }
+    },
+    "Swipe to edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe to edit"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "밀어올려서 편집하기"
           }
         }
       }

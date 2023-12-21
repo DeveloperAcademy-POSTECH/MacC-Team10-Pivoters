@@ -1,31 +1,14 @@
 //
-//  TeamContainer.swift
+//  InitSwiftData.swift
 //  Core
 //
-//  Created by 한지석 on 11/18/23.
+//  Created by 한지석 on 12/12/23.
 //  Copyright © 2023 com.pivoters. All rights reserved.
 //
 
 import Foundation
-import SwiftData
 
-@MainActor
-public let teamContainer: ModelContainer = {
-    do {
-        let schema = Schema([Team.self])
-        let container = try ModelContainer(for: schema)
-        let context = container.mainContext
-        if try context.fetch(FetchDescriptor<Team>()).isEmpty {
-            let team = InitTeamContainer.makeTheFirstTeam()
-            container.mainContext.insert(team)
-        }
-        return container
-    } catch {
-        fatalError(error.localizedDescription)
-    }
-}()
-
-public struct InitTeamContainer {
+public struct InitLinable {
     static func makeTheFirstTeam() -> Team {
         Team(id: UUID(),
              teamName: String(localized: "My Team"),
@@ -33,9 +16,9 @@ public struct InitTeamContainer {
              createdAt: Date(),
              updatedAt: Date(),
              lineup: makeLineup(),
-             addedPlayers: [])
+             teamPlayers: [])
     }
-
+    
     public static func makeTeam(teamName: String) -> Team {
         Team(id: UUID(),
              teamName: teamName,
@@ -43,53 +26,47 @@ public struct InitTeamContainer {
              createdAt: Date(),
              updatedAt: Date(),
              lineup: makeLineup(),
-             addedPlayers: [])
+             teamPlayers: [])
     }
-
-    public static func makeHuman(name: String, backNumber: Int) -> Human {
-        Human(name: name, backNumber: backNumber)
+    
+    public static func makeTeamPlayer(name: String, backNumber: Int) -> TeamPlayer {
+        TeamPlayer(name: name, backNumber: backNumber)
     }
-
+    
     static func makeLineup() -> [Lineup] {
         [Lineup(id: UUID(),
                 index: 0,
                 lineupName: String(localized: "Lineup 1"),
-                uniform: .plain1,
-                formation: .eleven,
-                selectedTypeOfFormation: .football433,
-                players: makePlayers(),
+                selectedUniform: "plain1",
+                selectedTheme: "blueGray",
+                selectedPlayType: 11,
+                selectedFormation: "4-3-3",
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                goalkeeperSecondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                theme: .blueGray),
+                players: makePlayers()),
          Lineup(id: UUID(),
                 index: 1,
                 lineupName: String(localized: "Lineup 2"),
-                uniform: .plain1,
-                formation: .eleven,
-                selectedTypeOfFormation: .football433,
-                players: makePlayers(),
+                selectedUniform: "plain1",
+                selectedTheme: "blueGray",
+                selectedPlayType: 11,
+                selectedFormation: "4-3-3",
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                goalkeeperSecondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                theme: .blueGray),
+                players: makePlayers()),
          Lineup(id: UUID(),
                 index: 2,
                 lineupName: String(localized: "Lineup 3"),
-                uniform: .plain1,
-                formation: .eleven,
-                selectedTypeOfFormation: .football433,
-                players: makePlayers(),
+                selectedUniform: "plain1",
+                selectedTheme: "blueGray",
+                selectedPlayType: 11,
+                selectedFormation: "4-3-3",
                 primaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
                 secondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                goalkeeperPrimaryColor: UniformColor(red: 0.921569, green: 0.921569, blue: 0.921569),
-                goalkeeperSecondaryColor: UniformColor(red: 0.6, green: 0.6, blue: 0.6),
-                theme: .blueGray)
+                players: makePlayers()),
         ]
     }
-
+    
     /// 나중에 formaiton을 파라미터로 받아와서 플레이어의 갯수 리턴을 switch하면 될듯하다.
     static func makePlayers() -> [Player] {
         [

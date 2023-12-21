@@ -12,20 +12,21 @@ import Core
 
 @Observable
 final class ThemeObservable {
-    let theme: [Theme] = [
-        .blueGray,
-        .whiteGreen,
-        .blackBlue,
-        .grayBlack,
-        .blueBlack,
-        .blackGray,
-        .purpleClear,
-        .blueClear,
-        .neonPurple
-    ]
+    var theme: [Theme] = Theme.themeArray
     var lineup: Lineup
 
     init(lineup: Lineup) {
         self.lineup = lineup
+        sortTheme()
     }
+
+    func sortTheme() {
+        theme.sort(by: { pre, _ in
+            if pre.rawValue == self.lineup.selectedTheme {
+                return true
+            }
+            return false
+        })
+    }
+
 }

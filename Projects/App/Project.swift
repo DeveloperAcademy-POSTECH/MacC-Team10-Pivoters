@@ -11,13 +11,13 @@ import ProjectDescriptionHelpers
 private let moduleName = "App"
 
 let infoPlist: [String: Plist.Value] = [
-    "CFBundleShortVersionString": "1.0.3",
+    "CFBundleShortVersionString": "1.1.0",
     "CFBundleVersion": "1",
     "CFBundleDisplayName": "Linable",
     "UIMainStoryboardFile": "",
     "UILaunchStoryboardName": "LaunchScreen",
-    "NSPhotoLibraryAddUsageDescription" : "to let you export images to photo library",
-    "CFBundleAllowMixedLocalizations" : "true",
+    "NSPhotoLibraryAddUsageDescription": "to let you export images to photo library",
+    "CFBundleAllowMixedLocalizations": "true",
     "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
     "LSApplicationCategoryType": "public.app-category.sports",
     "UIUserInterfaceStyle": "Light"

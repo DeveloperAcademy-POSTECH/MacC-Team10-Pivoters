@@ -30,8 +30,10 @@ extension Theme {
             Image(asset: CommonAsset.fieldClear)
         case .blueClear:
             Image(asset: CommonAsset.fieldClear)
-        case .neonPurple:
-            Image(asset: CommonAsset.fieldPurple)
+        case .blueGreen:
+            Image(asset: CommonAsset.fieldGreen)
+        case .lightGrayBlue:
+            Image(asset: CommonAsset.fieldLightGrayBlue)
         }
     }
 
@@ -53,8 +55,10 @@ extension Theme {
             Image(asset: CommonAsset.backgroundPurple)
         case .blueClear:
             Image(asset: CommonAsset.backgroundBlueClear)
-        case .neonPurple:
-            Image(asset: CommonAsset.backgroundNeon)
+        case .blueGreen:
+            Image(asset: CommonAsset.backgroundBlue)
+        case .lightGrayBlue:
+            Image(asset: CommonAsset.backgroundLight)
         }
     }
 
@@ -76,27 +80,38 @@ extension Theme {
             Image(asset: CommonAsset.previewPurpleClear)
         case .blueClear:
             Image(asset: CommonAsset.previewBlueClear)
-        case .neonPurple:
-            Image(asset: CommonAsset.previewNeonPurple)
+        case .blueGreen:
+            Image(asset: CommonAsset.previewBlueGreen)
+        case .lightGrayBlue:
+            Image(asset: CommonAsset.previewLightGrayBlue)
         }
     }
 
     // MARK: 선수명
-    public var nameField: Color {
+    public var nameFieldBackgroundColor: Color {
         switch self {
-        case .blueGray, .blackBlue, .blackGray, .blueClear :
-            Color(asset: CommonAsset.darkGray)
-        case .whiteGreen, .grayBlack, .purpleClear, .blueBlack, .neonPurple:
-            Color.white
+        case .blueGray, .blueBlack, .blackGray, .blackBlue, .grayBlack:
+            return Color.colorBlack
+        case .blueGreen, .lightGrayBlue, .whiteGreen, .purpleClear, .blueClear:
+            return Color.colorWhite
+        }
+    }
+
+    public var nameFieldTextColor: Color {
+        switch self {
+        case .blueGray, .blueBlack, .blackGray, .blackBlue, .grayBlack:
+            return Color.colorWhite
+        case .blueGreen, .lightGrayBlue, .whiteGreen, .purpleClear, .blueClear:
+            return Color.colorBlack
         }
     }
 
     public var textColor: Color {
         switch self {
-        case .blueGray, .blackBlue, .blackGray, .blueClear:
-            Color.white
-        case .whiteGreen, .grayBlack, .purpleClear, .blueBlack, .neonPurple:
-            Color.black
+        case .blueGray, .blueGreen, .blueBlack, .blackGray, .blackBlue, .purpleClear, .blueClear:
+            Color.colorWhite
+        case .grayBlack, .lightGrayBlue, .whiteGreen:
+            Color.colorBlack
         }
     }
 
@@ -118,8 +133,10 @@ extension Theme {
             Image(asset: CommonAsset.sharePurpleClear)
         case .blueClear:
             Image(asset: CommonAsset.shareBlueClear)
-        case .neonPurple:
-            Image(asset: CommonAsset.shareNeonPurple)
+        case .blueGreen:
+            Image(asset: CommonAsset.shareBlueGreen)
+        case .lightGrayBlue:
+            Image(asset: CommonAsset.shareLightGrayBlue)
         }
     }
 
@@ -127,22 +144,24 @@ extension Theme {
         switch self {
         case .blueGray:
             UniformColor(red: 136 / 255, green: 240 / 255, blue: 136 / 255)
-        case .whiteGreen:
-            UniformColor(red: 255 / 255, green: 247 / 255, blue: 68 / 255)
-        case .blackBlue:
-            UniformColor(red: 68 / 255, green: 68 / 255, blue: 68 / 255)
-        case .grayBlack:
-            UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
+        case .blueGreen:
+            UniformColor(red: 255 / 255, green: 247 / 255, blue: 67 / 255)
         case .blueBlack:
             UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
         case .blackGray:
-            UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
+            UniformColor(red: 136 / 255, green: 240 / 255, blue: 133 / 255)
+        case .blackBlue:
+            UniformColor(red: 136 / 255, green: 240 / 255, blue: 133 / 255)
+        case .grayBlack:
+            UniformColor(red: 136 / 255, green: 240 / 255, blue: 133 / 255)
+        case .lightGrayBlue:
+            UniformColor(red: 168 / 255, green: 228 / 255, blue: 246 / 255)
+        case .whiteGreen:
+            UniformColor(red: 255 / 255, green: 247 / 255, blue: 67 / 255)
         case .purpleClear:
             UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
         case .blueClear:
-            UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
-        case .neonPurple:
-            UniformColor(red: 253 / 255, green: 137 / 255, blue: 200 / 255)
+            UniformColor(red: 168 / 255, green: 228 / 255, blue: 246 / 255)
         }
     }
 

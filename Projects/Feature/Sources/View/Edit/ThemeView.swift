@@ -30,7 +30,7 @@ struct ThemeView: View {
             LazyVGrid(columns: gridItem) {
                 ForEach(observable.theme, id: \.self) { theme in
                     themeCell(theme: theme,
-                              isSelected: observable.lineup.theme == theme)
+                              isSelected: observable.lineup.selectedTheme == theme.rawValue)
                 }
             }
         }
@@ -55,7 +55,7 @@ struct ThemeView: View {
                 /// Todo
                 /// - 이후에 lineup 모델의 프로퍼티에 theme이 추가되어야 함.
                 /// - selectedTheme이 메인뷰에 있는 lineup 인스턴스의 theme이 되어야 함.
-                observable.lineup.theme = theme
+                observable.lineup.selectedTheme = theme.rawValue
             }
     }
 }

@@ -8,15 +8,18 @@
 
 import Foundation
 import Combine
+import SwiftData
 
 import Core
 
 class AddPlayerObservable: ObservableObject {
+
     @Published var playerName: String
     @Published var isButtonEnabled: Bool
     var team: Team
-    var human: Human?
+    var teamPlayer: TeamPlayer?
     let addPlayerInfo: AddPlayerInfo
+    private let modelContext: ModelContext
 
     var cancellables = Set<AnyCancellable>()
 
@@ -28,32 +31,41 @@ class AddPlayerObservable: ObservableObject {
             .eraseToAnyPublisher()
     }
 
-    init(playerName: String = "",
-         isButtonEnabled: Bool = false,
-         team: Team,
-         human: Human? = nil,
-         addPlayerInfo: AddPlayerInfo) {
-        self.playerName = playerName
-        self.isButtonEnabled = isButtonEnabled
-        self.team = team
-        self.human = human
-        self.addPlayerInfo = addPlayerInfo
+    @MainActor
+    init(
+        playerName: String = "",
+        isButtonEnabled: Bool = false,
+        team: Team,
+        teamPlayer: TeamPlayer? = nil,
+        addPlayerInfo: AddPlayerInfo
+    ) {
+            self.playerName = playerName
+            self.isButtonEnabled = isButtonEnabled
+            self.team = team
+            self.teamPlayer = teamPlayer
+            self.addPlayerInfo = addPlayerInfo
+            self.modelContext = linableContainer.mainContext
 
-        validTextfieldPublisher
-            .receive(on: RunLoop.main)
-            .map { $0 ? true : false }
-            .sink { self.isButtonEnabled = $0 }
-            .store(in: &cancellables)
-    }
+            validTextfieldPublisher
+                .receive(on: RunLoop.main)
+                .map { $0 ? true : false }
+                .sink { self.isButtonEnabled = $0 }
+                .store(in: &cancellables)
+        }
 
     func addPlayer() {
         switch addPlayerInfo {
         case .add:
-            team.teamMembers.insert(InitTeamContainer.makeHuman(name: playerName,
-                                                                backNumber: 1),
-                                    at: 0)
+            team.teamPlayers.insert(InitLinable.makeTeamPlayer(name: playerName,
+                                                           backNumber: 1),
+                                at: 0)
+            do {
+                try modelContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
         case .edit:
-            self.human?.name = self.playerName
+            self.teamPlayer?.name = self.playerName
         }
     }
 }
