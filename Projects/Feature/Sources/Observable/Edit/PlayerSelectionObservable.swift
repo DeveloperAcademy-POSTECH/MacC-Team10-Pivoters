@@ -31,12 +31,12 @@ class PlayerSelectionObservable {
         self.currentIndex = currentIndex
         self.teamPlayers = team.teamPlayers
         self.players = lineup.players.sorted { $0.number < $1.number }
-        sortHumans()
+        sortTeamPlayers()
     }
 
     // MARK: 제대로 작동하는지 확인해야 함.
 
-    func sortHumans() {
+    func sortTeamPlayers() {
         self.teamPlayers = []
         var selectedTeamPlayers: [TeamPlayer] = []
         for teamPlayer in team.teamPlayers {
@@ -50,6 +50,8 @@ class PlayerSelectionObservable {
                 teamPlayers.append(teamPlayer)
             }
         }
+        teamPlayers.sort(by: { $0.name < $1.name })
+        selectedTeamPlayers.sort(by: { $0.name < $1.name })
         teamPlayers += selectedTeamPlayers
     }
 
@@ -57,7 +59,7 @@ class PlayerSelectionObservable {
         team.teamPlayers.insert(InitLinable.makeTeamPlayer(name: String(localized: "New Player"),
                                                             backNumber: 1),
                                 at: 0)
-        sortHumans()
+        sortTeamPlayers()
     }
 
     func selectPlayer(_ registerTeamPlayer: TeamPlayer) {
@@ -80,6 +82,6 @@ class PlayerSelectionObservable {
             }
         }
         lineup.selectionPlayerIndex = nil
-        sortHumans()
+        sortTeamPlayers()
     }
 }

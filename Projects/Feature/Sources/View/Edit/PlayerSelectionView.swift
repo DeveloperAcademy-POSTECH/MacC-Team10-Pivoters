@@ -25,7 +25,7 @@ struct PlayerSelectionView: View {
             }
             .padding()
             .onChange(of: observable.team.teamPlayers) {
-                observable.sortHumans()
+                observable.sortTeamPlayers()
             }
             .onChange(of: observable.isChangeEditPlayerPresented) {
                 observable.lineup.trigger = Int.random(in: 0...100)
@@ -44,6 +44,7 @@ struct PlayerSelectionView: View {
         }
     }
 
+    @MainActor
     func addPlayerCell() -> some View {
         NavigationLink {
             AddPlayerView(observable: AddPlayerObservable(team: observable.team,
@@ -58,18 +59,6 @@ struct PlayerSelectionView: View {
                     .font(.Pretendard.regular12.font)
             }
         }
-
-        //        .onTapGesture {
-        //            observable.isChangeAddPlayerPresented.toggle()
-        //            print("Hi")
-        //        }
-        //        .sheet(isPresented: $observable.isChangeAddPlayerPresented) {
-        //            AddPlayerView(observable: AddPlayerObservable(team: observable.team,
-        //                                                          addPlayerInfo: .add),
-        //                          addPlayerInfo: .add)
-        //                .presentationDetents([.fraction(0.5)])
-        //                .presentationBackground(.regularMaterial)
-        //        }
     }
 }
 

@@ -20,6 +20,16 @@ public final class UniformObservable {
 
     init(lineup: Lineup) {
         self.lineup = lineup
+        sortUniforms()
+    }
+
+    func sortUniforms() {
+        uniforms.sort(by: { pre, _ in
+            if pre.rawValue == self.lineup.selectedUniform {
+                return true
+            }
+            return false
+        })
     }
 
     func updateUniformColor(colors: [String], colorSequence: ColorSequence) {
@@ -38,7 +48,6 @@ public final class UniformObservable {
 
     func stringToDouble(colors: [String]) -> [Double] {
         var colorsTypeDouble: [Double] = []
-        /// index 1,2,3 -> RGB
         for index in 1..<4 {
             colorsTypeDouble.append(Double(colors[index]) ?? 0.1)
         }
