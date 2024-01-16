@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct Lineup: Identifiable {
+    public let id: UUID
+    public let index: Int
+    public var name: String
+}

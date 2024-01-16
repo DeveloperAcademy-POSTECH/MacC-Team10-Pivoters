@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+public struct Team: Identifiable {
+    public let id: UUID
+    public var name: String
+}
