@@ -6,4 +6,12 @@
 //  Copyright © 2024 com.pivoters. All rights reserved.
 //
 
-import Foundation
+import SwiftData
+import Combine
+
+public protocol TeamDBRepositoryInterface {
+
+    var modelContext: ModelContext { get }
+
+    func load() -> AnyPublisher<[SchemaV1.Team], Error>
+}
