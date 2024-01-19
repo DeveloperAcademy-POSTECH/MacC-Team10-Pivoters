@@ -13,4 +13,5 @@ private let moduleName = "Data"
 let project = Project.makeModule(name: moduleName,
                                  platform: .iOS,
                                  product: .staticFramework,
-                                 bundleId: "Data")
+                                 bundleId: "Data",
+                                 dependencies: [.Project.Domain])
