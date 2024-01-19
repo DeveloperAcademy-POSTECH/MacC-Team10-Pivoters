@@ -32,5 +32,8 @@ let project = Project.makeModule(name: moduleName,
                                  dependencies: [
                                     .Project.Common,
                                     .Project.Core,
-                                    .Project.Feature
+                                    .Project.Feature,
+                                    .Project.Domain,
+                                    .Project.Data,
+                                    .Project.Presentation
                                  ])

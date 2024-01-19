@@ -9,12 +9,14 @@
 import Foundation
 import SwiftData
 
+
+
+// MARK: 컨테이너 호출 시 Cannot use staged migration with an unknown model version 에러 발생
+
 public typealias Team = LinableSchemaV1.Team
 public typealias Lineup = LinableSchemaV1.Lineup
 public typealias Player = LinableSchemaV1.Player
 public typealias TeamPlayer = LinableSchemaV1.TeamPlayer
-
-// MARK: 컨테이너 호출 시 Cannot use staged migration with an unknown model version 에러 발생
 
 @MainActor
 public let linableContainer: ModelContainer = {
