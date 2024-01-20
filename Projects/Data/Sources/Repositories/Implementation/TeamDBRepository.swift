@@ -27,8 +27,12 @@ public struct TeamDBRepository: TeamDBRepositoryInterface {
             team.sort { pre, _ in
                 pre.isSelected
             }
-            
-            return team.map { Team(id: $0.id, name: $0.teamName) }
+
+            return team.map { 
+                Team(id: $0.id, name: $0.teamName, members: $0.teamPlayers.map{
+                    Player(id: $0.id,name: $0.name, backNumber: $0.backNumber)
+                })
+                     }
         } catch {
             fatalError(error.localizedDescription)
         }
@@ -39,6 +43,24 @@ public struct TeamDBRepository: TeamDBRepositoryInterface {
         let team = InitData.makeTeam(teamName: name)
         do {
             modelContext.insert(team)
+            try modelContext.save()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+
+    public func addPlayer(player: Player) {
+        do {
+            var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()
+            fetchDescriptor.sortBy = [SortDescriptor<SchemaV1.Team>(\.updatedAt, order: .reverse)]
+
+            var team = try modelContext.fetch(fetchDescriptor)
+            team.sort { pre, _ in
+                pre.isSelected
+            }
+
+            var human = SchemaV1.TeamPlayer(id: player.id ,name: player.name, backNumber: player.backNumber)
+            team[0].teamPlayers.insert(human, at: 0)
             try modelContext.save()
         } catch {
             fatalError(error.localizedDescription)
