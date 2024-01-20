@@ -13,4 +13,6 @@ public protocol TeamDBRepositoryInterface {
 
     func load() -> [Team]
     func save(name: String)
+
+    func addPlayer(player: Player)
 }

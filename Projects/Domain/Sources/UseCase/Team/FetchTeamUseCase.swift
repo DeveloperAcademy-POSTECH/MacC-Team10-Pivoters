@@ -10,11 +10,12 @@ import Foundation
 
 public protocol FetchTeamUseCase {
     func excute() -> [Team]
+    func getDB() -> TeamDBRepositoryInterface
 }
 
 public final class DefaultFetchTeamUseCase: FetchTeamUseCase {
 
-    private let teamDBRepository: TeamDBRepositoryInterface
+    public let teamDBRepository: TeamDBRepositoryInterface
 
     public init(teamDBRepository: TeamDBRepositoryInterface) {
         self.teamDBRepository = teamDBRepository
@@ -22,5 +23,9 @@ public final class DefaultFetchTeamUseCase: FetchTeamUseCase {
 
     public func excute() -> [Team] {
         teamDBRepository.load()
+    }
+
+    public func getDB() -> TeamDBRepositoryInterface{
+        return self.teamDBRepository
     }
 }

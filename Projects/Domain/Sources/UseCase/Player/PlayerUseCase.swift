@@ -8,12 +8,18 @@
 
 import Foundation
 
-protocol PlayerUseCase {
-    func addPlayer(name: String, backNumber: Int) -> Player
+public protocol PlayerUseCase {
+    func addPlayer(name: String, backNumber: Int)
 }
 
-class PlayerSelectionUseCase: PlayerUseCase {
-    func addPlayer(name: String, backNumber: Int) -> Player {
-        Player(id: UUID(), name: name, backNumber: backNumber)
+public class PlayerSelectionUseCase: PlayerUseCase {
+    private let teamDBRepository: TeamDBRepositoryInterface
+
+    public init(teamDBRepository: TeamDBRepositoryInterface) {
+        self.teamDBRepository = teamDBRepository
+    }
+
+    public func addPlayer(name: String, backNumber: Int) {
+        teamDBRepository.addPlayer(player: Player(id: UUID(), name: name, backNumber: backNumber))
     }
 }
