@@ -45,27 +45,27 @@ public struct TeamDBRepository: TeamDBRepositoryInterface {
         }
     }
 
-    func loadUniform(index: Int) {
-        do {
-            var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()
-            // MARK: 최신 생성 순을 보여지게 하기 위해 reverse
-            fetchDescriptor.predicate = #Predicate {
-                $0.isSelected
-            }
-            var teams = try modelContext.fetch(fetchDescriptor)
-            // MARK: 선택 팀을 최상단에 보여지기 위함
-            teams.sort { pre, _ in
-                pre.isSelected
-            }
-            self.team = teams[0]
-            self.lineup = teams[0].lineup.sorted { $0.index < $1.index }.filter {
-
-            }
-
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
+//    func loadUniform(index: Int) {
+//        do {
+//            var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()
+//            // MARK: 최신 생성 순을 보여지게 하기 위해 reverse
+//            fetchDescriptor.predicate = #Predicate {
+//                $0.isSelected
+//            }
+//            var teams = try modelContext.fetch(fetchDescriptor)
+//            // MARK: 선택 팀을 최상단에 보여지기 위함
+//            teams.sort { pre, _ in
+//                pre.isSelected
+//            }
+//            self.team = teams[0]
+//            self.lineup = teams[0].lineup.sorted { $0.index < $1.index }.filter {
+//
+//            }
+//
+//        } catch {
+//            fatalError(error.localizedDescription)
+//        }
+//    }
 
 //    public func load() -> AnyPublisher<[SchemaV1.Team], Error> {
 //        var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()

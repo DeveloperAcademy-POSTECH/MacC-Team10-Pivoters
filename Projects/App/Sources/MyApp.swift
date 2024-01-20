@@ -18,8 +18,8 @@ import Domain
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView(modelContext: modelContainer.mainContext)
-                .modelContext(modelContainer.mainContext)
+            MainView(modelContext: linableContainer.mainContext)
+                .modelContext(linableContainer.mainContext)
 //            TempView(useCase: DefaultFetchTeamUseCase(teamDBRepository: TeamDBRepository(modelContext: modelContainer.mainContext)))
 //                .modelContext(modelContainer.mainContext)
         }
