@@ -13,13 +13,14 @@ import Domain
 @Observable
 class PlayerSelectionObservable {
     var team: Team
-    var members: [Player]
     var useCase: PlayerUseCase
 
-    init(team: Team, members: [Player], useCase: PlayerUseCase) {
+    init(team: Team, useCase: PlayerUseCase) {
         self.team = team
-        self.members = members
         self.useCase = useCase
     }
 
+    func addPlayer(name: String, backNumber: Int) {
+        useCase.addPlayer(name: name, backNumber: backNumber)
+    }
 }

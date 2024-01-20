@@ -28,6 +28,7 @@ public struct TempView: View {
             } label: {
                 Text("Temp Button")
             }
+            PlayerSelectionView(observable: PlayerSelectionObservable(team: self.team[0], useCase: PlayerSelectionUseCase(teamDBRepository: useCase.getDB())))
         }
         .onAppear {
             print(team)
