@@ -14,13 +14,13 @@ public protocol FetchTeamUseCase {
 
 public final class DefaultFetchTeamUseCase: FetchTeamUseCase {
 
-    private let teamDBRepository: TeamDBRepositoryInterface
+    private let teamSchemaRepository: TeamSchemaRepositoryInterface
 
-    public init(teamDBRepository: TeamDBRepositoryInterface) {
-        self.teamDBRepository = teamDBRepository
+    public init(teamSchemaRepository: TeamSchemaRepositoryInterface) {
+        self.teamSchemaRepository = teamSchemaRepository
     }
 
     public func excute() -> [Team] {
-        teamDBRepository.load()
+        teamSchemaRepository.load()
     }
 }
