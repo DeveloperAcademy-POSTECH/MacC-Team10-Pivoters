@@ -8,7 +8,7 @@
 
 import SwiftData
 
-public protocol TeamDBRepositoryInterface {
+public protocol TeamSchemaRepositoryInterface {
     var modelContext: ModelContext { get }
 
     func load() -> [Team]
