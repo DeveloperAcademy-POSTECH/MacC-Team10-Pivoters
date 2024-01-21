@@ -11,7 +11,7 @@ import SwiftData
 
 import Domain
 
-public struct TeamDBRepository: TeamDBRepositoryInterface {
+public struct TeamSchemaRepository: TeamSchemaRepositoryInterface {
 
     public var modelContext: ModelContext
 
@@ -27,59 +27,47 @@ public struct TeamDBRepository: TeamDBRepositoryInterface {
             team.sort { pre, _ in
                 pre.isSelected
             }
-            return team.map { Team(id: $0.id, name: $0.teamName) }
+            return team.map {
+                Team(
+                    id: $0.id,
+                    name: $0.teamName,
+                    createdAt: $0.createdAt,
+                    updatedAt: $0.updatedAt
+                ) }
         } catch {
             fatalError(error.localizedDescription)
         }
     }
 
-    public func save(name: String) {
+    public func saveName(name: String, id: UUID? = nil) {
         guard !name.isEmpty else { return }
-        let team = InitData.makeTeam(teamName: name)
-        do {
+        var team: SchemaV1.Team
+        if let id = id {
+            team = fetchTeam(id: id)
+            team.teamName = name
+        } else {
+            team = InitData.makeTeam(teamName: name)
             modelContext.insert(team)
+        }
+        do {
             try modelContext.save()
         } catch {
             fatalError(error.localizedDescription)
         }
     }
 
-//    public func load() -> AnyPublisher<[SchemaV1.Team], Error> {
-//        var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()
-//
-//        return Future { promise in
-//            do {
-//                promise(
-//                    .success(try modelContext.fetch(fetchDescriptor)
-//                        .sorted { pre, _ in
-//                            pre.isSelected
-//                        }
-//                    )
-//                )
-//            } catch {
-//                promise(.failure(error))
-//            }
-//        }
-//        .eraseToAnyPublisher()
-//    }
-//
-//    public func save(name: String) -> AnyPublisher<Void, Error> {
-//        return Future<Void, Error> { promise in
-//            guard !name.isEmpty else {
-//                promise(.failure(SwiftDataError.nameIsEmpty))
-//                return
-//            }
-//            let team = InitData.makeTeam(teamName: name)
-//            do {
-//                modelContext.insert(team)
-//                try modelContext.save()
-//            } catch {
-//                promise(.failure(error))
-//            }
-//
-//        }
-//        .eraseToAnyPublisher()
-//    }
+    public func fetchTeam(id: UUID) -> SchemaV1.Team {
+        var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()
+        fetchDescriptor.predicate = #Predicate {
+            $0.id == id
+        }
+        do {
+            let team = try modelContext.fetch(fetchDescriptor)
+            return team[0]
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
 
 }
 
