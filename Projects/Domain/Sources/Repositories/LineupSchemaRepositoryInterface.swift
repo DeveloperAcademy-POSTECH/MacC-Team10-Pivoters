@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import SwiftData
+
+public protocol LineupSchemaRepositoryInterface {
+    var modelContext: ModelContext { get }
+
+    func load(id: UUID) -> [Lineup]
+    func update()
+}

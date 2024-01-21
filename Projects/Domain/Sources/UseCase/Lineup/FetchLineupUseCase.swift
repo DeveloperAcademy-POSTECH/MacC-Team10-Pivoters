@@ -7,3 +7,21 @@
 //
 
 import Foundation
+
+public protocol FetchLineupUseCase {
+    func excute(id: UUID) -> [Lineup]
+}
+
+public final class DefaultFetchLineupUseCase: FetchLineupUseCase {
+
+    private let repository: LineupSchemaRepositoryInterface
+
+    private init(repository: LineupSchemaRepositoryInterface) {
+        self.repository = repository
+    }
+
+    public func excute(id: UUID) -> [Lineup] {
+        repository.load(id: id)
+    }
+
+}
