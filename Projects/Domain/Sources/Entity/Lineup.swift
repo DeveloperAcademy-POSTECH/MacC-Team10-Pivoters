@@ -12,5 +12,17 @@ public struct Lineup: Identifiable {
     public let id: UUID
     public let index: Int
     public var name: String
-    public var playerIndex: Int
+    public var playerIndex: Int?
+
+    public init(
+        id: UUID,
+        index: Int,
+        name: String,
+        playerIndex: Int? = nil
+    ) {
+        self.id = id
+        self.index = index
+        self.name = name
+        self.playerIndex = playerIndex
+    }
 }

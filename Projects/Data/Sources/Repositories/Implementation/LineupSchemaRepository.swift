@@ -33,30 +33,33 @@ public final class LineupSchemaRepository: LineupSchemaRepositoryInterface {
                     name: $0.lineupName,
                     playerIndex: $0.selectionPlayerIndex
                 )
-            }
+            }.sorted { $0.index < $1.index }
         } catch {
             fatalError(error.localizedDescription)
         }
     }
 
-    //    public func load() -> [Team] {
-    //        var fetchDescriptor = FetchDescriptor<SchemaV1.Team>()
-    //        fetchDescriptor.sortBy = [SortDescriptor<SchemaV1.Team>(\.updatedAt, order: .reverse)]
-    //        do {
-    //            var team = try modelContext.fetch(fetchDescriptor)
-    //            team.sort { pre, _ in
-    //                pre.isSelected
-    //            }
-    //            return team.map {
-    //                Team(
-    //                    id: $0.id,
-    //                    name: $0.teamName,
-    //                    createdAt: $0.createdAt,
-    //                    updatedAt: $0.updatedAt
-    //                ) }
-    //        } catch {
-    //            fatalError(error.localizedDescription)
-    //        }
-    //    }
+    public func update(id: UUID, name: String) {
+        var lineup = fetchLineup(id: id)
+        lineup.lineupName = name
+        do {
+            try modelContext.save()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+
+    public func fetchLineup(id: UUID) -> SchemaV1.Lineup {
+        var fetchDescriptor = FetchDescriptor<SchemaV1.Lineup>()
+        fetchDescriptor.predicate = #Predicate {
+            $0.id == id
+        }
+        do {
+            let lineup = try modelContext.fetch(fetchDescriptor)
+            return lineup[0]
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
 
 }

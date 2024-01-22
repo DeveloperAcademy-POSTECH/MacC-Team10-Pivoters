@@ -150,8 +150,8 @@ struct ModalDefaultView: View {
 // MARK: 필드 캐러셀
 struct FieldCarousel: View {
     @Binding var mainObservable: MainObservable
-    var lineup: [Lineup]
-    var team: Team
+    var lineup: [LineupV1]
+    var team: TeamV1
     @Binding var editType: EditType
 
     var body: some View {
@@ -217,8 +217,8 @@ struct TeamChangeAndShareButton: View {
     @Binding var mainObservable: MainObservable
 
     var isEditing: Bool
-    var team: Team
-    var lineup: Lineup
+    var team: TeamV1
+    var lineup: LineupV1
 
     var body: some View {
         VStack {

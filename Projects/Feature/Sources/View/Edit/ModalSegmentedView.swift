@@ -15,8 +15,8 @@ struct ModalSegmentedView: View {
     
     @Binding var editType: EditType
 
-    var team: Team
-    var lineup: Lineup
+    var team: TeamV1
+    var lineup: LineupV1
     let currentIndex: Int
 
     var body: some View {

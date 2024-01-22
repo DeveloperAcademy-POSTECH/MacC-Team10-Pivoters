@@ -13,9 +13,9 @@ import Core
 @Observable
 final class ThemeObservable {
     var theme: [Theme] = Theme.themeArray
-    var lineup: Lineup
+    var lineup: LineupV1
 
-    init(lineup: Lineup) {
+    init(lineup: LineupV1) {
         self.lineup = lineup
         sortTheme()
     }

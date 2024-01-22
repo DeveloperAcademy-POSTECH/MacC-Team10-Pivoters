@@ -14,8 +14,8 @@ import Core
 @Observable
 class TeamObservable {
 
-    var team: Team?
-    var lineup: [Lineup] = [Lineup]()
+    var team: TeamV1?
+    var lineup: [LineupV1] = [LineupV1]()
     private let modelContext: ModelContext
 
     @MainActor
@@ -27,7 +27,7 @@ class TeamObservable {
 
     func fetchTeam() {
         do {
-            var fetchDescriptor = FetchDescriptor<Team>()
+            var fetchDescriptor = FetchDescriptor<TeamV1>()
             // MARK: 최신 생성 순을 보여지게 하기 위해 reverse
             fetchDescriptor.predicate = #Predicate {
                 $0.isSelected

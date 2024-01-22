@@ -13,10 +13,10 @@ import Core
 
 public class ImageMetadataProvider: UIActivityItemProvider {
     var image: UIImage
-    var team: Team
-    var lineup: Lineup
-    
-    init(image: UIImage, team: Team, lineup: Lineup) {
+    var team: TeamV1
+    var lineup: LineupV1
+
+    init(image: UIImage, team: TeamV1, lineup: LineupV1) {
         self.image = image
         self.team = team
         self.lineup = lineup

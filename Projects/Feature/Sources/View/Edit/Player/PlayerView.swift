@@ -13,8 +13,8 @@ import Core
 
 struct PlayerView: View {
     var theme: Theme
-    var player: Player
-    var lineup: Lineup
+    var player: PlayerV1
+    var lineup: LineupV1
     var index: Int
 
     var body: some View {
