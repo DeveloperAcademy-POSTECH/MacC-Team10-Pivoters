@@ -26,6 +26,8 @@ public final class DIContainer {
         services["\(type)"] = object
     }
 
+    // MARK: - 객체를 services에서 리턴해주는 메소드
+
     public func resolve<Service>(type: Service.Type) -> Service {
         guard let object = services["\(type)"] as? Service else {
             fatalError("@Log - \(type)이 DI 컨테이너에 등록되지 않음.")
