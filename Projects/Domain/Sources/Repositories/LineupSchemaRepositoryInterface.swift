@@ -13,5 +13,8 @@ public protocol LineupSchemaRepositoryInterface {
     var modelContext: ModelContext { get }
 
     func load(id: UUID) -> [Lineup]
-    func update()
+    func update(
+        id: UUID,
+        name: String
+    )
 }
