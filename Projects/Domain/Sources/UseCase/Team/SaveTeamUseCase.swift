@@ -8,6 +8,8 @@
 
 import Foundation
 
+import Core
+
 public protocol SaveTeamUseCase {
     func excute(
         name: String,
@@ -17,14 +19,13 @@ public protocol SaveTeamUseCase {
 
 public final class DefaultSaveTeamUseCase: SaveTeamUseCase {
 
-    private let teamSchemaRepository: TeamSchemaRepositoryInterface
+    @Inject 
+    private var repository: TeamSchemaRepositoryInterface
 
-    public init(teamSchemaRepository: TeamSchemaRepositoryInterface) {
-        self.teamSchemaRepository = teamSchemaRepository
-    }
+    public init() { }
 
     public func excute(name: String, id: UUID?) {
-        teamSchemaRepository.saveName(
+        repository.saveName(
             name: name,
             id: id
         )
