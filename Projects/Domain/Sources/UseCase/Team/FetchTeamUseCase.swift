@@ -8,19 +8,20 @@
 
 import Foundation
 
+import Core
+
 public protocol FetchTeamUseCase {
     func excute() -> [Team]
 }
 
 public final class DefaultFetchTeamUseCase: FetchTeamUseCase {
 
-    private let teamSchemaRepository: TeamSchemaRepositoryInterface
+    @Inject 
+    private var repository: TeamSchemaRepositoryInterface
 
-    public init(teamSchemaRepository: TeamSchemaRepositoryInterface) {
-        self.teamSchemaRepository = teamSchemaRepository
-    }
+    public init() { }
 
     public func excute() -> [Team] {
-        teamSchemaRepository.load()
+        repository.load()
     }
 }
