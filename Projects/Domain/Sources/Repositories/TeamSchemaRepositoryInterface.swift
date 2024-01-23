@@ -6,11 +6,12 @@
 //  Copyright © 2024 com.pivoters. All rights reserved.
 //
 
+import Foundation
 import SwiftData
 
-public protocol TeamDBRepositoryInterface {
+public protocol TeamSchemaRepositoryInterface {
     var modelContext: ModelContext { get }
 
     func load() -> [Team]
-    func save(name: String)
+    func saveName(name: String, id: UUID?)
 }

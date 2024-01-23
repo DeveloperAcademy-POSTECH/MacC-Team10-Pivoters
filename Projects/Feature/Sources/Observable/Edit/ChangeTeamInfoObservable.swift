@@ -14,8 +14,8 @@ import Core
 
 final class ChangeTeamInfoObservable: ObservableObject {
     let changeTeamInfo: ChangeTeamInfo
-    var team: Team?
-    var lineup: Lineup?
+    var team: TeamV1?
+    var lineup: LineupV1?
     @Published var name: String = ""
     @Published var isButtonEnabled = false
 
@@ -31,8 +31,8 @@ final class ChangeTeamInfoObservable: ObservableObject {
 
     init(changeTeamInfo: ChangeTeamInfo,
          name: String,
-         team: Team? = nil,
-         lineup: Lineup? = nil) {
+         team: TeamV1? = nil,
+         lineup: LineupV1? = nil) {
         self.changeTeamInfo = changeTeamInfo
         self.name = name
         self.team = team

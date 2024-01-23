@@ -10,28 +10,51 @@ import SwiftUI
 import SwiftData
 
 import Domain
+import Core
 
 public struct TempView: View {
 
-    var useCase: FetchTeamUseCase
-    var team: [Team]
+    @State var team: [Team]
+    @State var lineup: [Lineup]
 
-    public init(useCase: FetchTeamUseCase) {
-        self.useCase = useCase
-        self.team = useCase.excute()
+    var fetchTeamUseCase: FetchTeamUseCase = DIContainer.shared.resolve(type: FetchTeamUseCase.self)
+    var saveTeamUseCase: SaveTeamUseCase = DIContainer.shared.resolve(type: SaveTeamUseCase.self)
+    var fetchLineupUseCase: FetchLineupUseCase = DIContainer.shared.resolve(type: FetchLineupUseCase.self)
+    var updateLineupUseCase: UpdateLineupUseCase = DIContainer.shared.resolve(type: UpdateLineupUseCase.self)
+
+    public init() {
+        let team = fetchTeamUseCase.excute()
+        self._team = .init(initialValue: team)
+        self._lineup = .init(initialValue: fetchLineupUseCase.excute(id: team[0].id))
     }
 
     public var body: some View {
         VStack {
             Button {
-                print(team)
+                lineup = fetchLineupUseCase.excute(id: team[0].id)
+                lineup.forEach {
+                    print($0)
+                }
             } label: {
-                Text("Temp Button")
+                Text("LINEUP FETCH")
+            }
+            Button {
+                updateLineupUseCase.excute(id: lineup[0].id, name: "임꺽정")
+            } label: {
+                Text("LINEUP UPDATE")
+            }
+            Button {
+                saveTeamUseCase.excute(name: "호날두", id: team[0].id)
+            } label: {
+                Text("TEAM SAVE")
+            }
+            Button {
+                team = fetchTeamUseCase.excute()
+                team.forEach { print($0.name) }
+            } label: {
+                Text("TEAM FETCH")
             }
         }
-        .onAppear {
-            print(team)
-        }
     }
-    
+
 }

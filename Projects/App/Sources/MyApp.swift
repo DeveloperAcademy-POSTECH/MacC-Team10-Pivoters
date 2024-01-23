@@ -16,12 +16,16 @@ import Domain
 
 @main
 struct MyApp: App {
+
+//    init() {
+//        _ = AppEnvironment(modelContext: modelContainer.mainContext)
+//    }
+
     var body: some Scene {
         WindowGroup {
-            MainView(modelContext: modelContainer.mainContext)
-                .modelContext(modelContainer.mainContext)
-//            TempView(useCase: DefaultFetchTeamUseCase(teamDBRepository: TeamDBRepository(modelContext: modelContainer.mainContext)))
-//                .modelContext(modelContainer.mainContext)
+            MainView(modelContext: linableContainer.mainContext)
+                .modelContext(linableContainer.mainContext)
+//            TempView()
         }
     }
 }

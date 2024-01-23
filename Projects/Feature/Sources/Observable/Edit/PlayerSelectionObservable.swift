@@ -14,17 +14,17 @@ import Core
 
 @Observable
 class PlayerSelectionObservable {
-    var team: Team
-    var lineup: Lineup
+    var team: TeamV1
+    var lineup: LineupV1
     let currentIndex: Int
-    var teamPlayers: [TeamPlayer] = [TeamPlayer]()
-    var players: [Player] = [Player]()
+    var teamPlayers: [TeamPlayerV1] = [TeamPlayerV1]()
+    var players: [PlayerV1] = [PlayerV1]()
     var isChangeAddPlayerPresented: Bool = false
     var isChangeEditPlayerPresented: Bool = false
-    var editTeamPlayer: TeamPlayer?
+    var editTeamPlayer: TeamPlayerV1?
 
-    init(team: Team, 
-         lineup: Lineup,
+    init(team: TeamV1,
+         lineup: LineupV1,
          currentIndex: Int) {
         self.team = team
         self.lineup = lineup
@@ -38,7 +38,7 @@ class PlayerSelectionObservable {
 
     func sortTeamPlayers() {
         self.teamPlayers = []
-        var selectedTeamPlayers: [TeamPlayer] = []
+        var selectedTeamPlayers: [TeamPlayerV1] = []
         for teamPlayer in team.teamPlayers {
             if let index = players.firstIndex(where: { $0.teamPlayer?.id == teamPlayer.id}) {
                 if index < lineup.selectedPlayType {
@@ -62,7 +62,7 @@ class PlayerSelectionObservable {
         sortTeamPlayers()
     }
 
-    func selectPlayer(_ registerTeamPlayer: TeamPlayer) {
+    func selectPlayer(_ registerTeamPlayer: TeamPlayerV1) {
         guard let index = lineup.selectionPlayerIndex else { return }
         if players[index].teamPlayer == nil {
             if let registerdIndex = players.firstIndex(where: { $0.teamPlayer?.id == registerTeamPlayer.id}) {

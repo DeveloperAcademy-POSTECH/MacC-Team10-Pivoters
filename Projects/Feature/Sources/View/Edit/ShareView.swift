@@ -13,8 +13,8 @@ import Common
 
 public struct ShareView: View {
     @Binding var isSharing: Bool
-    var team: Team?
-    var lineup: Lineup
+    var team: TeamV1?
+    var lineup: LineupV1
     @State private var snapshotImage: UIImage?
 
     public var body: some View {
@@ -42,13 +42,13 @@ public struct ShareView: View {
 }
 
 public struct ShareImage: View {
-    var team: Team?
+    var team: TeamV1?
     var isSharing: Bool
-    var lineup: Lineup
+    var lineup: LineupV1
     let deviceHeight = UIScreen.main.bounds.height
-    var players: [Player]
+    var players: [PlayerV1]
 
-    init(team: Team? = nil, isSharing: Bool, lineup: Lineup) {
+    init(team: TeamV1? = nil, isSharing: Bool, lineup: LineupV1) {
         self.team = team
         self.isSharing = isSharing
         self.lineup = lineup

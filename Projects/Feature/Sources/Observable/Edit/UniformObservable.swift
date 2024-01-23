@@ -15,10 +15,10 @@ import Common
 @Observable
 public final class UniformObservable {
 
-    var lineup: Lineup
+    var lineup: LineupV1
     var uniforms: [Uniform] = Uniform.uniformArray
 
-    init(lineup: Lineup) {
+    init(lineup: LineupV1) {
         self.lineup = lineup
         sortUniforms()
     }

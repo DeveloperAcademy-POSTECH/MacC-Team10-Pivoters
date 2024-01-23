@@ -64,7 +64,7 @@ struct PlayerSelectionView: View {
 
 struct PlayerCell: View {
     @Binding var observable: PlayerSelectionObservable
-    @Binding var teamPlayer: TeamPlayer
+    @Binding var teamPlayer: TeamPlayerV1
 
     var body: some View {
         if observable.lineup.selectionPlayerIndex == nil {

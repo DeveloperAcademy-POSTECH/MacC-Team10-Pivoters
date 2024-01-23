@@ -16,8 +16,8 @@ class AddPlayerObservable: ObservableObject {
 
     @Published var playerName: String
     @Published var isButtonEnabled: Bool
-    var team: Team
-    var teamPlayer: TeamPlayer?
+    var team: TeamV1
+    var teamPlayer: TeamPlayerV1?
     let addPlayerInfo: AddPlayerInfo
     private let modelContext: ModelContext
 
@@ -35,8 +35,8 @@ class AddPlayerObservable: ObservableObject {
     init(
         playerName: String = "",
         isButtonEnabled: Bool = false,
-        team: Team,
-        teamPlayer: TeamPlayer? = nil,
+        team: TeamV1,
+        teamPlayer: TeamPlayerV1? = nil,
         addPlayerInfo: AddPlayerInfo
     ) {
             self.playerName = playerName
